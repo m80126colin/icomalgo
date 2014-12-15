@@ -1,16 +1,19 @@
 \documentclass[12pt,a4paper,oneside]{book}
+\def \allfiles {}
 
-\usepackage{CJK,CJKnumb}
-\usepackage{amsmath,amsfonts,amssymb,amsthm}    % AMS 標準套件
+%% === CJK 套件 ===
+\usepackage{CJK,CJKnumb}                        % 中文套件
+%% === AMS 標準套件 ===
+\usepackage{amsmath,amsfonts,amssymb,amsthm}    % 數學符號
+%% === 章節內容 ===
 \usepackage{titletoc,titlesec}                  % titletoc 目錄修改套件, titlesec 美化章節標題套件
+\usepackage{imakeidx}                           % 索引
+%% ===  ===
 \usepackage[chapter]{algorithm}                 % 演算法套件
-\usepackage[noend]{algpseudocode}
-\usepackage{makeidx}
-\usepackage{listings}
-\makeindex
+\usepackage[noend]{algpseudocode}               % pseudocode 套件
+\usepackage{listings}                           % 程式碼
 
 \linespread{1.24}
-
 
 %% === 設定頁面格式 ===
 %\hoffset               % 水平位移，預設為 0pt
@@ -24,6 +27,9 @@
 %\marginparsep = 10pt   % margin note 和 body 的距離，預設為 10pt
 %\marginparwidth = 35pt % margin note 的寬度，預設為 35pt
 %\footskip = 30pt       % footer 高度 + footer 和 body 的距離，預設為 30pt
+
+
+\makeindex[name=noun]        % 索引生成
 
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
@@ -74,8 +80,7 @@
 % \titlespacing{\subsubsection}{0pt}{5pt}{-10pt}
 
 %% === 設定目錄標題 (配合 titletoc) ===
-\titlecontents{part}
-[0em]
+\titlecontents{part}[0em]
 {\center\Large}
 {}
 {}
@@ -117,6 +122,7 @@
 \input{./part1/01-intro-cpp.tex}
 \part{競賽演算法精要}
 \input{./part2/09-graph-theory.tex}
+\printindex[noun]
 
 \clearpage
 \end{CJK}

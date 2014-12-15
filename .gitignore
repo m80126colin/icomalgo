@@ -1,4 +1,7 @@
 *.aux
+*.dvi
+*.ilg
+*.ind
 *.log
 *.pdf
 *.synctex.gz
