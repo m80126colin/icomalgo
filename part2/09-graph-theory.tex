@@ -69,10 +69,19 @@ d(G)&=d^{+}{(G)}+d^{-}{(G)}
 \paragraph{}如果一張圖 $G$，其中兩個頂點間有一條以上的邊 (稱為\index[noun]{重邊}{重邊}) 或者存在\textbf{\index[noun]{自環}{自環}}(形如 $\Edge{u}{u}$ 或者 $\DEdge{u}{u}$ 的邊)，稱為\index[noun]{複圖}{複圖 (Multigraph)}，反之如果任兩個頂點有不超過一條的邊，就稱為\textbf{\index[noun]{簡單圖}{簡單圖 (Simple Graph)}}，一般來說我們沒有特別稱呼「圖」的話，就是指\index[noun]{簡單無向圖}{簡單無向圖}。圖 9.9 表示一個複圖和一個簡單圖。
 
 \subsection{子圖}
-\paragraph{}在任意一張圖 G = (VG, EG) 中，有另一張圖 H = (VH, EH)，其中 VH 是 VG 的子集合，EH 是 EG 的子集合，則稱 H 是 G 的子圖 (Subgraph)。如果 VH = VG 的話，則稱 H 為生成子圖 (Spanning Subgraph)。下列數張圖 G 中，VG = {1, 2, 3, 4, 5, 6, 7, 8, 9}、EG = {e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11}，圖 9.10 是其中一個子圖，而圖 9.11 是生成子圖。
-\paragraph{}上圖 9.10 的子圖 H 為 VH = {1, 2, 3, 6, 7, 8}、EH = {e1, e2, e3, e4, e5, e6}。而下圖 9.11 的生成子圖中，VH = VG、EH = {e1, e2, e3, e4, e5, e6}。
-\paragraph{}在圖 G = (VG, EG) 中，如果子圖 H 的頂點集合為 VH 是 VG 的子集合，對於 EG 中所有的邊 (u, v)，當頂點 u、v 都屬於 VH，而邊 (u, v) 屬於 EH 的話，則稱 H 為導出子圖 (Induced Subgraph)，記為 G[VH]，代表圖 H 有一些頂點，而 H 的邊取決於圖 G 上，頂點都是在 H 內的所有邊。同樣地，如果子圖的邊集合為 EH 是 EG 的子集合，對於所有 VH 中的頂點 u，如果 u 在 EH 其中一條邊的端點上，則 u 點在 VH 中，我們稱 H 為邊導出子圖 (Edge-induced Subgraph)，記為 G[EH]。
-\paragraph{}例如，圖 9.12 是一個導出子圖 H，它的頂點集合 VH = {1, 2, 3, 8, 9}，所以邊集合為 EH = {e1, e2, e9, e10, e11}。反之，像圖 9.9 就不是一個導出子圖，因為頂點 2 和 8 都屬於 VH，但 e11 卻不屬於 EH；e4 = (4, 5) 屬於 EH，但頂點 4 和 5 不屬於 VH。
+\paragraph{}在任意一張圖 $G=(V_G, E_G)$ 中，有另一張圖 $H=(V_H, E_H)$，其中 $V_H$ 是 $V_G$ 的子集合，$E_H$ 是 $E_G$ 的子集合，則稱 $H$ 是 $G$ 的\textbf{\index[noun]{子圖}{子圖 (Subgraph)}}。如果 $V_H=V_G$ 的話，則稱 $H$ 為\textbf{\index[noun]{生成子圖}{生成子圖 (Spanning Subgraph)}}。下列數張圖 $G$ 中，$V_G=\{v_1,v_2,\cdots{},v_9\}$、$E_G=\{e_1,e_2,\cdots{},e_{11}\}$，圖 9.10 是其中一個子圖，而圖 9.11 是生成子圖。
+\paragraph{}上圖 9.10 的子圖 $H$ 為
+\begin{align*}
+V_H&=\{v_1,v_2,v_3,v_6,v_7,v_8\}\\
+E_H&=\{e_1,e_2,e_3,e_4,e_5,e_6\}
+\end{align*}
+\paragraph{}而下圖 9.11 的生成子圖中
+\begin{align*}
+V_H&=V_G\\
+E_H&=\{e_1,e_2,e_3,e_4,e_5,e_6\}
+\end{align*}
+\paragraph{}在圖 $G=(V_G, E_G)$ 中，如果子圖 $H$ 的頂點集合為 $V_H$ 是 $V_G$ 的子集合，對於 $E_G$ 中所有的邊 $\Edge{u}{v}$，當頂點 $u$、$v$ 都屬於 $V_H$，而邊 $\Edge{u}{v}$ 屬於 $E_H$ 的話，則稱 $H$ 為\textbf{\index[noun]{導出子圖}{導出子圖 (Induced Subgraph)}}，記為 $G[V_H]$，代表圖 $H$ 有一些頂點，而 $H$ 的邊取決於圖 $G$ 中頂點在 $H$ 內的所有邊。同樣地，如果子圖的邊集合為 $E_H$ 是 $E_G$ 的子集合，對於所有 $V_H$ 中的頂點 $u$，如果 $u$ 在 $E_H$ 其中一條邊的端點上，則 $u$ 在 $V_H$ 中，我們稱 $H$ 為\index[noun]{邊導出子圖}{邊導出子圖 (Edge-induced Subgraph)}，記為 $G[E_H]$。
+\paragraph{}例如，圖 9.12 是一個導出子圖 $H$，它的頂點集合 $V_H=\{v_1,v_2,v_3,\\v_8,v_9\}$，所以邊集合為 $E_H=\{e_1,e_2,e_9,e_{10},e_{11}\}$。反之，像圖 9.9 就不是一個導出子圖，因為頂點 $v_2$ 和 $v_8$ 都屬於 $V_H$，但 $e_{11}$ 卻不屬於 $E_H$；$e_4=\Edge{v_4}{v_5}$ 屬於 $E_H$，但頂點 $v_4$ 和 $v_5$ 不屬於 $V_H$。
 
 \subsection{路徑與環}
 \paragraph{}圖 G = (VG, EG) 中，W 是一個起始於頂點、終於頂點，且頂點和邊交錯的序列 W = {v1, e1, v2, e2, … , vi , ei, vi+1 , … , en-1 , vn}，其中 v1, v2, … , vn 屬於 VG，e1, e2, … , en-1 屬於 EG，且每條邊 ei 都是 (vi, vi+1) 或 <vi, vi+1>。則我們把 W 稱為道路 (Walk)，其中 v1 是起點， vn 是終點。如果 v1 和 vn 是相同頂點，則稱為封閉道路 (Close Walk)；反之，如果 v1 和 vn 不同，則稱為開放道路 (Open Walk)。在簡單圖中，因為沒有重邊的問題，因此我們可以只用頂點來描述一條道路 W = {v1, v2, … , vi, vi+1, … , vn}。
