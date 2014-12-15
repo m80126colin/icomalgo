@@ -1,0 +1,135 @@
+\chapter{圖論 (Graph Theory)}
+
+\section{緒論 (Introduction)}
+\subsection{頂點和邊 (Vertex and Edge)}
+\subsection{圖與分支度 (Graph and Degree)}
+\subsection{子圖 (Subgraph)}
+\subsection{路徑與環 (Path and Cycle)}
+\subsection{二分圖與完全圖 (Bipartite and Complete Graph)}
+\subsection{連通 (Connected)}
+\subsection{權重 (Weight)}
+
+\section{圖的表示法 (Representation)}
+\subsection{相鄰矩陣 (Adjacency Matrix)}
+\subsection{相鄰串列 (Adjacency Lists)}
+\subsection{邊列表 (Edge List)}
+\subsection{前向星法 (Forward Star)}
+\subsection{鏈式前向星}
+\subsection{綜合比較}
+
+\section{遍歷與排序}
+\subsection{圖的遍歷 (Traversal of Graph)}
+\subsection{時間戳記法 (Time Stamp)}
+\subsection{有向無環圖 (Directed Acyclic Graph, DAG)}
+\subsection{拓樸排序法 (Topological Sort)}
+
+\section{最小生成樹 (Minimum Spanning Trees)}
+\subsection{問題定義}
+\subsection{Kruskal's 演算法}
+\subsection{Prim's 演算法}
+
+\section{最短路徑問題 (Shortest Path Problem)}
+\subsection{問題定義}
+\subsection{Bellman-Ford 演算法}
+
+\begin{algorithm}
+\label{algo-bellman-ford}
+\caption{Bellman-Ford 演算法}
+\begin{algorithmic}[1]
+\Procedure{BellmanFord}{$s, G,\omega$}
+  \State\Comment{$path$ 紀錄所有點到 $s$ 當前的最短路徑}
+  \For {$v\in{V(G)}$}\Comment{初始化 $path$}
+    \State $path[v]\gets\infty$
+  \EndFor
+  \State $path[s]\gets{0}$
+  \For {$i=1\cdots{}|V(G)|-1$}\Comment{執行 $|V(G)|-1$ 次迴圈}
+    \For {$e=\langle{u,v}\rangle\in{E(G)}$}\Comment{每次對所有邊擴張看看}
+      \If {$path[u]+\omega{(u,v)}<path[v]$}
+        \State $path[v]\gets{path[u]+\omega{(u,v)}}$
+      \EndIf
+    \EndFor
+  \EndFor
+  \For {$e=\langle{u,v}\rangle\in{E(G)}$}\Comment{檢查有無負環}
+    \If {$path[u]+\omega{(u,v)}<path[v]$}\Comment{還能擴張代表不合理}
+      \State \Return ``存在負環''
+    \EndIf
+  \EndFor
+  \State \Return $path$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{SPFA (Shortest Path Faster Algorithm)}
+
+\begin{algorithm}
+\label{algo-spfa}
+\caption{Shortest Path Faster Algorithm (SPFA)}
+\begin{algorithmic}[1]
+\Procedure{ShortestPathFasterAlgorithm}{$s, G,\omega$}
+  \State\Comment{$path$ 紀錄所有點到 $s$ 當前的最短路徑}
+  \For{$v\in{V(G)}$}\Comment{初始化 $path$}
+    \State $path[v]\gets\infty$
+  \EndFor
+  \State $path[s]\gets{0}$
+  \State $Q.push(s)$\Comment{$Q$ 是 queue}
+  \While{$Q.size()\geq{1}$}
+    \State $u\gets{Q.front()}$
+    \State $Q.pop()$
+    \For{$v\in{V(G)}$ where $(u,v)\in{E(G)}$}\Comment{所有和 $u$ 相鄰的點}
+      \If{$path[u]+\omega{(u,v)}<path[v]$}
+        \State $path[v]\gets{path[u]+\omega{(u,v)}}$
+        \If{$v\notin{Q}$}
+          \State $Q.push(v)$
+        \EndIf
+      \EndIf
+    \EndFor
+  \EndWhile
+  \State \Return $path$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Dijkstra's 演算法}
+
+\subsection{Floyd-Warshall 演算法}
+
+\begin{algorithm}
+\label{algo-floyd-warshall}
+\caption{Floyd Warshall 演算法}
+\begin{algorithmic}[1]
+\Procedure{Floyd-Warshall-Algorithm}{$G,\omega$}
+  \For {$k\in{V(G)}$}
+    \For {$i\in{V(G)}$}
+      \For {$j\in{V(G)}$}
+        \If {$\omega{(i,j)}<\omega{(i,k)}+\omega{(k,j)}$}
+          \State $\omega{(i,j)}\gets{\omega{(i,k)}+\omega{(k,j)}}$
+        \EndIf
+      \EndFor
+    \EndFor
+  \EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\section{圖的連通性 (Connectivity)}
+\subsection{問題定義}
+\subsection{關節點 (Articulation Point)}
+\subsection{橋 (Bridge)}
+\subsection{強連通分量 (Strong Connected Component, SCC)}
+\subsection{雙連通分量 (Bi-Connected Component, BCC)}
+
+\section{匹配問題 (Matching)}
+\subsection{問題定義}
+\subsection{交錯軌道 (Alternating Path) 和增廣路徑 (Augmenting Path)}
+\subsection{最大二分匹配 (Maximum Bipartite Matching)}
+\subsection{最大權二分匹配－－匈牙利演算法 (Hungary Algorithm)}
+
+\section{網路流 (Network Flow)}
+\subsection{問題定義}
+\subsection{最大流量問題 (Maximum Flow)}
+\subsection{Ford-Fulkerson 演算法}
+\subsection{Edmond-Karp 演算法}
+\subsection{網路流建模}
+\subsection{最小切割 (Minimum Cut)}
+\subsection{最大流最小切割 (Max-flow Min-cut)}
+\subsection{最小成本最大流 (Min-cost Max-flow)}

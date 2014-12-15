@@ -1,6 +1,7 @@
 *.aux
-*.idx
 *.log
 *.pdf
 *.synctex.gz
+*.idx
 *.toc
+*.loa

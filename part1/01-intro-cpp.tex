@@ -1,0 +1,22 @@
+\chapter{預熱}
+
+\section{算術運算子}
+
+\paragraph{}C++ 的算術運算子有五類：
+\paragraph{}五則運算的運算順序和我們自然的觀點相同，都是先乘除餘、後加減。加、減、乘法幾乎與普通的運算無異，除法需特別注意，若資料型態是 int，則除法為整數除法，
+\begin{lstlisting}[language=C++]
+cout << 8 / 5 << endl;
+\end{lstlisting}
+\paragraph{}的結果為：
+\begin{lstlisting}
+1
+\end{lstlisting}
+\paragraph{}若資料型態為 double，則除法為浮點數除法，
+\begin{lstlisting}[language=C++]
+cout << 8.0 / 5.0 << endl;
+\end{lstlisting}
+\paragraph{}的結果則為：
+\begin{lstlisting}
+1.6
+\end{lstlisting}
+\paragraph{}除此之外，除法還有除以零的問題，以下四種 cout 請各位讀者自行分別執行，會發生什麼問題、產生什麼現象，有興趣的話可以在網路上多查些資料。

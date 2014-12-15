@@ -1,26 +1,29 @@
 \documentclass[12pt,a4paper,oneside]{book}
 
 \usepackage{CJK,CJKnumb}
-\usepackage{amsmath,amsfonts,amssymb,amsthm}	% AMS 標準套件
-\usepackage{titletoc,titlesec}					% titletoc 目錄修改套件, titlesec 美化章節標題套件
+\usepackage{amsmath,amsfonts,amssymb,amsthm}    % AMS 標準套件
+\usepackage{titletoc,titlesec}                  % titletoc 目錄修改套件, titlesec 美化章節標題套件
+\usepackage[chapter]{algorithm}                 % 演算法套件
+\usepackage[noend]{algpseudocode}
 \usepackage{makeidx}
 \usepackage{listings}
 \makeindex
 
 \linespread{1.24}
 
+
 %% === 設定頁面格式 ===
-%\hoffset				% 水平位移，預設為 0pt
-\voffset = -15pt		% 垂直位移，預設為 0pt
-\oddsidemargin = 0pt	% 預設為 31pt
-%\topmargin = 20pt		% 預設為 20pt
-%\headheight = 12pt		% header 的高度，預設為 12pt
-%\headsep = 25pt		% header 和 body 的距離，預設為 25pt
-\textheight = 620pt		% body 內文部分的高度，預設為 592pt
-\textwidth = 450pt		% body 內文部分的寬度，預設為 390pt
-%\marginparsep = 10pt	% margin note 和 body 的距離，預設為 10pt
-%\marginparwidth = 35pt	% margin note 的寬度，預設為 35pt
-%\footskip = 30pt		% footer 高度 + footer 和 body 的距離，預設為 30pt
+%\hoffset               % 水平位移，預設為 0pt
+\voffset = -15pt        % 垂直位移，預設為 0pt
+\oddsidemargin = 0pt    % 預設為 31pt
+%\topmargin = 20pt      % 預設為 20pt
+%\headheight = 12pt     % header 的高度，預設為 12pt
+%\headsep = 25pt        % header 和 body 的距離，預設為 25pt
+\textheight = 620pt     % body 內文部分的高度，預設為 592pt
+\textwidth = 450pt      % body 內文部分的寬度，預設為 390pt
+%\marginparsep = 10pt   % margin note 和 body 的距離，預設為 10pt
+%\marginparwidth = 35pt % margin note 的寬度，預設為 35pt
+%\footskip = 30pt       % footer 高度 + footer 和 body 的距離，預設為 30pt
 
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
@@ -32,19 +35,22 @@
 \renewcommand\listfigurename{插~圖~目~錄}
 \renewcommand\listtablename{表~格~目~錄}
 \renewcommand{\appendixname}{附~錄}
-%\renewcommand{\refname}{參~考~資~料}		% article
-\renewcommand{\bibname}{參~考~文~獻}		% book
+%\renewcommand{\refname}{參~考~資~料}    % article
+\renewcommand{\bibname}{參~考~文~獻}     % book
 \renewcommand\indexname{索~引}
 \renewcommand{\today}{\number\year~年~\number\month~月~\number\day~日}
 %\newcommand{\zhtoday}{\CJKdigits{\the\year}年\CJKnumber{\the\month}月\CJKnumber{\the\day}日}
 
+%% === 
+\floatname{algorithm}{演算法}
+
 %% ===
-\setcounter{secnumdepth}{3}									%　設定計數到 subsubsection
+\setcounter{secnumdepth}{3}                                 %　設定計數到 subsubsection
 \renewcommand{\thepart}{第\CJKnumber{\arabic{part}}部分}
 \renewcommand{\thechapter}{\arabic{chapter}}
-\renewcommand{\thesection}{\arabic{section}}				% 改 section 為 1, 2, 3 非 1.1, 1.2, 1.3
-\renewcommand{\thesubsection}{\arabic{subsection}}			% subsection 也改一改
-\renewcommand{\thesubsubsection}{\arabic{subsubsection}}	% subsubsection 也改一改
+\renewcommand{\thesection}{\arabic{section}}                % 改 section 為 1, 2, 3 非 1.1, 1.2, 1.3
+\renewcommand{\thesubsection}{\arabic{subsection}}          % subsection 也改一改
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}}    % subsubsection 也改一改
 
 %% === 設定章節標題 (配合 titlesec) ===
 \titleformat{\part}[display]
@@ -75,20 +81,17 @@
 {}
 {}
 %
-\titlecontents{chapter}
-[0em]
+\titlecontents{chapter}[0em]
 {}
 {\large\bf{第\CJKnumber{\thecontentslabel}章~~}}
 {}{~~\titlerule*{.}\bf\contentspage}
 %
-\titlecontents{section}
-[4em]
+\titlecontents{section}[4em]
 {}
 {第\CJKnumber{\thecontentslabel}節\quad}
 {}{~~\titlerule*{.} \contentspage}
 %
-\titlecontents{subsection}
-[8em]
+\titlecontents{subsection}[8em]
 {}
 {\CJKnumber{\thecontentslabel}、}
 {}{~~\titlerule*{.} \contentspage}
@@ -111,26 +114,10 @@
 \tableofcontents
 
 \part{基礎競賽程式技巧}
-\chapter{預熱}
-\section{算術運算子}
+\input{./part1/01-intro-cpp.tex}
+\part{競賽演算法精要}
+\input{./part2/09-graph-theory.tex}
 
-\paragraph{}C++ 的算術運算子有五類：
-\paragraph{}五則運算的運算順序和我們自然的觀點相同，都是先乘除餘、後加減。加、減、乘法幾乎與普通的運算無異，除法需特別注意，若資料型態是 int，則除法為整數除法，
-\begin{lstlisting}[language=C++]
-cout << 8 / 5 << endl;
-\end{lstlisting}
-\paragraph{}的結果為：
-\begin{lstlisting}
-1
-\end{lstlisting}
-\paragraph{}若資料型態為 double，則除法為浮點數除法，
-\begin{lstlisting}[language=C++]
-cout << 8.0 / 5.0 << endl;
-\end{lstlisting}
-\paragraph{}的結果則為：
-\begin{lstlisting}
-1.6
-\end{lstlisting}
-\paragraph{}除此之外，除法還有除以零的問題，以下四種 cout 請各位讀者自行分別執行，會發生什麼問題、產生什麼現象，有興趣的話可以在網路上多查些資料。
+\clearpage
 \end{CJK}
 \end{document}
