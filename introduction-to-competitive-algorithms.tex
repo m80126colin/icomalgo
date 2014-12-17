@@ -2,32 +2,33 @@
 \def \allfiles {}
 
 %% === CJK 套件 ===
-\usepackage{CJK,CJKnumb}                        % 中文套件
+\usepackage{CJK,CJKnumb}                     % 中文套件
 %% === AMS 標準套件 ===
-\usepackage{amsmath,amsfonts,amssymb,amsthm}    % 數學符號
+\usepackage{amsmath,amsfonts,amssymb,amsthm} % 數學符號
 %% === 章節內容 ===
-\usepackage{titletoc,titlesec}                  % titletoc 目錄修改套件, titlesec 美化章節標題套件
-\usepackage{imakeidx}                           % 索引
+\usepackage{titletoc,titlesec}               % titletoc 目錄修改套件, titlesec 美化章節標題套件
+\usepackage{imakeidx}                        % 索引
 %% ===  ===
-\usepackage[chapter]{algorithm}                 % 演算法套件
-\usepackage[noend]{algpseudocode}               % pseudocode 套件
-\usepackage{listings}                           % 程式碼
+\usepackage[chapter]{algorithm}              % 演算法套件
+\usepackage[noend]{algpseudocode}            % pseudocode 套件
+\usepackage{listings}                        % 程式碼
+%% === TikZ 套件 ===
+\usepackage{tikz,tkz-graph,tkz-berge}        % 繪圖
 
 \linespread{1.24}
 
 %% === 設定頁面格式 ===
-%\hoffset               % 水平位移，預設為 0pt
-\voffset = -15pt        % 垂直位移，預設為 0pt
-\oddsidemargin = 0pt    % 預設為 31pt
-%\topmargin = 20pt      % 預設為 20pt
-%\headheight = 12pt     % header 的高度，預設為 12pt
-%\headsep = 25pt        % header 和 body 的距離，預設為 25pt
-\textheight = 620pt     % body 內文部分的高度，預設為 592pt
-\textwidth = 450pt      % body 內文部分的寬度，預設為 390pt
-%\marginparsep = 10pt   % margin note 和 body 的距離，預設為 10pt
-%\marginparwidth = 35pt % margin note 的寬度，預設為 35pt
-%\footskip = 30pt       % footer 高度 + footer 和 body 的距離，預設為 30pt
-
+%\hoffset         = 10pt                      % 水平位移，預設為 0pt
+\voffset         = -15pt                     % 垂直位移，預設為 0pt
+\oddsidemargin   = 0pt                       % 預設為 31pt
+%\topmargin       = 20pt                      % 預設為 20pt
+%\headheight      = 12pt                      % header 的高度，預設為 12pt
+%\headsep         = 25pt                      % header 和 body 的距離，預設為 25pt
+\textheight      = 620pt                     % body 內文部分的高度，預設為 592pt
+\textwidth       = 450pt                     % body 內文部分的寬度，預設為 390pt
+%\marginparsep    = 10pt                      % margin note 和 body 的距離，預設為 10pt
+%\marginparwidth  = 35pt                      % margin note 的寬度，預設為 35pt
+%\footskip        = 30pt                      % footer 高度 + footer 和 body 的距離，預設為 30pt
 
 \makeindex[name=noun]        % 索引生成
 
@@ -35,15 +36,15 @@
 \begin{CJK}{UTF8}{bkai}
 
 %% === 常用的指令，替換成中文 ===
-\renewcommand\figurename{圖~}
-\renewcommand\tablename{表~}
-\renewcommand\contentsname{目~錄~}
-\renewcommand\listfigurename{插~圖~目~錄}
-\renewcommand\listtablename{表~格~目~錄}
+\renewcommand{\figurename}{圖}
+\renewcommand{\tablename}{表}
+\renewcommand{\contentsname}{目~錄~}
+\renewcommand{\listfigurename}{插~圖~目~錄}
+\renewcommand{\listtablename}{表~格~目~錄}
 \renewcommand{\appendixname}{附~錄}
 %\renewcommand{\refname}{參~考~資~料}    % article
 \renewcommand{\bibname}{參~考~文~獻}     % book
-\renewcommand\indexname{索~引}
+\renewcommand{\indexname}{索~引}
 \renewcommand{\today}{\number\year~年~\number\month~月~\number\day~日}
 %\newcommand{\zhtoday}{\CJKdigits{\the\year}年\CJKnumber{\the\month}月\CJKnumber{\the\day}日}
 
@@ -123,7 +124,7 @@
 \part{競賽演算法精要}
 \input{./part2/09-graph-theory.tex}
 \printindex[noun]
-
+\listoffigures
 \clearpage
 \end{CJK}
 \end{document}

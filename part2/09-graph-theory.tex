@@ -11,6 +11,8 @@
 \usepackage[chapter]{algorithm}                 % 演算法套件
 \usepackage[noend]{algpseudocode}               % pseudocode 套件
 \usepackage{listings}                           % 程式碼
+%% ===  ===
+\usepackage{tikz,tkz-graph,tkz-berge}
 
 \makeindex[name=noun]        % 索引生成
 \linespread{1.24}
@@ -20,7 +22,7 @@
 \fi
 
 %% === 圖論專用 command ===
-\providecommand*{\Edge}[2]{\ensuremath{({#1},{#2})}}
+\providecommand*{\UEdge}[2]{\ensuremath{({#1},{#2})}}
 \providecommand*{\DEdge}[2]{\ensuremath{\langle{}{{#1},{#2}}\rangle{}}}
 \providecommand*{\Deg}[2][G]{\ensuremath{d_{#1}{(#2)}}}
 \providecommand*{\OutDeg}[2][G]{\ensuremath{d^{+}_{#1}{(#2)}}}
@@ -33,22 +35,87 @@
 \subsection{頂點和邊}
 \paragraph{}圖論研究的重點就是「\textbf{\index[noun]{圖}{圖}}」，它是一種很特別的數學模型，而非平常我們所見到的「圖形」。一張圖會有數個\textbf{\index[noun]{頂點}{頂點 (Vertex)}}，頂點跟頂點之間可能會有\textbf{\index[noun]{邊}{邊 (Edge)}} 連通，只要符合這個條件，我們就稱為一張圖，記為 $G$。若用數學來描述的話，圖 $G$ 有兩個集合：一個集合 $V$ 包含頂點、另一個集合 $E$ 包含圖 $G$ 的所有邊，則圖 $G$ 記為 $G=(V,E)$。
 \paragraph{}對於一張圖 $G$ ，我們用 $V(G)$ 來表示 $G$ 的頂點集合，而用 $E(G)$ 表示 $G$ 的邊集合。我們用 $|E(G)|$ 或是 $|G|$ 表示邊數、或者稱為圖 $G$ 的\index[noun]{大小}{大小 (Size)}；用 $|V(G)|$ 或者 $||G||$ 表示頂點數、又稱為圖 $G$ 的\index[noun]{階數}{階數 (Order)}，在本章的各節中，為了方便表示，我們一律假設圖 $G$ 的頂點數為 $n$，邊數為 $m$。
-\paragraph{}上圖 9.1 表示一張圖，注意到在圖論中，我們只討論頂點和頂點間的連接關係，不討論邊的長度、形狀，因此在下面圖 9.2 和圖 9.1 是相同的。
-\paragraph{}我們將頂點編號，用 $\Edge{u}{v}$ 來表示一條連結 $u$ 和 $v$ 的\textbf{\index[noun]{無向邊}{無向邊 (Undirected Edge)}}，無向邊可以想像成：如果你在頂點 $u$ 的話，妳可以藉由這條邊走到頂點 $v$，反之也可以從頂點 $v$ 走到頂點 $u$，因此 $\Edge{u}{v}=\Edge{v}{u}$。如果是一條\textbf{\index[noun]{有向邊}{有向邊 (Arc)}} 的話，我們記為 $\DEdge{u}{v}$，代表這條邊只能從 $u$ 走到 $v$，但不能從 $v$ 走回 $u$，如圖 9.3。
-\paragraph{}一條無向邊 $\Edge{u}{v}$ 或是有向邊 $\DEdge{u}{v}$，$u$、$v$ 兩點都是這條邊的\textbf{\index[noun]{端點}{端點 (Endpoint, Endvertex)}}。如果有一條邊 $e$ 連接 $u$、$v$ 兩個頂點，我們稱 $u$ 和 $v$ \textbf{\index[noun]{相鄰}{相鄰 (Adjacent)}}，或是互相稱為鄰點 (Adjacent Node)；而 $e$ 和頂點 $u$、$v$ \textbf{\index[noun]{相接}{相接 (Incidence)}}。若兩條邊 $e_1$、$e_2$ 至少有一個相同的端點，我們也稱 $e_1$、$e_2$ 相鄰，或是互相稱為鄰邊 (Adjacent Edge)。
-\paragraph{}我們可以把圖 9.1 的頂點編號 (Vertex-labeled) 為 $V=\{v_1,v_2,v_3\}$，我們會得到三條邊：$E=\{\Edge{v_1}{v_2},\Edge{v_2}{v_3},\Edge{v_1}{v_3}\}$，因此圖 9.1 用數學來表示即為
+\begin{figure}[h!]
+\centering
+\label{fig-a-graph}
+\begin{tikzpicture}
+\tikzset{VertexStyle/.append style={
+  minimum size = 24pt
+}}
+\SetVertexNoLabel
+\grCycle[RA=2,rotation=-30]{3}
+\end{tikzpicture}
+\caption{一張圖}
+\end{figure}
+
+\paragraph{}圖 \ref{fig-a-graph} 表示一張圖，注意到在圖論中，我們只討論頂點和頂點間的連接關係，不討論邊的長度、形狀，因此和圖 \ref{fig-another-graph} 和圖 \ref{fig-a-graph} 是相同的。
+\begin{figure}[h!]
+\centering
+\label{fig-another-graph}
+\begin{tikzpicture}
+\tikzset{VertexStyle/.append style={
+  minimum size = 24pt
+}}
+\SetGraphUnit{2}
+\SetVertexNoLabel
+\tikzset{EdgeStyle/.append style = {bend right}}
+\begin{scope}[rotate=60]
+  \Vertices{circle}{A,B,C}
+\end{scope}
+\Edges(A,B,C,A)
+\end{tikzpicture}
+\caption{圖不考慮大小、長度、形狀}
+\end{figure}
+
+\paragraph{}我們將頂點編號，用 $\UEdge{u}{v}$ 來表示一條連結 $u$ 和 $v$ 的\textbf{\index[noun]{無向邊}{無向邊 (Edge)}}，無向邊可以想像成：如果你在頂點 $u$ 的話，妳可以藉由這條邊走到頂點 $v$，反之也可以從頂點 $v$ 走到頂點 $u$，因此 $\UEdge{u}{v}=\UEdge{v}{u}$。如果是一條\textbf{\index[noun]{有向邊}{有向邊 (Arc)}} 的話，我們記為 $\DEdge{u}{v}$，代表這條邊只能從 $u$ 走到 $v$，但不能從 $v$ 走回 $u$，如圖 \ref{fig-edge-and-arc}。
+\begin{figure}[h!]
+\centering
+\label{fig-edge-and-arc}
+\begin{tikzpicture}
+\tikzset{VertexStyle/.append style={
+  minimum size = 24pt
+}}
+\SetVertexMath
+\Vertex{u_1} \EA[unit=4](u_1){v_1}
+\Edge(u_1)(v_1)
+\SO(u_1){u_2} \EA[unit=4](u_2){v_2}
+\Edge[style={->}](u_2)(v_2)
+\end{tikzpicture}
+\caption{無向邊和有向邊}
+\end{figure}
+\paragraph{}一條無向邊 $\UEdge{u}{v}$ 或是有向邊 $\DEdge{u}{v}$，$u$、$v$ 兩點都是這條邊的\textbf{\index[noun]{端點}{端點 (Endpoint, Endvertex)}}。如果有一條邊 $e$ 連接 $u$、$v$ 兩個頂點，我們稱 $u$ 和 $v$ \textbf{\index[noun]{相鄰}{相鄰 (Adjacent)}}，或是互相稱為鄰點 (Adjacent Node)；而 $e$ 和頂點 $u$、$v$ \textbf{\index[noun]{相接}{相接 (Incidence)}}。若兩條邊 $e_1$、$e_2$ 至少有一個相同的端點，我們也稱 $e_1$、$e_2$ 相鄰，或是互相稱為鄰邊 (Adjacent Edge)。
+\paragraph{}我們可以把圖 \ref{fig-a-graph} 的頂點編號 (Vertex-labeled) 為 $V=\{v_0,v_1,v_2\}$，我們會得到三條邊：$E=\{\UEdge{v_1}{v_2},\UEdge{v_2}{v_3},\UEdge{v_3}{v_1}\}$，因此圖 ~\ref{fig-a-graph} 用數學來表示即為
 \begin{align*}
 G&=(V,E)\\
- &=(\{v_1,v_2,v_3\},\{\Edge{v_1}{v_2},\Edge{v_2}{v_3},\Edge{v_1}{v_3}\})
+ &=(\{v_1,v_2,v_3\},\{\UEdge{v_1}{v_2},\UEdge{v_2}{v_3},\UEdge{v_1}{v_3}\})
 \end{align*}
-\paragraph{}結果如圖 9.4。
-\paragraph{}有時候，我們會對邊進行編號 (Edge-labeled)，例如圖 9.4 中，我們依序將邊編號為 $e_1=\Edge{v_1}{v_2}$、$e_2=\Edge{v_2}{v_3}$、$e_3=\Edge{v_1}{v_3}$。
+\paragraph{}結果如圖 \ref{fig-label-a-graph}。
+\begin{figure}[h!]
+\centering
+\label{fig-label-a-graph}
+\begin{tikzpicture}
+\tikzset{VertexStyle/.append style={
+  minimum size = 24pt
+}}
+\SetGraphUnit{2}
+\SetVertexMath
+\begin{scope}[rotate=-30]
+  \Vertices{circle}{v_1,v_2,v_3}
+\end{scope}
+\Edge[label={$e_1$}](v_1)(v_2)
+\Edge[label={$e_2$}](v_2)(v_3)
+\Edge[label={$e_3$}](v_3)(v_1)
+\end{tikzpicture}
+\caption{編號}
+\end{figure}
+\paragraph{}\ref{algo-bellman-ford}
+\paragraph{}有時候，我們會對邊進行編號 (Edge-labeled)，例如圖 9.4 中，我們依序將邊編號為 $e_1=\UEdge{v_1}{v_2}$、$e_2=\UEdge{v_2}{v_3}$、$e_3=\UEdge{v_1}{v_3}$。
 \paragraph{}有了編號的觀念後，我們再看有向邊的性質。對於有向邊 $\DEdge{u}{v}$，頂點 $u$ 稱為頂點 $v$ 的\index[noun]{前驅}{前驅 (Successor)}，$v$ 稱為 $u$ 的\index[noun]{後繼}{後繼 (Predecessor)}，如圖 9.5，頂點 $v_1$ 的前驅有 $v_4$、$v_6$、$v_7$、$v_8$ 這 4 個頂點，而後繼有 $v_2$、$v_3$、$v_5$ 這 3 個節點。
-\paragraph{}對於頂點 $u$，所有連向後繼 $v$ 的邊，我們稱為\index[noun]{前向星}{前向星 (Forward Star)}；若是對於頂點 $v$，所有連向前驅 $u$ 的邊，我們稱為\index[noun]{後向星}{後向星 (Backward Star)}， 所有的前向星和後向星合稱為\index[noun]{星}{星 (Star)}。回到圖 9.5，我們可以找出頂點 $v_1$ 的前向星為 $\{\DEdge{v_1}{v_2},\DEdge{v_1}{v_3},\DEdge{v_1}{v_5}\}$、後向星為 $\{\DEdge{v_4}{v_1}\\,\DEdge{v_6}{v_1},\DEdge{v_7}{v_1},\DEdge{v_8}{v_1}\}$，而這些邊形成的集合就是頂點 $v_1$ 的星。
+\paragraph{}對於頂點 $u$，所有連向後繼 $v$ 的邊，我們稱為\index[noun]{前向星}{前向星 (Forward Star)}；若是對於頂點 $v$，所有連向前驅 $u$ 的邊，我們稱為\index[noun]{後向星}{後向星 (Backward Star)}， 所有的前向星和後向星合稱為\index[noun]{星}{星 (Star)}。回到圖 9.5，我們可以找出頂點 $v_1$ 的前向星為 $\{\DEdge{v_1}{v_2},\DEdge{v_1}{v_3},\DEdge{v_1}{v_5}\}$、後向星為 $\{{\DEdge{v_4}{v_1},\DEdge{v_6}{v_1},\DEdge{v_7}{v_1},\DEdge{v_8}{v_1}}\}$，而這些邊形成的集合就是頂點 $v_1$ 的星。
 
 \subsection{圖與分支度}
 \paragraph{}如果一張圖 $G$ 皆由無向邊構成，我們稱為\textbf{\index[noun]{無向圖}{無向圖 (Undirected Graph)}}，例如，圖 9.1 就是一張無向圖；如果都是由有向邊所構成，則稱為\textbf{\index[noun]{有向圖}{有向圖 (Directed Graph, Digraph)}}，圖 9.6 表示一有向圖；若不全為無向邊和有向邊，則稱為\index[noun]{混合圖}{混合圖 (Mixed Graph)}。
-\paragraph{}我們會計算圖 $G$ 中，一個頂點 $u$ 的\textbf{\index[noun]{分支度}{分支度 (Degree)}}，代表這個頂點和邊的相接數量，記為 $\Deg{u}$，例如圖 9.7 中，節點 $v_1$ 的分支度為 3，因為它有相接的 3 條邊：$\Edge{v_1}{v_2}$、$\Edge{v_1}{v_3}$、$\Edge{v_1}{v_5}$；節點 $v_4$ 的分支度為 $\Deg{v_4}=2$，相接的邊為 $\Edge{v_2}{v_4}$、$\Edge{v_4}{v_5}$，以此類推。
+\paragraph{}我們會計算圖 $G$ 中，一個頂點 $u$ 的\textbf{\index[noun]{分支度}{分支度 (Degree)}}，代表這個頂點和邊的相接數量，記為 $\Deg{u}$，例如圖 9.7 中，節點 $v_1$ 的分支度為 3，因為它有相接的 3 條邊：$\UEdge{v_1}{v_2}$、$\UEdge{v_1}{v_3}$、$\UEdge{v_1}{v_5}$；節點 $v_4$ 的分支度為 $\Deg{v_4}=2$，相接的邊為 $\UEdge{v_2}{v_4}$、$\UEdge{v_4}{v_5}$，以此類推。
 \paragraph{}我們也會計算整張圖 $G$ 的\textbf{\index[noun]{總分支度}{總分支度 (Total Degree)}} $d(G)$，它代表每個點分支度的總和，我們依然以圖 9.7 為例，我們依序求出各節點的分支度：$\Deg{v_1}=3$、$\Deg{v_2}=3$、$\Deg{v_3}=3$、$\Deg{v_4}=2$、$\Deg{v_5}=2$、$\Deg{v_6}=1$，我們可以求出總分支度：
 \begin{align*}
 d(G)=\Deg{v_1}+\Deg{v_2}+\Deg{v_3}+\Deg{v_4}+\Deg{v_5}=14
@@ -66,7 +133,7 @@ d(G)=\sum_{u\in{V(G)}}{\Deg{u}}=2\times{|E(G)|}
 d^{+}{(G)}&=d^{-}{(G)}=|E(G)|\\
 d(G)&=d^{+}{(G)}+d^{-}{(G)}
 \end{align}
-\paragraph{}如果一張圖 $G$，其中兩個頂點間有一條以上的邊 (稱為\index[noun]{重邊}{重邊}) 或者存在\textbf{\index[noun]{自環}{自環}}(形如 $\Edge{u}{u}$ 或者 $\DEdge{u}{u}$ 的邊)，稱為\index[noun]{複圖}{複圖 (Multigraph)}，反之如果任兩個頂點有不超過一條的邊，就稱為\textbf{\index[noun]{簡單圖}{簡單圖 (Simple Graph)}}，一般來說我們沒有特別稱呼「圖」的話，就是指\index[noun]{簡單無向圖}{簡單無向圖}。圖 9.9 表示一個複圖和一個簡單圖。
+\paragraph{}如果一張圖 $G$，其中兩個頂點間有一條以上的邊 (稱為\index[noun]{重邊}{重邊}) 或者存在\textbf{\index[noun]{自環}{自環}}(形如 $\UEdge{u}{u}$ 或者 $\DEdge{u}{u}$ 的邊)，稱為\index[noun]{複圖}{複圖 (Multigraph)}，反之如果任兩個頂點有不超過一條的邊，就稱為\textbf{\index[noun]{簡單圖}{簡單圖 (Simple Graph)}}，一般來說我們沒有特別稱呼「圖」的話，就是指\index[noun]{簡單無向圖}{簡單無向圖}。圖 9.9 表示一個複圖和一個簡單圖。
 
 \subsection{子圖}
 \paragraph{}在任意一張圖 $G=(V_G, E_G)$ 中，有另一張圖 $H=(V_H, E_H)$，其中 $V_H$ 是 $V_G$ 的子集合，$E_H$ 是 $E_G$ 的子集合，則稱 $H$ 是 $G$ 的\textbf{\index[noun]{子圖}{子圖 (Subgraph)}}。如果 $V_H=V_G$ 的話，則稱 $H$ 為\textbf{\index[noun]{生成子圖}{生成子圖 (Spanning Subgraph)}}。下列數張圖 $G$ 中，$V_G=\{v_1,v_2,\cdots{},v_9\}$、$E_G=\{e_1,e_2,\cdots{},e_{11}\}$，圖 9.10 是其中一個子圖，而圖 9.11 是生成子圖。
@@ -80,35 +147,41 @@ E_H&=\{e_1,e_2,e_3,e_4,e_5,e_6\}
 V_H&=V_G\\
 E_H&=\{e_1,e_2,e_3,e_4,e_5,e_6\}
 \end{align*}
-\paragraph{}在圖 $G=(V_G, E_G)$ 中，如果子圖 $H$ 的頂點集合為 $V_H$ 是 $V_G$ 的子集合，對於 $E_G$ 中所有的邊 $\Edge{u}{v}$，當頂點 $u$、$v$ 都屬於 $V_H$，而邊 $\Edge{u}{v}$ 屬於 $E_H$ 的話，則稱 $H$ 為\textbf{\index[noun]{導出子圖}{導出子圖 (Induced Subgraph)}}，記為 $G[V_H]$，代表圖 $H$ 有一些頂點，而 $H$ 的邊取決於圖 $G$ 中頂點在 $H$ 內的所有邊。同樣地，如果子圖的邊集合為 $E_H$ 是 $E_G$ 的子集合，對於所有 $V_H$ 中的頂點 $u$，如果 $u$ 在 $E_H$ 其中一條邊的端點上，則 $u$ 在 $V_H$ 中，我們稱 $H$ 為\index[noun]{邊導出子圖}{邊導出子圖 (Edge-induced Subgraph)}，記為 $G[E_H]$。
-\paragraph{}例如，圖 9.12 是一個導出子圖 $H$，它的頂點集合 $V_H=\{v_1,v_2,v_3,\\v_8,v_9\}$，所以邊集合為 $E_H=\{e_1,e_2,e_9,e_{10},e_{11}\}$。反之，像圖 9.9 就不是一個導出子圖，因為頂點 $v_2$ 和 $v_8$ 都屬於 $V_H$，但 $e_{11}$ 卻不屬於 $E_H$；$e_4=\Edge{v_4}{v_5}$ 屬於 $E_H$，但頂點 $v_4$ 和 $v_5$ 不屬於 $V_H$。
+\paragraph{}在圖 $G=(V_G, E_G)$ 中，如果子圖 $H$ 的頂點集合為 $V_H$ 是 $V_G$ 的子集合，對於 $E_G$ 中所有的邊 $\UEdge{u}{v}$，當頂點 $u$、$v$ 都屬於 $V_H$，而邊 $\UEdge{u}{v}$ 屬於 $E_H$ 的話，則稱 $H$ 為\textbf{\index[noun]{導出子圖}{導出子圖 (Induced Subgraph)}}，記為 $G[V_H]$，代表圖 $H$ 有一些頂點，而 $H$ 的邊取決於圖 $G$ 中頂點在 $H$ 內的所有邊。同樣地，如果子圖的邊集合為 $E_H$ 是 $E_G$ 的子集合，對於所有 $V_H$ 中的頂點 $u$，如果 $u$ 在 $E_H$ 其中一條邊的端點上，則 $u$ 在 $V_H$ 中，我們稱 $H$ 為\index[noun]{邊導出子圖}{邊導出子圖 (Edge-induced Subgraph)}，記為 $G[E_H]$。
+\paragraph{}例如，圖 9.12 是一個導出子圖 $H$，它的頂點集合 $V_H=\{v_1,v_2,v_3,v_8,v_9\}$，所以邊集合為 $E_H=\{e_1,e_2,e_9,e_{10},e_{11}\}$。反之，像圖 9.9 就不是一個導出子圖，因為頂點 $v_2$ 和 $v_8$ 都屬於 $V_H$，但 $e_{11}$ 卻不屬於 $E_H$；$e_4=\UEdge{v_4}{v_5}$ 屬於 $E_H$，但頂點 $v_4$ 和 $v_5$ 不屬於 $V_H$。
 
 \subsection{路徑與環}
-\paragraph{}圖 G = (VG, EG) 中，W 是一個起始於頂點、終於頂點，且頂點和邊交錯的序列 W = {v1, e1, v2, e2, … , vi , ei, vi+1 , … , en-1 , vn}，其中 v1, v2, … , vn 屬於 VG，e1, e2, … , en-1 屬於 EG，且每條邊 ei 都是 (vi, vi+1) 或 <vi, vi+1>。則我們把 W 稱為道路 (Walk)，其中 v1 是起點， vn 是終點。如果 v1 和 vn 是相同頂點，則稱為封閉道路 (Close Walk)；反之，如果 v1 和 vn 不同，則稱為開放道路 (Open Walk)。在簡單圖中，因為沒有重邊的問題，因此我們可以只用頂點來描述一條道路 W = {v1, v2, … , vi, vi+1, … , vn}。
-\paragraph{}道路的長度 L，是計算道路經過邊的數量。如果是封閉道路，長度 L = n；如果是開放道路的話，長度則為 L = n - 1。
-\paragraph{}如果一條開放道路中，所有的邊都不重複，換句話說，我們在走一條道路時，所走的邊都不重複，我們稱為行跡 (Trail)，例如圖 9.13 就是一條行跡 {7, e6, 6, e8, 9, e9, 3, e3, 4, e4, 5, e5, 6, e7, 8}。
-\paragraph{}如果一條開放道路中，所有的頂點都不會重複的話，我們就稱為路徑 (Path)，又稱為簡單路徑 (Simple Path) ，後者源於古時候，路徑這個名詞被當做任意一條開放道路，在現在的意義上，路徑即代表簡單路徑，為何被稱為簡單路徑呢？那是因為，如果頂點不重複，那麼邊也不會重複，讀者可以好好想想為什麼，依然跟邊的性質有關。一條頂點數為 n 的路徑我們記為 Pn，下圖 9.14 代表一條路徑 P7 = {1, 2, 3, 4, 5, 6, 7}。
-\paragraph{}接著，如果一條封閉道路的邊不重複，我們稱為迴路 (Circuit, Tour)。如果封閉道路中，所有的頂點不重複，則稱為環 (Cycle) 或是簡單環 (Simple Cycle)，後者的理由和簡單路徑一樣，在現在已不常用這名詞。一個長度為 n 的環記為 Cn (通常 n > 2)，下圖 9.15 就是一個 C4 環 C4 = {2, 3, 8, 9}。
-\paragraph{}一個環的頂點數量若是奇數的話，稱為奇環 (Odd Cycle)；若為偶數，則稱為偶環 (Even Cycle)。如果一張圖是無環圖 (Acyclic Graph) 的話，那麼圖上不會有環存在。
+\paragraph{}$W$ 是在圖 $G=(V_G,E_G)$ 中，一個起始於頂點、終於頂點，且頂點和邊交錯的序列 $W=\{{v_1,e_1,v_2,e_2,\cdots{}, v_i,e_i,v_{i+1},\cdots{},e_{n-1},v_n}\}$，其中 $v_1,v_2,\cdots{},v_n$ 屬於 $V_G$，$e_1,e_2,\cdots{},e_{n-1}$ 屬於 $E_G$，且每條邊 $e_i$ 都是 $\UEdge{v_i}{v_{i+1}}$ 或 $\DEdge{v_i}{v_{i+1}}$。則我們把 $W$ 稱為\textbf{\index[noun]{道路}{道路 (Walk)}}，其中 $v_1$ 是\textbf{起點}，$v_n$ 是\textbf{終點}。如果 $v_1$ 和 $v_n$ 是相同頂點，則稱為\index[noun]{封閉道路}{封閉道路 (Close Walk)}；反之，如果 $v_1$ 和 $v_n$ 不同，則稱為\index[noun]{開放道路}{開放道路 (Open Walk)}。在簡單圖中，兩個相同的頂點指的是相同邊，因此我們可以只用頂點來描述一條道路 $W=\{{v_1,v_2,\cdots{},v_i,v_{i+1},\cdots{},v_n}\}$。
+\paragraph{}道路的長度 $L$ 代表道路中邊的數量。如果是封閉道路，長度 $L=|E(W)|=|V(W)|$；如果是開放道路的話，長度則為 $L=|E(W)|=|V(W)|-1$。
+\paragraph{}如果一條開放道路中，所有的邊都不重複，我們稱為\textbf{\index[noun]{行跡}{行跡 (Trail)}}，例如圖 9.13 就是一條行跡 $\{{v_7,e_6,v_6,e_8,v_9,e_9,v_3,e_3,v_4,e_4,v_5,e_5,v_6,e_7,v_8}\}$。
+\paragraph{}如果一條開放道路中，所有的頂點都不會重複的話，我們就稱為\textbf{\index[noun]{路徑}{路徑 (Path)}}，又稱為\index[noun]{簡單路徑}{簡單路徑 (Simple Path)} ，後者源於古時候，路徑這個名詞被當做任意一條開放道路，在現在的意義上，路徑即代表簡單路徑，為何被稱為簡單路徑呢？那是因為，如果頂點不重複，那麼邊也不會重複，讀者可以好好想想為什麼，依然跟邊的性質有關。一條頂點數為 $n$ 的路徑我們記為 $P_n$，下圖 9.14 代表一條路徑 $P_7=\{{v_1,v_2,v_3,v_4,v_5,v_6,v_7}\}$。
+\paragraph{}接著，如果一條封閉道路的邊不重複，我們稱為\textbf{\index[noun]{迴路}{迴路 (Circuit, Tour)}}。如果封閉道路中，所有的頂點不重複，則稱為\textbf{\index[noun]{環}{環 (Cycle)}} 或是簡單環 (Simple Cycle)，後者的理由和簡單路徑一樣，在現在已不常用這名詞。一個長度為 $n$ 的環記為 $C_n$ (通常 $n>2$)，下圖 9.15 就是一個 $C_4$ 環 $C_4=\{{v_2,v_3,v_8,v_9}\}$。
+\paragraph{}一個環的頂點數量若是奇數的話，稱為\index[noun]{奇環}{奇環 (Odd Cycle)}；若為偶數，則稱為\index[noun]{偶環}{偶環 (Even Cycle)}。如果一張圖是\textbf{\index[noun]{無環圖}{無環圖 (Acyclic Graph)}} 的話，那麼圖上不會有環存在。
 
 \subsection{二分圖與完全圖}
-\paragraph{}圖 G 的頂點數 n，其中任兩個頂點間恰有一條邊，我們稱為完全圖 (Complete Graph)，記做 Kn。完全圖有 n × (n - 1) / 2 條邊，而且完全圖、路徑和環有以下性質：
-\paragraph{}下圖 9.16 是一個完全圖 K5，我們可以看見任兩個頂點間都有一條邊。
-\paragraph{}如果一張圖 G = (V, E)，它的頂點可以拆成兩個集合 VA 和 VB，VA 和 VB 間沒有交集，且 VA 中的頂點都不相鄰，VB 也是，換句話說就是 E 中所有邊的兩個端點，其中一個在 VA、另外一個在 VB，這樣形成的圖 GB = (VA, VB; E) 我們稱二分圖 (Bipartite Graph)，如圖 9.17 就是一張二分圖。
-\paragraph{}我們可以看到二分圖有個很明顯的特性：不管是哪個點集合裡面所有點都不相鄰，如果我們現在隨意給一張圖，那麼如何判定是不是一個二分圖呢？我們可以考慮一個問題：現再有一張圖 G，我們要對它的頂點塗上紅、藍兩種顏色，條件是－－相同顏色的頂點不相鄰，問可不可以有這種著色呢？
-\paragraph{}我們可以很清楚的看到這個問題的限制條件和二分圖的性質是相同的，也就是說如果該圖是一張二分圖的話，那麼它就可以被塗成紅、藍兩種顏色，此時這張圖被稱為二著色圖 (2-colorable Graph)，二分圖同時也是一個二著色圖。
-\paragraph{}我們可以看到圖 9.18 中，VA 被塗成藍色、VB 為紅色，而且同色並沒有相鄰 (別忘了兩個頂點相鄰要有邊相接)，因此我們要知道是否為二分圖，就看是否為二著色圖。如果一張圖不是二著色圖，那麼它就不能分成藍色和紅色兩群頂點，因此就不會是二分圖，所以我們要做的工作變成判斷一張圖是否為二著色圖，那問題點在於－－什麼時候不是一張二著色圖呢？
-\paragraph{}答案很簡單，如果有一個點 v，它相鄰的點中有些是紅色、有些是藍色，那麼頂點 v 該塗紅色還是藍色呢？因此，我們可以知道這時候二著色圖沒辦法成立，那麼就可以推得該圖不是一個二分圖。唯一會造成頂點 v 不知道要塗什麼顏色的情形，只有在奇環存在時才會如此，剩下的細節讀者可自行思考，圖 9.19 描述了上面的概念。
-\paragraph{}如果二分圖的兩個點集間都有一條邊，我們稱為完全二分圖 (Complete Bipartite Graph)，如果集合 VA 的點數為 a、VB 的點數為 b，完全二分圖記為 Ka, b，下圖 9.20 是一個 K3, 4。
+\paragraph{}圖 $G$ 的頂點數 $n$，其中任兩個頂點間恰有一條邊，我們稱為\index[noun]{完全圖}{完全圖 (Complete Graph)}，記做 $K_n$。完全圖有 $n\times{(n-1)}/2$ 條邊，而且完全圖、路徑和環有以下性質：
+\begin{align}
+\label{eq-complete-graph}
+P_1&=K_1\\
+P_2&=K_2\\
+C_3&=K_3
+\end{align}
+\paragraph{}下圖 9.16 是一個完全圖 $K_5$，我們可以看見任兩個頂點間都有一條邊。
+\paragraph{}如果一張圖 $G=(V,E)$，它的頂點可以拆成兩個集合 $V_A$ 和 $V_B$，$V_A$ 和 $V_B$ 間沒有交集，且 $V_A$ 中的任意兩個頂點都不相鄰，$V_B$ 也是，換句話說就是 $E$ 中所有邊的兩個端點，其中一個在 $V_A$、另外一個在 $V_B$，這樣形成的圖 $G_B=(V_A,V_B;E)$ 我們稱\textbf{\index[noun]{二分圖}{二分圖 (Bipartite Graph)}}，如圖 9.17 就是一張二分圖。
+\paragraph{}我們可以看到二分圖有個很明顯的特性：不管是哪個點集合裡面所有點都不相鄰，如果我們現在隨意給一張圖，那麼如何判定是不是一個二分圖呢？我們可以考慮一個問題：現再有一張圖 G，我們要對它的頂點塗上紅、藍兩種顏色，條件是------相同顏色的頂點不相鄰，問可不可以有這種著色呢？
+\paragraph{}我們可以很清楚的看到這個問題的限制條件和二分圖的性質是相同的，也就是說如果該圖是一張二分圖的話，那麼它就可以被塗成紅、藍兩種顏色，此時這張圖被稱為 \textbf{\index[noun]{2-著色圖}{2-著色圖 (2-colorable Graph)}}，二分圖同時也是一個 2-著色圖。
+\paragraph{}我們可以看到圖 9.18 中，$V_A$ 被塗成藍色、$V_B$ 為紅色，而且同色並沒有相鄰 (別忘了兩個頂點相鄰要有邊相接)，因此我們要知道是否為二分圖，就看是否為 2-著色圖。如果一張圖不是 2-著色圖，那麼它就不能分成藍色和紅色兩群頂點，因此就不會是二分圖，所以我們要做的工作變成判斷一張圖是否為 2-著色圖，那問題點在於------什麼時候不是一張 2-著色圖呢？
+\paragraph{}答案很簡單，如果有一個點 $v$，它相鄰的點中有些是紅色、有些是藍色，那麼頂點 $v$ 該塗紅色還是藍色呢？因此，我們可以知道這時候 2-著色圖沒辦法成立，那麼就可以推得該圖不是一個二分圖。唯一會造成頂點 $v$ 不知道要塗什麼顏色的情形，只有在奇環存在時才會如此，剩下的細節讀者可自行思考，圖 9.19 描述了上面的概念。
+\paragraph{}如果二分圖的兩個點集間都有一條邊，我們稱為\textbf{\index[noun]{完全二分圖}{完全二分圖 (Complete Bipartite Graph)}}，如果集合 $V_A$ 的點數為 $a$、$V_B$ 的點數為 $b$，完全二分圖記為 $K_{a,b}$，下圖 9.20 是一個 $K_{3,4}$。
 
 \subsection{連通}
-\paragraph{}有時候，我們會想要了解一張圖 G 是否連通 (Connected)，一張圖是連通圖 (Connected Graph) 代表圖上任兩個頂點 u、v 都存在至少一條路徑相連。
-\paragraph{}但常常一張圖並不會都是連通的，因此我們會探討它的子圖是否連通，例如上圖 9.21 中的圖 G = (VG, EG) 中，子圖 H = (VH, EH)，VH = {2, 3, 5}、EH = {e2, e3}，因為 H 的任意兩點間都至少有一條路徑，因此稱 H 為連通子圖 (Connected Subgraph)。
-\paragraph{}但僅僅知道這樣子是不夠的，我們想要知道一張圖中所有極大的連通子圖有哪些，所謂的極大即是：假設圖 G 中的一個頂點 v，那麼包含頂點 v 的最大連通子圖就是其中一個極大的連通子圖，此時稱為連通元件 (Connected Component)，圖 9.21 中，子圖 VH = {7, 8, 9}、EH = {e7, e8, e9} 就是其中一個連通元件，而整張圖 G 共有 4 個連通元件，這四個連通元件的頂點分別是：{1, 2, 3, 4, 5}、{6}、{7, 8, 9} 和 {A, B, C}。
-\paragraph{}我們第八章有提過樹的定義：若一張圖 G 是無環連通圖，那麼就是一棵樹，此時葉子 (Leaf) 的分支度為 1。
+\paragraph{}有時候，我們會想要了解一張圖 $G$ 是否\textbf{\index[noun]{連通}{連通 (Connected)}}，一張圖是\textbf{\index[noun]{連通圖}{連通圖 (Connected Graph)}} 代表圖上任意兩個頂點 $u$、$v$ 都存在至少一條路徑相連。
+\paragraph{}但常常一張圖並不會都是連通的，因此我們會探討它的子圖是否連通，例如上圖 9.21 中的圖 $G=(V_G,E_G)$ 中，子圖 $H=(V_H,E_H)$，$V_H=\{{v_2,v_3,v_5}\}$、$E_H=\{{e_2,e_3}\}$，因為 $H$ 的任意兩點間都至少有一條路徑，因此稱 $H$ 為\textbf{\index[noun]{連通子圖}{連通子圖 (Connected Subgraph)}}。
+\paragraph{}但僅僅知道這樣子是不夠的，我們想要知道一張圖中所有極大的連通子圖有哪些，所謂的極大即是：假設圖 $G$ 中的一個頂點 $v$，那麼包含頂點 $v$ 的最大連通子圖就是其中一個極大的連通子圖，此時稱為\textbf{\index[noun]{連通元件}{連通元件 (Connected Component)}}，圖 9.21 中，子圖 $V_H=\{{v_7,v_8,v_9}\}$、$E_H=\{{e_7,e_8,e_9}\}$ 就是其中一個連通元件，而整張圖 $G$ 共有 4 個連通元件，這四個連通元件的頂點分別是：$\{v_1,v_2,v_3,v_4,v_5\}$、$\{v_6\}$、$\{v_7,v_8,v_9\}$ 和 $\{v_{10},v_{11},v_{12}\}$。
+\paragraph{}我們第八章有提過樹的定義：若一張圖 $G$ 是無環連通圖，那麼就是一棵樹，此時\index[noun]{葉子}{葉子 (Leaf)} 的分支度為 1。
 
 \subsection{權重}
-\paragraph{}一張圖有時會帶權重 (Weight, Cost)：權重是一個實數，通常是一個非負整數或是一個有理數，若權重在邊上，就代表邊的一種性質，讀者可以想像成是這條邊的長度；或者這條邊是一條水管，而上面的權重代表流量限制，…… 等等。有時候權重也會在頂點上，它可以代表這個頂點的大小、顏色、重量、…… 之類，這些條件端看題目怎麼設計。不管是邊有權重還是點有權重，我們都稱為帶權圖 (Weighted Graph)，假設有一條邊 e = (u, v)，其權重我們會記為 w(e) 或是 w(u, v)。圖 9.22 是典型的帶權圖：
+\paragraph{}一張圖有時會帶\textbf{\index[noun]{權重}{權重 (Weight, Cost)}}：權重是一個實數，通常是一個非負整數或是一個有理數，若權重在邊上，就代表邊的一種性質，讀者可以想像成是這條邊的長度；或者這條邊是一條水管，而上面的權重代表流量限制，$\cdots\cdots$等等。有時候權重也會在頂點上，它可以代表這個頂點的大小、顏色、重量、$\cdots\cdots$之類，這些條件端看題目怎麼設計。不管是邊有權重還是點有權重，我們都稱為\textbf{\index[noun]{帶權圖}{帶權圖 (Weighted Graph)}}，假設有一條邊 $e=\UEdge{u}{v}$，其權重我們會記為 $\omega{(e)}$ 或是 $\omega{\UEdge{u}{v}}$。圖 9.22 是典型的帶權圖：
 
 \section{圖的表示法 (Representation)}
 \subsection{相鄰矩陣 (Adjacency Matrix)}
@@ -125,13 +198,41 @@ E_H&=\{e_1,e_2,e_3,e_4,e_5,e_6\}
 \subsection{拓樸排序法 (Topological Sort)}
 
 \section{最小生成樹 (Minimum Spanning Trees)}
+
 \subsection{問題定義}
-
-\paragraph{}生成樹 (Spanning Tree) 是指在一張圖 $G$ 上的生成子圖，且此生成子圖恰好是樹。而我們在討論最小生成樹 (Minimum Spanning Tree) 時，通常是在帶權圖 $G_w$ 上討論，最小生成樹。一般來說這張帶權圖是在邊上，「最小」的定義是：生成樹上所有邊權重總和為最小。
-
-以一開始圖 9.22 為例，生成樹第一個條件是生成子圖，也就是子圖 $H$ 的頂點集 $V_H$ 恰好就是原圖 $G$ 的頂點集 $V_G$，其次這個生成子圖必須是樹，因此我們可以找出一棵生成樹。
+\paragraph{}\index[noun]{生成樹}{生成樹 (Spanning Tree)} 是指在一張圖 $G$ 上的生成子圖，且此生成子圖恰好是樹。而我們在討論\textbf{\index[noun]{最小生成樹}{最小生成樹 (Minimum Spanning Tree)}} 時，通常是在帶權圖 $G_w$ 上討論。一般來說這張帶權圖是在邊上，「最小」的定義是：生成樹上所有邊權重總和為最小。
+\paragraph{}以一開始圖 9.22 為例，生成樹第一個條件是生成子圖，也就是子圖 $H$ 的頂點集 $V_H$ 恰好就是原圖 $G$ 的頂點集 $V_G$，其次這個生成子圖必須是樹，因此我們可以找出一棵生成樹。
 
 \subsection{Kruskal's 演算法}
+\begin{algorithm}
+\label{algo-kruskal}
+\caption{Kruskal's 演算法}
+\begin{algorithmic}[1]
+\Procedure{Kruskal}{$G,\omega$}
+  \For {$e\in{E(G)}$}
+    \State $L.push(e,\omega{(e)})$\Comment{$L$ 是邊列表}
+  \EndFor
+  \For {$u\in{V(G)}$}
+    \State \Call{MakeSet}{$u$}\Comment{利用并查集}
+  \EndFor
+  \State 依照 $\omega{(e)}$，對 $L$ 遞增排序
+  \State $T_{MST}\gets{\emptyset}$\Comment{初始化 MST}
+  \For {$i=1\cdots{|L|}$}\Comment{依照邊的權重依序取出}
+    \State $L[i]=\{{\UEdge{u}{v},\omega{\UEdge{u}{v}}}\}$
+    \If {\Call{FindSet}{$u$}$\neq$\Call{FindSet}{$v$}}
+      \State \Call{UnionSet}{$u,v$}
+      \State $\omega{}_{MST}\gets{\omega{}_{MST}+\omega{\UEdge{u}{v}}}$
+      \State $T_{MST}\gets{T_{MST}\cup{\{L[i]\}}}$
+    \EndIf
+  \EndFor
+  \If {$|T_{MST}|<|V(G)|-1$}\Comment{少於 $|V(G)|-1$ 條邊代表不是樹}
+    \State \Return ``不存在最小生成樹''
+  \EndIf
+  \State \Return $T_{MST}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Prim's 演算法}
 
 UVa 11631 / Ruby 11631: Dark roads
@@ -144,7 +245,7 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \subsection{次小生成樹}
 \paragraph{}10600
 
-\section{最短路徑問題 (Shortest Path Problem)}
+\section{最短路徑問題}
 \subsection{問題定義}
 \subsection{Bellman-Ford 演算法}
 
@@ -159,14 +260,14 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
   \EndFor
   \State $path[s]\gets{0}$
   \For {$i=1\cdots{}|V(G)|-1$}\Comment{執行 $|V(G)|-1$ 次迴圈}
-    \For {$e=\langle{u,v}\rangle\in{E(G)}$}\Comment{每次對所有邊擴張看看}
-      \If {$path[u]+\omega{(u,v)}<path[v]$}
-        \State $path[v]\gets{path[u]+\omega{(u,v)}}$
+    \For {$e=\DEdge{u}{v}\in{E(G)}$}\Comment{每次對所有邊擴張看看}
+      \If {$path[u]+\omega{\UEdge{u}{v}}<path[v]$}
+        \State $path[v]\gets{path[u]+\omega{\UEdge{u}{v}}}$
       \EndIf
     \EndFor
   \EndFor
-  \For {$e=\langle{u,v}\rangle\in{E(G)}$}\Comment{檢查有無負環}
-    \If {$path[u]+\omega{(u,v)}<path[v]$}\Comment{還能擴張代表不合理}
+  \For {$e=\DEdge{u}{v}\in{E(G)}$}\Comment{檢查有無負環}
+    \If {$path[u]+\omega{\UEdge{u}{v}}<path[v]$}\Comment{還能擴張代表不合理}
       \State \Return ``存在負環''
     \EndIf
   \EndFor
@@ -175,7 +276,7 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{SPFA (Shortest Path Faster Algorithm)}
+\subsection{SPFA}
 \paragraph{}UVa 10986
 \begin{algorithm}
 \label{algo-spfa}
@@ -191,9 +292,9 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
   \While{$Q.size()\geq{1}$}
     \State $u\gets{Q.front()}$
     \State $Q.pop()$
-    \For{$v\in{V(G)}$ where $(u,v)\in{E(G)}$}\Comment{所有和 $u$ 相鄰的點}
-      \If{$path[u]+\omega{(u,v)}<path[v]$}
-        \State $path[v]\gets{path[u]+\omega{(u,v)}}$
+    \For{$v\in{V(G)}$ where $\UEdge{u}{v}\in{E(G)}$}\Comment{所有和 $u$ 相鄰的點}
+      \If{$path[u]+\omega{\UEdge{u}{v}}<path[v]$}
+        \State $path[v]\gets{path[u]+\omega{\UEdge{u}{v}}}$
         \If{$v\notin{Q}$}
           \State $Q.push(v)$
         \EndIf
@@ -213,16 +314,30 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \label{algo-floyd-warshall}
 \caption{Floyd Warshall 演算法}
 \begin{algorithmic}[1]
-\Procedure{Floyd-Warshall-Algorithm}{$G,\omega$}
-  \For {$k\in{V(G)}$}
+\Procedure{FloydWarshall}{$G,\omega$}
+  \State\Comment{$path$ 紀錄點 $i$ 到 $j$ 當前的最短路徑}
+  \For {$i\in{V(G)}$}\Comment{初始化 $path$}
+    \For {$j\in{V(G)}$}
+      \If {$i\neq{j}$}
+        \State $path[i][j]\gets{\infty}$
+      \Else
+        \State $path[i][i]\gets{0}$\Comment{先初始化為 $0$，若後面有自環再討論}
+      \EndIf
+    \EndFor
+  \EndFor
+  \For {$e=\DEdge{i}{j}\in{E(G)}$}
+    \State $path[i][j]\gets{\omega{\UEdge{i}{j}}}$
+  \EndFor
+  \For {$k\in{V(G)}$}\Comment{Floyd-Warshall 本體}
     \For {$i\in{V(G)}$}
       \For {$j\in{V(G)}$}
-        \If {$\omega{(i,j)}<\omega{(i,k)}+\omega{(k,j)}$}
-          \State $\omega{(i,j)}\gets{\omega{(i,k)}+\omega{(k,j)}}$
+        \If {$path[i][k]+path[k][j]<path[i][j]$}
+          \State $path[i][j]\gets{path[i][k]+path[k][j]}$
         \EndIf
       \EndFor
     \EndFor
   \EndFor
+  \State \Return $path$
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -231,7 +346,57 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \subsection{問題定義}
 \subsection{關節點 (Articulation Point)}
 \subsection{橋 (Bridge)}
+
 \subsection{強連通分量 (Strong Connected Component, SCC)}
+\paragraph{}在有向圖 $G$ 中，我們定義：對於任意的頂點 $u$、$v$，如果有一條路徑從 $u$ 到 $v$，且也有一條路徑可以從 $v$ 到 $u$，我們就稱 $G$ 為\textbf{\index[noun]{強連通圖}{強連通圖 (Strong Connected Graph)}}。
+\paragraph{}這種定義很像是有向圖版本的連通性，由於有向圖的邊只能單向連通，而無向圖的邊可以雙向連通，所以連通性在有向圖中並不夠好：對於任意兩點 $u$、$v$，只要有路徑就稱為連通圖，要是在有向圖中存在一個 $u$，它走得到頂點 $v$ ，但從 $v$ 點走不回去 $u$ 點呢？見下圖。
+\paragraph{}從圖可以看出，連通圖的定義在有向圖中並不夠好，因此我們需要一個更強、但類似的定義使得我們可以說明「在有向圖連通」這件事------只因我們認為「無向圖連通」可以到處走來走去，那麼在有向圖應該也會有類似的性質。
+\paragraph{}定義強連通後，它和無向圖連通有類似的概念：我們有強連通子圖，代表一張子圖是強連通的。當然，我們並不在乎一個子圖是否強連通，更多時候我們更想知道它極大的強連通子圖------也就是\textbf{\index[noun]{強連通分量}{強連通分量 (Strong Connected Component, SCC)}}。
+\paragraph{}SCC 其實可以看做有向圖中的環，如上圖，我們會重視 SCC 主要的一個原因是，當我們在解決有向圖上的問題時，這些問題往往在無環有向圖 (也就是 DAG 圖) 中會有很好的解決方法，因此一張有向圖，我們只要針對有向環做處理，我們就可以把一張圖轉化為一棵樹。
+\begin{algorithm}
+\label{algo-strong-connected}
+\caption{Tarjan's 演算法}
+\begin{algorithmic}[1]
+\Procedure{SCC-Tarjan}{$G$}
+  \State $Stamp\gets{0}$\Comment{用變數 $Stamp$ 計算進入節點的次數}
+  \State $S\gets{\emptyset}$\Comment{$S$ 是 stack}
+  \For {$u\in{V(G)}$}\Comment{$A_{SCC}$ 記錄縮點後的結果}
+    \State $A_{SCC}[u]\gets{u}$\Comment{初始化}
+    \State $dfn[u]\gets{0}$\Comment{記錄節點 $u$ 被 DFS 的時間}
+    \State $low[u]\gets{0}$\Comment{記錄到目前為止 $u$ 可抵達最小的 $dfn$}
+  \EndFor
+  \For {$u\in{V(G)}$}
+    \If {$dfn[u]=0$}
+      \State \Call{DfsVisit}{$u$}
+    \EndIf
+  \EndFor
+  \State \Return $A_{SCC}$
+\EndProcedure
+\State \Comment{每個節點用 DFS 遍歷}
+\Procedure{DfsVisit}{$u$}
+  \State $Stamp\gets{Stamp+1}$
+  \State $dfn[u]\gets{Stamp}$
+  \State $low[u]\gets{Stamp}$
+  \State $S.push(u)$
+  \For {$v\in{V(G)}$ where $(u,v)\in{E(G)}$}\Comment{遍歷所有與 $u$ 相鄰的點}
+    \If {$dfn[v]=0$}\Comment{沒有遍歷過的節點，就沒有 $dfn$ 和 $low$}
+      \State \Call{DfsVisit}{$v$}
+    \EndIf
+    \If {$u\in{S}$}
+      \State $low[u]\gets{\Call{Min}{low[u],low[v]}}$
+    \EndIf
+  \EndFor
+  \If {$dfn[u]=low[u]$}\Comment{此節點不能再抵達編號更小的節點}
+    \Repeat
+      \State $u^{'}=S.top()$
+      \State $S.pop()$
+      \State $A_{SCC}[u^{'}]\gets{u}$
+    \Until {$u^{'}=u$}
+  \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{雙連通分量 (Bi-Connected Component, BCC)}
 
 \section{匹配問題 (Matching)}
