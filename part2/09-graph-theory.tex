@@ -1,10 +1,19 @@
 \ifx \allfiles \undefined
 \documentclass[12pt,a4paper,oneside]{report}
+
 %% === CJK 套件 ===
-\usepackage{CJK,CJKnumb}                        % 中文套件
+\usepackage{CJKutf8,CJKnumb}                    % 中文套件
+\usepackage[unicode]{hyperref,xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!100!black},
+    citecolor={blue!75!black},
+    urlcolor={blue!50!black}
+}
 %% === AMS 標準套件 ===
 \usepackage{amsmath,amsfonts,amssymb,amsthm}    % 數學符號
 %% === 章節內容 ===
+\usepackage{enumitem}                           % 修改 enumerate, item
 \usepackage{titletoc,titlesec}                  % titletoc 目錄修改套件, titlesec 美化章節標題套件
 \usepackage{imakeidx}                           % 索引
 %% ===  ===
@@ -13,12 +22,61 @@
 \usepackage{listings}                           % 程式碼
 %% ===  ===
 \usepackage{tikz,tkz-graph,tkz-berge}
+%% ===  ===
+\usepackage{xkeyval,xargs}
 
 \makeindex[name=noun]        % 索引生成
 \linespread{1.24}
 
+%% === 設定頁面格式 ===
+%\hoffset         = 10pt                      % 水平位移，預設為 0pt
+\voffset         = -15pt                     % 垂直位移，預設為 0pt
+\oddsidemargin   = 0pt                       % 預設為 31pt
+%\topmargin       = 20pt                      % 預設為 20pt
+%\headheight      = 12pt                      % header 的高度，預設為 12pt
+%\headsep         = 25pt                      % header 和 body 的距離，預設為 25pt
+\textheight      = 620pt                     % body 內文部分的高度，預設為 592pt
+\textwidth       = 450pt                     % body 內文部分的寬度，預設為 390pt
+%\marginparsep    = 10pt                      % margin note 和 body 的距離，預設為 10pt
+%\marginparwidth  = 35pt                      % margin note 的寬度，預設為 35pt
+%\footskip        = 30pt                      % footer 高度 + footer 和 body 的距離，預設為 30pt
+
+%% === itemize,enumerate 設定 ===
+%  使用 enumitem 套件
+\setlist[itemize]{itemsep=0pt,parsep=0pt}
+\setlist[enumerate]{itemsep=0pt,parsep=0pt}
+
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
+
+%% === 常用的指令，替換成中文 ===
+\renewcommand{\figurename}{圖}
+\renewcommand{\tablename}{表}
+\renewcommand{\contentsname}{目~錄~}
+\renewcommand{\listfigurename}{插~圖~目~錄}
+\renewcommand{\listtablename}{表~格~目~錄}
+\renewcommand{\appendixname}{附~錄}
+%\renewcommand{\refname}{參~考~資~料}    % article
+\renewcommand{\bibname}{參~考~文~獻}     % book
+\renewcommand{\indexname}{索~引}
+\renewcommand{\today}{\number\year~年~\number\month~月~\number\day~日}
+%\newcommand{\zhtoday}{\CJKdigits{\the\year}年\CJKnumber{\the\month}月\CJKnumber{\the\day}日}
+
+%% === 
+\floatname{algorithm}{演算法}
+
+%% === 定義 ===
+\newtheorem{myrule}{\begin{CJK}{UTF8}{bkai}原理\end{CJK}}[section]
+\newtheorem{mythm}{\begin{CJK}{UTF8}{bkai}定理\end{CJK}}[section]
+\newtheorem{mydef}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}[section]
+\newtheorem*{mydef*}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}
+\newtheorem{mypropo}{\begin{CJK}{UTF8}{bkai}性質\end{CJK}}[section]
+\newtheorem{myquest}{\begin{CJK}{UTF8}{bkai}例題\end{CJK}}[section]
+\newtheorem{myexe}{\begin{CJK}{UTF8}{bkai}練習題\end{CJK}}[subsection]
+\numberwithin{equation}{section}
+\renewenvironment{proof}{\begin{CJK}{UTF8}{bkai}\textbf{證明}\end{CJK}}{\qed}
+\newenvironment{mysol}{\begin{CJK}{UTF8}{bkai}\textbf{解答}\end{CJK}}{\qed}
+
 \fi
 
 %% === 圖論專用 command ===
@@ -27,8 +85,16 @@
 \providecommand*{\Deg}[2][G]{\ensuremath{d_{#1}{(#2)}}}
 \providecommand*{\OutDeg}[2][G]{\ensuremath{d^{+}_{#1}{(#2)}}}
 \providecommand*{\InDeg}[2][G]{\ensuremath{d^{-}_{#1}{(#2)}}}
-\chapter{圖論}
 
+%% ===  ===
+\label{tag:def_constant}
+\newcommand*{\SelectedVertexStyle}{%
+   \SetVertexNormal[
+     MinSize=24pt,%
+     LineWidth=1.5pt,%
+     FillColor=black!20]}
+
+\chapter{圖論}
 \section{緒論}
 \paragraph{}這裡要先介紹一些\index[noun]{圖論}{圖論}的基本觀念，對初學者會稍微複雜、冗長，因為圖論要討論的東西太多了，在這一章節中筆者已儘量挑出最重要的觀念來解說，讀者也可以配合後面的章節交互翻閱，或許能增加理解度。
 
@@ -37,131 +103,438 @@
 \paragraph{}對於一張圖 $G$ ，我們用 $V(G)$ 來表示 $G$ 的頂點集合，而用 $E(G)$ 表示 $G$ 的邊集合。我們用 $|E(G)|$ 或是 $|G|$ 表示邊數、或者稱為圖 $G$ 的\index[noun]{大小}{大小 (Size)}；用 $|V(G)|$ 或者 $||G||$ 表示頂點數、又稱為圖 $G$ 的\index[noun]{階數}{階數 (Order)}，在本章的各節中，為了方便表示，我們一律假設圖 $G$ 的頂點數為 $n$，邊數為 $m$。
 \begin{figure}[h!]
 \centering
-\label{fig-a-graph}
 \begin{tikzpicture}
-\tikzset{VertexStyle/.append style={
-  minimum size = 24pt
-}}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
 \SetVertexNoLabel
 \grCycle[RA=2,rotation=-30]{3}
 \end{tikzpicture}
-\caption{一張圖}
-\end{figure}
-
-\paragraph{}圖 \ref{fig-a-graph} 表示一張圖，注意到在圖論中，我們只討論頂點和頂點間的連接關係，不討論邊的長度、形狀，因此和圖 \ref{fig-another-graph} 和圖 \ref{fig-a-graph} 是相同的。
-\begin{figure}[h!]
-\centering
-\label{fig-another-graph}
 \begin{tikzpicture}
-\tikzset{VertexStyle/.append style={
-  minimum size = 24pt
-}}
 \SetGraphUnit{2}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
 \SetVertexNoLabel
-\tikzset{EdgeStyle/.append style = {bend right}}
 \begin{scope}[rotate=60]
-  \Vertices{circle}{A,B,C}
+  \Vertices{circle}{1,2,3}
 \end{scope}
-\Edges(A,B,C,A)
+%<-------------->
+%     Edges
+%<-------------->
+\SetUpEdge[style={bend right}]
+\Edges(1,2,3,1)
 \end{tikzpicture}
 \caption{圖不考慮大小、長度、形狀}
+\label{fig:a_graph}
 \end{figure}
 
-\paragraph{}我們將頂點編號，用 $\UEdge{u}{v}$ 來表示一條連結 $u$ 和 $v$ 的\textbf{\index[noun]{無向邊}{無向邊 (Edge)}}，無向邊可以想像成：如果你在頂點 $u$ 的話，妳可以藉由這條邊走到頂點 $v$，反之也可以從頂點 $v$ 走到頂點 $u$，因此 $\UEdge{u}{v}=\UEdge{v}{u}$。如果是一條\textbf{\index[noun]{有向邊}{有向邊 (Arc)}} 的話，我們記為 $\DEdge{u}{v}$，代表這條邊只能從 $u$ 走到 $v$，但不能從 $v$ 走回 $u$，如圖 \ref{fig-edge-and-arc}。
+\paragraph{}圖 \ref{fig:a_graph} 中有兩張圖，注意到在圖論中，我們只討論頂點和頂點間的連接關係，不討論邊的長度、形狀，因此和圖 \ref{fig:a_graph} 中兩張圖是相同的。
+\paragraph{}我們將頂點編號，用 $\UEdge{u}{v}$ 來表示一條連結 $u$ 和 $v$ 的\textbf{\index[noun]{無向邊}{無向邊 (Edge)}}，無向邊可以想像成：如果你在頂點 $u$ 的話，妳可以藉由這條邊走到頂點 $v$，反之也可以從頂點 $v$ 走到頂點 $u$，因此 $\UEdge{u}{v}=\UEdge{v}{u}$。如果是一條\textbf{\index[noun]{有向邊}{有向邊 (Arc)}} 的話，我們記為 $\DEdge{u}{v}$，代表這條邊只能從 $u$ 走到 $v$，但不能從 $v$ 走回 $u$，如圖 \ref{fig:edge_arc}。
 \begin{figure}[h!]
 \centering
-\label{fig-edge-and-arc}
 \begin{tikzpicture}
-\tikzset{VertexStyle/.append style={
-  minimum size = 24pt
-}}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
 \SetVertexMath
-\Vertex{u_1} \EA[unit=4](u_1){v_1}
-\Edge(u_1)(v_1)
-\SO(u_1){u_2} \EA[unit=4](u_2){v_2}
-\Edge[style={->}](u_2)(v_2)
+\Vertex[L={u}]{1} \EA[unit=4,L={v}](1){2}
+\SO[L={u}](1){3} \EA[unit=4,L={v}](3){4}
+%<-------------->
+%     Edges
+%<-------------->
+\Edge(1)(2)
+\Edge[style={->}](3)(4)
 \end{tikzpicture}
 \caption{無向邊和有向邊}
+\label{fig:edge_arc}
 \end{figure}
 \paragraph{}一條無向邊 $\UEdge{u}{v}$ 或是有向邊 $\DEdge{u}{v}$，$u$、$v$ 兩點都是這條邊的\textbf{\index[noun]{端點}{端點 (Endpoint, Endvertex)}}。如果有一條邊 $e$ 連接 $u$、$v$ 兩個頂點，我們稱 $u$ 和 $v$ \textbf{\index[noun]{相鄰}{相鄰 (Adjacent)}}，或是互相稱為鄰點 (Adjacent Node)；而 $e$ 和頂點 $u$、$v$ \textbf{\index[noun]{相接}{相接 (Incidence)}}。若兩條邊 $e_1$、$e_2$ 至少有一個相同的端點，我們也稱 $e_1$、$e_2$ 相鄰，或是互相稱為鄰邊 (Adjacent Edge)。
-\paragraph{}我們可以把圖 \ref{fig-a-graph} 的頂點編號 (Vertex-labeled) 為 $V=\{v_0,v_1,v_2\}$，我們會得到三條邊：$E=\{\UEdge{v_1}{v_2},\UEdge{v_2}{v_3},\UEdge{v_3}{v_1}\}$，因此圖 ~\ref{fig-a-graph} 用數學來表示即為
+\paragraph{}我們可以把圖 \ref{fig:a_graph} 的頂點編號 (Vertex-labeled) 為 $V=\{v_1,v_2,v_3\}$，我們會得到三條邊：$E=\{\UEdge{v_1}{v_2},\UEdge{v_2}{v_3},\UEdge{v_3}{v_1}\}$，因此圖 \ref{fig:a_graph} 用數學來表示即為
 \begin{align*}
 G&=(V,E)\\
- &=(\{v_1,v_2,v_3\},\{\UEdge{v_1}{v_2},\UEdge{v_2}{v_3},\UEdge{v_1}{v_3}\})
+ &=(\{v_1,v_2,v_3\},\{\UEdge{v_1}{v_2},\UEdge{v_2}{v_3},\UEdge{v_3}{v_1}\})
 \end{align*}
-\paragraph{}結果如圖 \ref{fig-label-a-graph}。
+\paragraph{}結果如圖 \ref{fig:a_graph_label}。
+\paragraph{}有時候，我們會對邊進行編號 (Edge-labeled)，圖 \ref{fig:a_graph_label} 中，我們依序將邊編號為 $e_1=\UEdge{v_1}{v_2}$、$e_2=\UEdge{v_2}{v_3}$、$e_3=\UEdge{v_3}{v_1}$。
 \begin{figure}[h!]
 \centering
-\label{fig-label-a-graph}
 \begin{tikzpicture}
-\tikzset{VertexStyle/.append style={
-  minimum size = 24pt
-}}
-\SetGraphUnit{2}
+\SetGraphUnit{2.7}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
 \SetVertexMath
-\begin{scope}[rotate=-30]
+\begin{scope}[rotate=90]
   \Vertices{circle}{v_1,v_2,v_3}
 \end{scope}
-\Edge[label={$e_1$}](v_1)(v_2)
-\Edge[label={$e_2$}](v_2)(v_3)
-\Edge[label={$e_3$}](v_3)(v_1)
+%<-------------->
+%     Edges
+%<-------------->
+\Edge[label={$e_1=\UEdge{v_1}{v_2}$}](v_1)(v_2)
+\Edge[label={$e_2=\UEdge{v_2}{v_3}$}](v_2)(v_3)
+\Edge[label={$e_3=\UEdge{v_3}{v_1}$}](v_3)(v_1)
 \end{tikzpicture}
 \caption{編號}
+\label{fig:a_graph_label}
 \end{figure}
-\paragraph{}\ref{algo-bellman-ford}
-\paragraph{}有時候，我們會對邊進行編號 (Edge-labeled)，例如圖 9.4 中，我們依序將邊編號為 $e_1=\UEdge{v_1}{v_2}$、$e_2=\UEdge{v_2}{v_3}$、$e_3=\UEdge{v_1}{v_3}$。
-\paragraph{}有了編號的觀念後，我們再看有向邊的性質。對於有向邊 $\DEdge{u}{v}$，頂點 $u$ 稱為頂點 $v$ 的\index[noun]{前驅}{前驅 (Successor)}，$v$ 稱為 $u$ 的\index[noun]{後繼}{後繼 (Predecessor)}，如圖 9.5，頂點 $v_1$ 的前驅有 $v_4$、$v_6$、$v_7$、$v_8$ 這 4 個頂點，而後繼有 $v_2$、$v_3$、$v_5$ 這 3 個節點。
-\paragraph{}對於頂點 $u$，所有連向後繼 $v$ 的邊，我們稱為\index[noun]{前向星}{前向星 (Forward Star)}；若是對於頂點 $v$，所有連向前驅 $u$ 的邊，我們稱為\index[noun]{後向星}{後向星 (Backward Star)}， 所有的前向星和後向星合稱為\index[noun]{星}{星 (Star)}。回到圖 9.5，我們可以找出頂點 $v_1$ 的前向星為 $\{\DEdge{v_1}{v_2},\DEdge{v_1}{v_3},\DEdge{v_1}{v_5}\}$、後向星為 $\{{\DEdge{v_4}{v_1},\DEdge{v_6}{v_1},\DEdge{v_7}{v_1},\DEdge{v_8}{v_1}}\}$，而這些邊形成的集合就是頂點 $v_1$ 的星。
+
+\paragraph{}有了編號的觀念後，我們再看有向邊的性質。對於有向邊 $\DEdge{u}{v}$，頂點 $u$ 稱為頂點 $v$ 的\index[noun]{前驅}{前驅 (Successor)}，$v$ 稱為 $u$ 的\index[noun]{後繼}{後繼 (Predecessor)}，如圖 \ref{fig:graph_star}，頂點 $v_1$ 的前驅有 $v_4$、$v_6$、$v_7$、$v_8$ 這 4 個頂點，而後繼有 $v_2$、$v_3$、$v_5$ 這 3 個節點。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{2.5}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
+\SetVertexMath
+\begin{scope}
+  \Vertex{v_1}
+  \Vertices{circle}{v_2,v_3,v_4,v_5,v_6,v_7,v_8}
+\end{scope}
+%<-------------->
+%     Edges
+%<-------------->
+\Edge[style={->}](v_1)(v_2)
+\Edge[style={->}](v_1)(v_3)
+\Edge[style={->}](v_1)(v_5)
+\Edge[style={->}](v_4)(v_1)
+\Edge[style={->}](v_6)(v_1)
+\Edge[style={->}](v_7)(v_1)
+\Edge[style={->}](v_8)(v_1)
+\end{tikzpicture}
+\caption{前驅和後繼}
+\label{fig:graph_star}
+\end{figure}
+
+\paragraph{}對於頂點 $u$，所有連向後繼 $v$ 的邊，我們稱為\textbf{\index[noun]{前向星}{前向星 (Forward Star)}}；若是對於頂點 $v$，所有連向前驅 $u$ 的邊，我們稱為\index[noun]{後向星}{後向星 (Backward Star)}， 所有的前向星和後向星合稱為\index[noun]{星}{星 (Star)}。回到圖 \ref{fig:graph_star}，我們可以找出頂點 $v_1$ 的前向星為 $\{\DEdge{v_1}{v_2},\DEdge{v_1}{v_3},\DEdge{v_1}{v_5}\}$、後向星為 $\{{\DEdge{v_4}{v_1},\DEdge{v_6}{v_1},\DEdge{v_7}{v_1},\DEdge{v_8}{v_1}}\}$，而這些邊形成的集合就是頂點 $v_1$ 的星。
 
 \subsection{圖與分支度}
-\paragraph{}如果一張圖 $G$ 皆由無向邊構成，我們稱為\textbf{\index[noun]{無向圖}{無向圖 (Undirected Graph)}}，例如，圖 9.1 就是一張無向圖；如果都是由有向邊所構成，則稱為\textbf{\index[noun]{有向圖}{有向圖 (Directed Graph, Digraph)}}，圖 9.6 表示一有向圖；若不全為無向邊和有向邊，則稱為\index[noun]{混合圖}{混合圖 (Mixed Graph)}。
-\paragraph{}我們會計算圖 $G$ 中，一個頂點 $u$ 的\textbf{\index[noun]{分支度}{分支度 (Degree)}}，代表這個頂點和邊的相接數量，記為 $\Deg{u}$，例如圖 9.7 中，節點 $v_1$ 的分支度為 3，因為它有相接的 3 條邊：$\UEdge{v_1}{v_2}$、$\UEdge{v_1}{v_3}$、$\UEdge{v_1}{v_5}$；節點 $v_4$ 的分支度為 $\Deg{v_4}=2$，相接的邊為 $\UEdge{v_2}{v_4}$、$\UEdge{v_4}{v_5}$，以此類推。
-\paragraph{}我們也會計算整張圖 $G$ 的\textbf{\index[noun]{總分支度}{總分支度 (Total Degree)}} $d(G)$，它代表每個點分支度的總和，我們依然以圖 9.7 為例，我們依序求出各節點的分支度：$\Deg{v_1}=3$、$\Deg{v_2}=3$、$\Deg{v_3}=3$、$\Deg{v_4}=2$、$\Deg{v_5}=2$、$\Deg{v_6}=1$，我們可以求出總分支度：
+\paragraph{}如果一張圖 $G$ 皆由無向邊構成，我們稱為\textbf{\index[noun]{無向圖}{無向圖 (Undirected Graph)}}，例如，圖 \ref{fig:a_graph} 就是一張無向圖；如果都是由有向邊所構成，則稱為\textbf{\index[noun]{有向圖}{有向圖 (Directed Graph, Digraph)}}，圖 \ref{fig:directed_graph} 表示一有向圖；若不全為無向邊和有向邊，則稱為\index[noun]{混合圖}{混合圖 (Mixed Graph)}。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{2}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
+\SetVertexNoLabel
+\Vertices{circle}{2,3,4}
+\EA(2){1}
+%<-------------->
+%     Edges
+%<-------------->
+\Edges[style={->}](1,2,3,4,2)
+\end{tikzpicture}
+\caption{有向圖}
+\label{fig:directed_graph}
+\end{figure}
+
+\paragraph{}我們會計算圖 $G$ 中，一個頂點 $u$ 的\textbf{\index[noun]{分支度}{分支度 (Degree)}}，代表這個頂點和邊的相接數量，記為 $\Deg{u}$，例如圖 \ref{fig:degree_cal} 中，節點 $v_1$ 的分支度為 3，因為它有相接的 3 條邊：$\UEdge{v_1}{v_2}$、$\UEdge{v_1}{v_3}$、$\UEdge{v_1}{v_5}$；節點 $v_4$ 的分支度為 $\Deg{v_4}=2$，相接的邊為 $\UEdge{v_2}{v_4}$、$\UEdge{v_4}{v_5}$，以此類推。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.5}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
+\SetVertexMath
+\begin{scope}[rotate=120]
+  \Vertices{circle}{v_1,v_3,v_2}
+\end{scope}
+\EA[unit=4](v_1){v_5}
+\EA[unit=4](v_3){v_4}
+\SO[unit=2](v_3){v_6}
+%<-------------->
+%     Edges
+%<-------------->
+\Edges(v_1,v_2,v_3,v_1,v_5,v_4,v_2)
+\Edge(v_3)(v_6)
+\end{tikzpicture}
+\caption{計算分支度}
+\label{fig:degree_cal}
+\end{figure}
+
+\paragraph{}我們也會計算整張圖 $G$ 的\textbf{\index[noun]{總分支度}{總分支度 (Total Degree)}} $d(G)$，它代表每個點分支度的總和，我們依然以圖 \ref{fig:degree_cal} 為例，我們依序求出各節點的分支度：$\Deg{v_1}=3$、$\Deg{v_2}=3$、$\Deg{v_3}=3$、$\Deg{v_4}=2$、$\Deg{v_5}=2$、$\Deg{v_6}=1$，我們可以求出總分支度：
 \begin{align*}
 d(G)=\Deg{v_1}+\Deg{v_2}+\Deg{v_3}+\Deg{v_4}+\Deg{v_5}=14
 \end{align*}
 \paragraph{}我們可以從總分支度發現一個性質：那就是不管圖 $G$ 長什麼樣子，$d(G)$ 必為偶數。為什麼呢？我們想想，對於節點 $u$，當你分支度增加時，代表有新的邊和節點 $u$ 相接，那麼分支度實際上會和邊有關，我們換個角度來觀察，一條邊有兩個端點，每個端點都會貢獻「1 個」分支度，因此不管圖 $G$ 為何，總分支度恰好就是邊數的 2 倍。
 \begin{align}
-\label{eq-degree-twice-edges}
+\label{eq:degree_twice_edges}
 d(G)=\sum_{u\in{V(G)}}{\Deg{u}}=2\times{|E(G)|}
 \end{align}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.5}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
+\SetVertexMath
+\begin{scope}[rotate=120]
+  \Vertices{circle}{v_1,v_3,v_2}
+\end{scope}
+\EA[unit=4](v_1){v_5}
+\EA[unit=4](v_3){v_4}
+\SO[unit=2](v_3){v_6}
+%<-------------->
+%     Edges
+%<-------------->
+\Edges[style={->}](v_1,v_2,v_3,v_6)
+\Edges[style={->}](v_1,v_5,v_4,v_6)
+\Edges[style={->}](v_1,v_3,v_4)
+\end{tikzpicture}
+\caption{入分支度和出分支度}
+\label{fig:directed_cal_degree}
+\end{figure}
+
 \paragraph{}如果是有向圖 $G$，我們會計算\textbf{\index[noun]{出分支度}{出分支度 (Outdegree)}} 和\textbf{\index[noun]{入分支度}{入分支度 (Indegree)}}，出分支度記為 $\OutDeg{u}$，代表所有和節點 $u$ 相接的有向邊中，從頂點 $u$ 出去邊的個數，也就是所有 $\DEdge{u}{v}$ 的個數；入分支度記為 $\InDeg{u}$，代表所有和節點 $u$ 相接的有向邊中，所有 $\DEdge{v}{u}$ 的個數。如果一個節點 $u$ 的入分支度為 0，我們稱為\textbf{\index[noun]{源點}{源點 (Source)}}；如果出分支度為 0，我們稱為\textbf{\index[noun]{匯點}{匯點 (Sink)}}。
-\paragraph{}圖 9.8 中，節點 $v_3$ 的分支度為 4，因為它是有向圖，所以會特別討論它的出分支度 $\OutDeg{v_3}=2$，因為它有兩條向外的有向邊 $\DEdge{v_3}{v_4}$ 和 $\DEdge{v_3}{v_6}$；入分支度為 $\InDeg{3}=2$，因為有兩條向內的有向邊 $\DEdge{v_1}{v_3}$ 和 $\DEdge{v_2}{v_3}$。此外，因為 $\InDeg{v_1}=0$，節點 $v_1$ 是源點；而 $\OutDeg{v_6}=0$，因此節點 $v_6$ 是匯點。
+\paragraph{}圖 \ref{fig:directed_cal_degree} 中，節點 $v_3$ 的分支度為 4，因為它是有向圖，所以會特別討論它的出分支度 $\OutDeg{v_3}=2$，因為它有兩條向外的有向邊 $\DEdge{v_3}{v_4}$ 和 $\DEdge{v_3}{v_6}$；入分支度為 $\InDeg{v_3}=2$，因為有兩條向內的有向邊 $\DEdge{v_1}{v_3}$ 和 $\DEdge{v_2}{v_3}$。此外，因為 $\InDeg{v_1}=0$，節點 $v_1$ 是源點；而 $\OutDeg{v_6}=0$，因此節點 $v_6$ 是匯點。
 \paragraph{}有向圖的分支度和先前普通的分支度也有相似的性質，我們也會定義總入分支度 $d^{-}{(G)}=\sum_{u\in{V}}{\InDeg{u}}$，總出分支度為 $d^{+}{(G)}=\sum_{u\in{V}}{\OutDeg{u}}$，我們看有向邊 $\DEdge{u}{v}$ 的性質：它端點 $u$ 是出去的方向，因此 $u$ 的出分支度會加 1；而節點 $v$ 是進去的方向，$v$ 的入分支度也會加 1。總和而言，總出分支度會等於總入分支度，同時，這兩個度數也會等於有向邊的邊數。
 \begin{align}
-\label{eq-degree-directed}
+\label{eq:degree_directed}
 d^{+}{(G)}&=d^{-}{(G)}=|E(G)|\\
 d(G)&=d^{+}{(G)}+d^{-}{(G)}
 \end{align}
-\paragraph{}如果一張圖 $G$，其中兩個頂點間有一條以上的邊 (稱為\index[noun]{重邊}{重邊}) 或者存在\textbf{\index[noun]{自環}{自環}}(形如 $\UEdge{u}{u}$ 或者 $\DEdge{u}{u}$ 的邊)，稱為\index[noun]{複圖}{複圖 (Multigraph)}，反之如果任兩個頂點有不超過一條的邊，就稱為\textbf{\index[noun]{簡單圖}{簡單圖 (Simple Graph)}}，一般來說我們沒有特別稱呼「圖」的話，就是指\index[noun]{簡單無向圖}{簡單無向圖}。圖 9.9 表示一個複圖和一個簡單圖。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.5}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
+\SetVertexNoLabel
+\Vertices{circle}{2,3,4}
+\EA(2){1}
+%<-------------->
+%     Edges
+%<-------------->
+\Edges[style={->}](1,2,3,4,2)
+\Edge(1)(3)
+\Edge[style={bend left}](2)(4)
+\Edge[style={bend right}](1)(3)
+\end{tikzpicture}
+\begin{tikzpicture}
+\SetGraphUnit{1.5}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexNormal[MinSize=24pt]
+\SetVertexNoLabel
+\Vertices{circle}{2,3,4}
+\EA(2){1}
+%<-------------->
+%     Edges
+%<-------------->
+\Edges[style={->}](1,2,3,4,2)
+\Edge[style={bend right}](1)(3)
+\end{tikzpicture}
+\caption{複圖和簡單圖}
+\label{fig:multigraph_and_simple}
+\end{figure}
+\paragraph{}如果一張圖 $G$，其中兩個頂點間有一條以上的邊 (稱為\index[noun]{重邊}{重邊}) 或者存在\textbf{\index[noun]{自環}{自環}}(形如 $\UEdge{u}{u}$ 或者 $\DEdge{u}{u}$ 的邊)，稱為\index[noun]{複圖}{複圖 (Multigraph)}，反之如果任兩個頂點有不超過一條的邊，就稱為\textbf{\index[noun]{簡單圖}{簡單圖 (Simple Graph)}}，一般來說我們沒有特別稱呼「圖」的話，就是指\index[noun]{簡單無向圖}{簡單無向圖}。圖 \ref{fig:multigraph_and_simple} 表示一個複圖和一個簡單圖。
 
 \subsection{子圖}
-\paragraph{}在任意一張圖 $G=(V_G, E_G)$ 中，有另一張圖 $H=(V_H, E_H)$，其中 $V_H$ 是 $V_G$ 的子集合，$E_H$ 是 $E_G$ 的子集合，則稱 $H$ 是 $G$ 的\textbf{\index[noun]{子圖}{子圖 (Subgraph)}}。如果 $V_H=V_G$ 的話，則稱 $H$ 為\textbf{\index[noun]{生成子圖}{生成子圖 (Spanning Subgraph)}}。下列數張圖 $G$ 中，$V_G=\{v_1,v_2,\cdots{},v_9\}$、$E_G=\{e_1,e_2,\cdots{},e_{11}\}$，圖 9.10 是其中一個子圖，而圖 9.11 是生成子圖。
-\paragraph{}上圖 9.10 的子圖 $H$ 為
-\begin{align*}
-V_H&=\{v_1,v_2,v_3,v_6,v_7,v_8\}\\
-E_H&=\{e_1,e_2,e_3,e_4,e_5,e_6\}
-\end{align*}
-\paragraph{}而下圖 9.11 的生成子圖中
-\begin{align*}
-V_H&=V_G\\
-E_H&=\{e_1,e_2,e_3,e_4,e_5,e_6\}
-\end{align*}
+\paragraph{}在任意一張圖 $G=(V_G, E_G)$ 中，有另一張圖 $H=(V_H, E_H)$，其中 $V_H$ 是 $V_G$ 的子集合，$E_H$ 是 $E_G$ 的子集合，則稱 $H$ 是 $G$ 的\textbf{\index[noun]{子圖}{子圖 (Subgraph)}}。如果 $V_H=V_G$ 的話，則稱 $H$ 為\textbf{\index[noun]{生成子圖}{生成子圖 (Spanning Subgraph)}}。下列數張圖 $G$ 中，$V_G=\{v_1,v_2,\cdots{},v_9\}$、$E_G=\{e_1,e_2,\cdots{},e_{11}\}$，圖 \ref{fig:subgraph} 是其中一個子圖，而圖 \ref{fig:subgraph_induced} 是生成子圖。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.3}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexMath
+\SetVertexNormal[MinSize=24pt]
+\Vertex[L={v_9}]{9}
+\SelectedVertexStyle
+\NOEA[L={v_3}](9){3} \WE[unit=2.6,L={v_8}](9){8} \SO[unit=2.6,L={v_6}](9){6}
+\WE[unit=2.6,L={v_2}](3){2} \SOEA[unit=2.6,L={v_4}](3){4}
+\NOWE[L={v_1}](2){1} \WE[unit=2.6,L={v_7}](6){7}
+\SetVertexNormal[MinSize=24pt]
+\SOWE[L={v_5}](4){5}
+%<-------------->
+%     Edges
+%<-------------->
+\Edge[label={$e_3$}](3)(4)
+\Edge[label={$e_4$}](4)(5)
+\Edge[label={$e_5$}](5)(6)
+\Edge[label={$e_7$}](6)(8)
+\Edge[label={$e_8$}](6)(9)
+\Edge[label={$e_9$}](9)(3)
+\Edge[label={$e_{10}$}](9)(8)
+\Edge[label={$e_{11}$}](2)(8)
+\SetUpEdge[lw=2pt]
+\Edge[label={$e_1$}](1)(2)
+\Edge[label={$e_2$}](2)(3)
+\Edge[label={$e_6$}](6)(7)
+\end{tikzpicture}
+\caption{子圖}
+\label{fig:subgraph}
+\end{figure}
+
+\paragraph{}上圖 \ref{fig:subgraph} 的子圖 $H$ 為 $V_H=\{{v_1,v_2,v_3,v_4,v_6,v_7,v_8}\}$、$E_H=\{{e_1,e_2,e_6}\}$。而下圖 \ref{fig:subgraph_spanning} 的生成子圖中 $V_H=V_G$、$E_H=\{{e_1,e_2,e_3,e_4,e_5,e_6}\}$。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.3}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexMath
+\SelectedVertexStyle
+\Vertex[L={v_9}]{9}
+\NOEA[L={v_3}](9){3} \WE[unit=2.6,L={v_8}](9){8} \SO[unit=2.6,L={v_6}](9){6}
+\WE[unit=2.6,L={v_2}](3){2} \SOEA[unit=2.6,L={v_4}](3){4}
+\NOWE[L={v_1}](2){1} \WE[unit=2.6,L={v_7}](6){7}
+\SOWE[L={v_5}](4){5}
+%<-------------->
+%     Edges
+%<-------------->
+\Edge[label={$e_7$}](6)(8)
+\Edge[label={$e_8$}](6)(9)
+\Edge[label={$e_9$}](9)(3)
+\Edge[label={$e_{10}$}](9)(8)
+\Edge[label={$e_{11}$}](2)(8)
+\SetUpEdge[lw=2pt]
+\Edge[label={$e_1$}](1)(2)
+\Edge[label={$e_2$}](2)(3)
+\Edge[label={$e_3$}](3)(4)
+\Edge[label={$e_4$}](4)(5)
+\Edge[label={$e_5$}](5)(6)
+\Edge[label={$e_6$}](6)(7)
+\end{tikzpicture}
+\caption{生成子圖}
+\label{fig:subgraph_spanning}
+\end{figure}
+
 \paragraph{}在圖 $G=(V_G, E_G)$ 中，如果子圖 $H$ 的頂點集合為 $V_H$ 是 $V_G$ 的子集合，對於 $E_G$ 中所有的邊 $\UEdge{u}{v}$，當頂點 $u$、$v$ 都屬於 $V_H$，而邊 $\UEdge{u}{v}$ 屬於 $E_H$ 的話，則稱 $H$ 為\textbf{\index[noun]{導出子圖}{導出子圖 (Induced Subgraph)}}，記為 $G[V_H]$，代表圖 $H$ 有一些頂點，而 $H$ 的邊取決於圖 $G$ 中頂點在 $H$ 內的所有邊。同樣地，如果子圖的邊集合為 $E_H$ 是 $E_G$ 的子集合，對於所有 $V_H$ 中的頂點 $u$，如果 $u$ 在 $E_H$ 其中一條邊的端點上，則 $u$ 在 $V_H$ 中，我們稱 $H$ 為\index[noun]{邊導出子圖}{邊導出子圖 (Edge-induced Subgraph)}，記為 $G[E_H]$。
-\paragraph{}例如，圖 9.12 是一個導出子圖 $H$，它的頂點集合 $V_H=\{v_1,v_2,v_3,v_8,v_9\}$，所以邊集合為 $E_H=\{e_1,e_2,e_9,e_{10},e_{11}\}$。反之，像圖 9.9 就不是一個導出子圖，因為頂點 $v_2$ 和 $v_8$ 都屬於 $V_H$，但 $e_{11}$ 卻不屬於 $E_H$；$e_4=\UEdge{v_4}{v_5}$ 屬於 $E_H$，但頂點 $v_4$ 和 $v_5$ 不屬於 $V_H$。
+\paragraph{}例如，圖 \ref{fig:subgraph_induced} 是一個導出子圖 $H$，它的頂點集合 $V_H=\{{v_1,v_2,v_3,v_8,v_9}\}$，所以邊集合為 $E_H=\{{e_1,e_2,e_9,e_{10},e_{11}}\}$。反之，像圖 \ref{fig:subgraph} 就不是一個導出子圖，因為頂點 $v_2$ 和 $v_8$ 都屬於 $V_H$，但 $e_{11}$ 卻不屬於 $E_H$；$e_4=\UEdge{v_4}{v_5}$ 屬於 $E_H$，但頂點 $v_4$ 和 $v_5$ 不屬於 $V_H$。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.3}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexMath
+\SelectedVertexStyle
+\Vertex[L={v_9}]{9}
+\NOEA[L={v_3}](9){3} \WE[unit=2.6,L={v_8}](9){8}
+\WE[unit=2.6,L={v_2}](3){2} \NOWE[L={v_1}](2){1}
+\SetVertexNormal[MinSize=24pt]
+\SO[unit=2.6,L={v_6}](9){6} \WE[unit=2.6,L={v_7}](6){7}
+\SOEA[unit=2.6,L={v_4}](3){4} \SOWE[L={v_5}](4){5}
+%<-------------->
+%     Edges
+%<-------------->
+\Edge[label={$e_3$}](3)(4)
+\Edge[label={$e_4$}](4)(5)
+\Edge[label={$e_5$}](5)(6)
+\Edge[label={$e_6$}](6)(7)
+\Edge[label={$e_7$}](6)(8)
+\Edge[label={$e_8$}](6)(9)
+\SetUpEdge[lw=2pt]
+\Edge[label={$e_1$}](1)(2)
+\Edge[label={$e_2$}](2)(3)
+\Edge[label={$e_9$}](9)(3)
+\Edge[label={$e_{10}$}](9)(8)
+\Edge[label={$e_{11}$}](2)(8)
+\end{tikzpicture}
+\caption{導出子圖}
+\label{fig:subgraph_induced}
+\end{figure}
 
 \subsection{路徑與環}
 \paragraph{}$W$ 是在圖 $G=(V_G,E_G)$ 中，一個起始於頂點、終於頂點，且頂點和邊交錯的序列 $W=\{{v_1,e_1,v_2,e_2,\cdots{}, v_i,e_i,v_{i+1},\cdots{},e_{n-1},v_n}\}$，其中 $v_1,v_2,\cdots{},v_n$ 屬於 $V_G$，$e_1,e_2,\cdots{},e_{n-1}$ 屬於 $E_G$，且每條邊 $e_i$ 都是 $\UEdge{v_i}{v_{i+1}}$ 或 $\DEdge{v_i}{v_{i+1}}$。則我們把 $W$ 稱為\textbf{\index[noun]{道路}{道路 (Walk)}}，其中 $v_1$ 是\textbf{起點}，$v_n$ 是\textbf{終點}。如果 $v_1$ 和 $v_n$ 是相同頂點，則稱為\index[noun]{封閉道路}{封閉道路 (Close Walk)}；反之，如果 $v_1$ 和 $v_n$ 不同，則稱為\index[noun]{開放道路}{開放道路 (Open Walk)}。在簡單圖中，兩個相同的頂點指的是相同邊，因此我們可以只用頂點來描述一條道路 $W=\{{v_1,v_2,\cdots{},v_i,v_{i+1},\cdots{},v_n}\}$。
 \paragraph{}道路的長度 $L$ 代表道路中邊的數量。如果是封閉道路，長度 $L=|E(W)|=|V(W)|$；如果是開放道路的話，長度則為 $L=|E(W)|=|V(W)|-1$。
-\paragraph{}如果一條開放道路中，所有的邊都不重複，我們稱為\textbf{\index[noun]{行跡}{行跡 (Trail)}}，例如圖 9.13 就是一條行跡 $\{{v_7,e_6,v_6,e_8,v_9,e_9,v_3,e_3,v_4,e_4,v_5,e_5,v_6,e_7,v_8}\}$。
-\paragraph{}如果一條開放道路中，所有的頂點都不會重複的話，我們就稱為\textbf{\index[noun]{路徑}{路徑 (Path)}}，又稱為\index[noun]{簡單路徑}{簡單路徑 (Simple Path)} ，後者源於古時候，路徑這個名詞被當做任意一條開放道路，在現在的意義上，路徑即代表簡單路徑，為何被稱為簡單路徑呢？那是因為，如果頂點不重複，那麼邊也不會重複，讀者可以好好想想為什麼，依然跟邊的性質有關。一條頂點數為 $n$ 的路徑我們記為 $P_n$，下圖 9.14 代表一條路徑 $P_7=\{{v_1,v_2,v_3,v_4,v_5,v_6,v_7}\}$。
+\paragraph{}如果一條開放道路中，所有的邊都不重複，我們稱為\textbf{\index[noun]{行跡}{行跡 (Trail)}}，例如圖 \ref{fig:graph_walk} 就是一條行跡 $\{{v_7,e_6,v_6,e_8,v_9,e_9,v_3,e_3,v_4,e_4,v_5,e_5,v_6,e_7,v_8}\}$。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.3}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexMath
+\SelectedVertexStyle
+\Vertex[L={v_9}]{9} \WE[unit=2.6,L={v_8}](9){8}
+\NOEA[L={v_3}](9){3} \SOEA[unit=2.6,L={v_4}](3){4} \SOWE[L={v_5}](4){5}
+\SO[unit=2.6,L={v_6}](9){6} \WE[unit=2.6,L={v_7}](6){7}
+\SetVertexNormal[MinSize=24pt]
+\WE[unit=2.6,L={v_2}](3){2} \NOWE[L={v_1}](2){1}
+%<-------------->
+%     Edges
+%<-------------->
+\Edge[label={$e_1$}](1)(2)
+\Edge[label={$e_2$}](2)(3)
+\Edge[label={$e_{10}$}](9)(8)
+\Edge[label={$e_{11}$}](2)(8)
+\SetUpEdge[lw=2pt]
+\Edge[label={$e_3$}](3)(4)
+\Edge[label={$e_4$}](4)(5)
+\Edge[label={$e_5$}](5)(6)
+\Edge[label={$e_6$}](6)(7)
+\Edge[label={$e_7$}](6)(8)
+\Edge[label={$e_8$}](6)(9)
+\Edge[label={$e_9$}](9)(3)
+\end{tikzpicture}
+\caption{行跡}
+\label{fig:graph_walk}
+\end{figure}
+
+\paragraph{}如果一條開放道路中，所有的頂點都不會重複的話，我們就稱為\textbf{\index[noun]{路徑}{路徑 (Path)}}，又稱為\index[noun]{簡單路徑}{簡單路徑 (Simple Path)} ，後者源於古時候，路徑這個名詞被當做任意一條開放道路，在現在的意義上，路徑即代表簡單路徑，為何被稱為簡單路徑呢？那是因為，如果頂點不重複，那麼邊也不會重複，讀者可以好好想想為什麼，依然跟邊的性質有關。一條頂點數為 $n$ 的路徑我們記為 $P_n$，下圖 \ref{fig:graph_path} 代表一條路徑 $P_7=\{{v_1,v_2,v_3,v_4,v_5,v_6,v_7}\}$。
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\SetGraphUnit{1.3}
+%<-------------->
+%    Vertices
+%<-------------->
+\SetVertexMath
+\SetVertexNormal[MinSize=24pt]
+\Vertex[L={v_9}]{9} \WE[unit=2.6,L={v_8}](9){8}
+\SelectedVertexStyle
+\NOEA[L={v_3}](9){3} \SO[unit=2.6,L={v_6}](9){6}
+\WE[unit=2.6,L={v_2}](3){2} \SOEA[unit=2.6,L={v_4}](3){4}
+\NOWE[L={v_1}](2){1} \WE[unit=2.6,L={v_7}](6){7}
+\SOWE[L={v_5}](4){5}
+%<-------------->
+%     Edges
+%<-------------->
+\Edge[label={$e_7$}](6)(8)
+\Edge[label={$e_8$}](6)(9)
+\Edge[label={$e_9$}](9)(3)
+\Edge[label={$e_{10}$}](9)(8)
+\Edge[label={$e_{11}$}](2)(8)
+\SetUpEdge[lw=2pt]
+\Edge[label={$e_1$}](1)(2)
+\Edge[label={$e_2$}](2)(3)
+\Edge[label={$e_3$}](3)(4)
+\Edge[label={$e_4$}](4)(5)
+\Edge[label={$e_5$}](5)(6)
+\Edge[label={$e_6$}](6)(7)
+\end{tikzpicture}
+\caption{路徑}
+\label{fig:graph_path}
+\end{figure}
+
 \paragraph{}接著，如果一條封閉道路的邊不重複，我們稱為\textbf{\index[noun]{迴路}{迴路 (Circuit, Tour)}}。如果封閉道路中，所有的頂點不重複，則稱為\textbf{\index[noun]{環}{環 (Cycle)}} 或是簡單環 (Simple Cycle)，後者的理由和簡單路徑一樣，在現在已不常用這名詞。一個長度為 $n$ 的環記為 $C_n$ (通常 $n>2$)，下圖 9.15 就是一個 $C_4$ 環 $C_4=\{{v_2,v_3,v_8,v_9}\}$。
 \paragraph{}一個環的頂點數量若是奇數的話，稱為\index[noun]{奇環}{奇環 (Odd Cycle)}；若為偶數，則稱為\index[noun]{偶環}{偶環 (Even Cycle)}。如果一張圖是\textbf{\index[noun]{無環圖}{無環圖 (Acyclic Graph)}} 的話，那麼圖上不會有環存在。
 
 \subsection{二分圖與完全圖}
 \paragraph{}圖 $G$ 的頂點數 $n$，其中任兩個頂點間恰有一條邊，我們稱為\index[noun]{完全圖}{完全圖 (Complete Graph)}，記做 $K_n$。完全圖有 $n\times{(n-1)}/2$ 條邊，而且完全圖、路徑和環有以下性質：
 \begin{align}
-\label{eq-complete-graph}
+\label{eq:complete_graph}
 P_1&=K_1\\
 P_2&=K_2\\
 C_3&=K_3
@@ -184,8 +557,40 @@ C_3&=K_3
 \paragraph{}一張圖有時會帶\textbf{\index[noun]{權重}{權重 (Weight, Cost)}}：權重是一個實數，通常是一個非負整數或是一個有理數，若權重在邊上，就代表邊的一種性質，讀者可以想像成是這條邊的長度；或者這條邊是一條水管，而上面的權重代表流量限制，$\cdots\cdots$等等。有時候權重也會在頂點上，它可以代表這個頂點的大小、顏色、重量、$\cdots\cdots$之類，這些條件端看題目怎麼設計。不管是邊有權重還是點有權重，我們都稱為\textbf{\index[noun]{帶權圖}{帶權圖 (Weighted Graph)}}，假設有一條邊 $e=\UEdge{u}{v}$，其權重我們會記為 $\omega{(e)}$ 或是 $\omega{\UEdge{u}{v}}$。圖 9.22 是典型的帶權圖：
 
 \section{圖的表示法 (Representation)}
+
+\paragraph{}如同樹一樣，我們也需要適當的資料結構來儲存圖的資訊，一張圖的頂點我們通常將其編號為 0 ~ n-1 或 1 ~ n 兩種，因此在記錄頂點的資訊上只要開一個陣列就可以處理，因此我們主要的重點是如何儲存邊，使用不同儲存邊的方法會有不同的優缺點和用途。
+\paragraph{}下面我們會以圖 9.8 (有向圖)、圖 9.21 (無向圖)、圖 9.22 (帶權圖) 為例，簡介各種儲存方式的差異和技巧，特定的演算法需要不同的資料結構，所以可以配合之後的章節來看。
+
 \subsection{相鄰矩陣 (Adjacency Matrix)}
+
+\paragraph{}相鄰矩陣是以頂點為主的儲存方法，主要是一個二維陣列 A，陣列的兩個維度是頂點 u 和 v，A[u, v] 代表邊 (u, v) 的情形。如果是簡單無向圖的話，A[u, v] 記錄頂點 u 和頂點 v 之間是否有邊，如果是帶權圖的話，則會記錄 A[u, v] 的權重。
+\paragraph{}相鄰矩陣的優點是實作上很方便，儲存特性較為直觀，而且可直接查詢 A[u, v] 是否有邊。缺點是當我們在做圖遍歷時效率較低，並且如果圖的邊數較少，那麼矩陣中大量的儲存格都沒用到，因此會造成空間上的浪費，最後，如果題目有重邊的情形，相鄰矩陣是無法表現出重邊，因此相鄰矩陣適用在邊數很大 (尤其是完全圖) 的時候。
+\paragraph{}範例 9.22 我們可以看到圖 9.21 用相鄰矩陣的情形，為了某些便利性以及直觀等因素，當 (u, v) 有邊時，我們可以儲存為 1，並且無向圖有一個特點：對於 (u, v) 這條邊，因為我們從頂點 u 到頂點 v 可以經由這條邊連通，因此 A[u, v] = 1，反之我們也可以從頂點 v 藉由 (u, v) 走回頂點 u，因此 A[v, u] = 1。所以我們可以得到結論：
+
+\begin{center}
+對於無向邊 (u, v)，A[u, v] = A[v, u] = 1
+\end{center}
+
+\paragraph{}此外，我們也可以從範例 9.23 看出，這個矩陣的空白處甚多，空白處也就是我們沒有用到的格子，此例因為邊數少而造成空間上不必要的浪費，這類邊數少的圖我們又稱稀疏圖 (Sparse Graph)。空白處的部分，一般來說我們習慣填 0，但由於題目的差異，我們可以填入不同的數字，來區別空白格子和有邊的格子，常見的數字有以下三類：
+
+\begin{itemize}
+\item 0：一般來說都填 0，代表 (u, v) 之間沒有邊
+\item 負數 (如 -1)：和上面用途類似，只是當帶權圖中的邊為非負整數時較常用
+\item 無限大 INF：我們不可能真正存進無限大，只是我們可以算出一個題目怎樣也達不到的數字，來當作無限大，存這個數字通常是要套用一些特定的演算法
+\end{itemize}
+
+\paragraph{}接著我們看有向圖 9.8，因為有向邊 <u, v> 只能從頂點 u 走到頂點 v，因此 A[u, v] = 1，而我們不會修改到 A[v, u]，如範例 9.24。
+\paragraph{}至於帶權圖的話，通常我們會對(u, v) 這條邊儲存 A[u, v] = w(u, v)，如範例 9.25，我們會直接儲存邊的權重，需要注意的是 (3, 6) 這條邊，因為 w(3, 6) = 0，所以並不是空白格子都填 0 就結束了，主要是如何區別有邊和沒邊。
+
+
+\paragraph{}虛擬碼 9.26 表示我們建立一個無向圖的相鄰矩陣，第 05 行我們對相鄰矩陣 A 初始化，接著在第 09 行建邊，時間複雜度 O(n2 + m)，通常一張簡單無向圖的邊數不超過 n(n + 1) / 2、有向圖不超過 n(n + 1)，因此 m = O(n2)，所以建出一個相鄰矩陣的複雜度為 O(n2)。
+
 \subsection{相鄰串列 (Adjacency Lists)}
+
+\paragraph{}由於相鄰矩陣的缺點，在於頂點數很大時會浪費大部分的空間，此時便不適合使用相鄰矩陣，加上有些時候題目給的邊並沒有那麼多，於是我們便從「儲存邊」的方向下去思考。
+\paragraph{}相鄰串列是記錄點和邊之間的關係－－記錄從頂點 u 出去的邊有哪些，因為這個方法多要使用動態陣列，因此多以 STL 呈現。
+\paragraph{}我們同樣從無向圖 9.21 開始觀察：
+
 \subsection{邊列表 (Edge List)}
 \subsection{前向星法 (Forward Star)}
 \subsection{鏈式前向星}
@@ -205,8 +610,8 @@ C_3&=K_3
 
 \subsection{Kruskal's 演算法}
 \begin{algorithm}
-\label{algo-kruskal}
 \caption{Kruskal's 演算法}
+\label{algo:mst_kruskal}
 \begin{algorithmic}[1]
 \Procedure{Kruskal}{$G,\omega$}
   \For {$e\in{E(G)}$}
@@ -250,8 +655,8 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \subsection{Bellman-Ford 演算法}
 
 \begin{algorithm}
-\label{algo-bellman-ford}
 \caption{Bellman-Ford 演算法}
+\label{algo:shortest_path_bellman_ford}
 \begin{algorithmic}[1]
 \Procedure{BellmanFord}{$s, G,\omega$}
   \State\Comment{$path$ 紀錄所有點到 $s$ 當前的最短路徑}
@@ -279,8 +684,8 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \subsection{SPFA}
 \paragraph{}UVa 10986
 \begin{algorithm}
-\label{algo-spfa}
 \caption{Shortest Path Faster Algorithm (SPFA)}
+\label{algo:shortest_path_spfa}
 \begin{algorithmic}[1]
 \Procedure{ShortestPathFasterAlgorithm}{$s, G,\omega$}
   \State\Comment{$path$ 紀錄所有點到 $s$ 當前的最短路徑}
@@ -292,7 +697,7 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
   \While{$Q.size()\geq{1}$}
     \State $u\gets{Q.front()}$
     \State $Q.pop()$
-    \For{$v\in{V(G)}$ where $\UEdge{u}{v}\in{E(G)}$}\Comment{所有和 $u$ 相鄰的點}
+    \For{$v\in{Adj(u)}$}\Comment{所有和 $u$ 相鄰的點}
       \If{$path[u]+\omega{\UEdge{u}{v}}<path[v]$}
         \State $path[v]\gets{path[u]+\omega{\UEdge{u}{v}}}$
         \If{$v\notin{Q}$}
@@ -311,8 +716,8 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \subsection{Floyd-Warshall 演算法}
 \paragraph{}bla bla bla
 \begin{algorithm}
-\label{algo-floyd-warshall}
 \caption{Floyd Warshall 演算法}
+\label{algo:shortest_path_floyd_warshall}
 \begin{algorithmic}[1]
 \Procedure{FloydWarshall}{$G,\omega$}
   \State\Comment{$path$ 紀錄點 $i$ 到 $j$ 當前的最短路徑}
@@ -354,8 +759,8 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \paragraph{}定義強連通後，它和無向圖連通有類似的概念：我們有強連通子圖，代表一張子圖是強連通的。當然，我們並不在乎一個子圖是否強連通，更多時候我們更想知道它極大的強連通子圖------也就是\textbf{\index[noun]{強連通分量}{強連通分量 (Strong Connected Component, SCC)}}。
 \paragraph{}SCC 其實可以看做有向圖中的環，如上圖，我們會重視 SCC 主要的一個原因是，當我們在解決有向圖上的問題時，這些問題往往在無環有向圖 (也就是 DAG 圖) 中會有很好的解決方法，因此一張有向圖，我們只要針對有向環做處理，我們就可以把一張圖轉化為一棵樹。
 \begin{algorithm}
-\label{algo-strong-connected}
 \caption{Tarjan's 演算法}
+\label{algo:scc_tarjan}
 \begin{algorithmic}[1]
 \Procedure{SCC-Tarjan}{$G$}
   \State $Stamp\gets{0}$\Comment{用變數 $Stamp$ 計算進入節點的次數}
@@ -378,11 +783,11 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
   \State $dfn[u]\gets{Stamp}$
   \State $low[u]\gets{Stamp}$
   \State $S.push(u)$
-  \For {$v\in{V(G)}$ where $(u,v)\in{E(G)}$}\Comment{遍歷所有與 $u$ 相鄰的點}
+  \For {$v\in{Adj(u)}$}\Comment{遍歷所有與 $u$ 相鄰的點}
     \If {$dfn[v]=0$}\Comment{沒有遍歷過的節點，就沒有 $dfn$ 和 $low$}
       \State \Call{DfsVisit}{$v$}
     \EndIf
-    \If {$u\in{S}$}
+    \If {$v\in{S}$}
       \State $low[u]\gets{\Call{Min}{low[u],low[v]}}$
     \EndIf
   \EndFor

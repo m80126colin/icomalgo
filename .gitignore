@@ -9,3 +9,5 @@
 *.toc
 *.loa
 *.lof
+*.out
+Thumbs.db
