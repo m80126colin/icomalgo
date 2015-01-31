@@ -1,0 +1,443 @@
+\documentclass[utf8]{beamer}
+
+%% === CJK 套件 ===
+\usepackage{CJKutf8,CJKnumb}                 % 中文套件
+%% === AMS 標準套件 ===
+\usepackage{amsmath,amsfonts,amssymb,amsthm} % 數學符號
+\usepackage{ulem}
+%% ===  ===
+%\usepackage[chapter]{algorithm}              % 演算法套件
+%\usepackage[noend]{algpseudocode}            % pseudocode 套件
+\usepackage{listings}                        % 程式碼
+%% === TikZ 套件 ===
+\usepackage{tikz,tkz-graph,tkz-berge}        % 繪圖
+\usepackage{multicol}
+\usepackage{xkeyval,xargs}
+\usepackage{xcolor}
+
+\usetheme{Boadilla}
+\usecolortheme{whale}
+
+\setbeamertemplate{items}[circle]
+
+%% === 設定 C++ 格式 ===
+\lstset{%
+  language=C++,                     % 設定語言
+  %% === 空白, tab 相關 ===
+  tabsize=2,                            % 設定 tab = 多少空白
+  %showspaces=true,                      % 設定是否標示空白
+  %showtabs=true,                        % 設定是否標示 tab
+  %tab=\rightarrowfill,                  % 設定 tab 樣式
+  %% === 行數相關 ===
+  numbers=left,                         % 行數標示位置
+  stepnumber=1,                         % 每隔幾行標示行數
+  numberstyle=\tiny,
+  %% === 顏色設定 ===
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue}\ttfamily,
+  stringstyle=\color{red!50!brown}\ttfamily,
+  commentstyle=\color{green!50!black}\ttfamily,
+  identifierstyle=\color{black}\ttfamily,
+  emphstyle=\color{purple}\ttfamily,
+  extendedchars=false,
+  texcl=true,
+  moredelim=[l][\color{magenta}]{\#}
+}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\title{基礎程式設計技巧(一)\\程式與計算}
+\author{許胖}
+\institute[PCSH]{板燒高中}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{簡介}
+
+\begin{frame}
+  \frametitle{寫程式的差別}
+  \begin{block}{寫出一個完整的程式 ...}<2->
+    \begin{itemize}[<3->]
+    \item 只要照著講義、照著書打一打，就可以動了。
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{寫「好」一個程式 ...}<4->
+    \begin{enumerate}
+    \item<5-> 要了解資料怎麼儲存在電腦中
+    \item<6-> 程式怎麼開始執行，為什麼會執行
+    \item<7-> 什麼時候會岀什麼狀況，然後判斷出來、修正 (也就是 debug)
+    \item<8-> 用適當的工具解決問題
+    \item<9-> ... 族繁不及\sout{被宰}備載
+    \end{enumerate}
+  \end{exampleblock}
+  \begin{itemize}
+  \item<10-> 以上就是快樂寒訓營的\alert{培訓目標}！
+  \item<11-> 也就是要讓大家熟悉\alert{基本的 C++ 語法}，以及學會基本的 \alert{coding 技巧}。
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{關於許胖講義 ...}
+  \begin{alertblock}{給參與「演算法競賽」的人 ...}<2->
+    \begin{enumerate}
+    \item<3-> 使用一個「有效」的方法解決問題
+    \item<4-> 不僅如此，還要知道不同工具使用上的優缺點
+    \item<5-> 手爆出很多 code，勇往直前
+    \item<6-> 進到 TOI 二階，保送大學
+    \end{enumerate}
+  \end{alertblock}
+  \begin{itemize}
+    \item<7-> 寫程式不是只有演算法比賽，生命也不是只有一個出口
+    \item<7-> 越往這個領域深入，就會看到更多無盡的事物
+    \begin{itemize}
+      \item<8-> 寫遊戲引擎
+      \item<9-> 網頁設計
+      \item<10-> 手機 App
+      \item<11-> 韌體 coding
+    \end{itemize}
+  \end{itemize}
+  \begin{exampleblock}{XD}<12->
+  祝各位接下來一周快樂寫程式 XD！
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents
+  \end{multicols}
+\end{frame}
+
+\section{程式架構}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
+
+\subsection{基本程式架構}
+
+\begin{frame}[fragile]
+  \frametitle{基本程式架構}
+  \begin{block}{C++ 基本架構}
+    \pause
+    \begin{lstlisting}
+    #include <iostream>
+    using namespace std;
+    int main() {
+    }
+    \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{註}<3->
+    \begin{itemize}
+    \item<3-> 怎麼理解？
+      \begin{itemize}[<4->]
+      \item 不需要理解，我們先記起來。
+      \end{itemize}
+    \item<5-> 我們的程式都寫在\alert{大括號}中。
+    \item<6-> 裡面每個符號都要一樣 (分號也是)。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\subsection{輸出}
+
+\begin{frame}[fragile]
+  \frametitle{程式的輸出}
+  \begin{block}{輸出}
+    \begin{enumerate}
+    \item<1-> 試著在剛剛的大括號中打上「\lstinline{cout << 1;}」。
+    \item<3-> 如果只打上「\lstinline{cout << 1}」(去掉分號) 會發生什麼結果？
+    \item<5-> 試試看「\lstinline{cout << 1 << 2;}」，和你所想的有何不同？
+    \item<7-> 那麼「\lstinline{cout << 1 << " " << 2;}」呢？
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}
+    \begin{itemize}
+    \item<2-> \lstinline{cout} 是「輸出」符號，你要輸出的東西用「\lstinline{<<}」串連。
+    \item<4-> 「分號」對 C++ 而言代表「一個句子的結束」，因此當一行\alert{指令結束就要加分號}。
+    \item<6-> \lstinline{<<} 可以串很多東西一起輸出。
+    \item<7-> \lstinline{" "} 是雙引號中間夾著一個「空白」，\alert{要注意}！
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{換行「符號」}
+  \begin{block}{換行}
+    \begin{enumerate}[<+->]
+    \item 試試看「\lstinline{cout << 1 << 2 << endl;}」，和「\lstinline{cout << 1 << 2;}」有什麼不同呢？
+    \item 如果看不出來，試試看「\lstinline{cout << 1 << endl << 2;}」。
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item 「\lstinline{endl}」代表\alert{換行}符號，輸出中很好用。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\subsection{變數}
+
+\begin{frame}[fragile]
+  \frametitle{變數}
+  \begin{block}{變數}
+    \begin{itemize}[<+->]
+    \item 和數學「變數」的概念不太一樣
+    \item 程式的變數像是「\alert{容器}」，可以裝資料。
+    \item C++ 裡，每個容器都要先講好\alert{用途}，這個步驟叫做「\alert{宣告}」。
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{宣告變數}<+->
+  \begin{lstlisting}
+  int x;
+  \end{lstlisting}
+  \end{alertblock}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}[<+->]
+    \item 宣告就是幫變數取名字，此例將變數取名為「\lstinline{x}」。
+    \item 「\lstinline{int}」代表的意義是「\alert{整數}」，規定變數 \lstinline{x} \alert{只能裝整數}。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{變數的功用}
+  \begin{block}{把數字裝到變數}<+->
+  \begin{lstlisting}
+  #include <iostream>
+  using namespace std;
+  int main() {
+    int x;             // 宣告變數 x
+    x = 5;             // 把整數 5 裝進 x 裡面
+    cout << x << endl; // 印出變數 x 存的值
+  }
+  \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item 「\lstinline{int}」宣告變數可以裝整數之外，還有很多不同的種類，以後會慢慢介紹
+    \item<+-> 「\lstinline{x = 5;}」這行\alert{不要}和數學中的「等於」搞混。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{練習看看}
+  \begin{block}{練習}
+    若把上個投影片「\lstinline{x = 5;}」改成
+    \begin{enumerate}[<+->]
+    \item 「\lstinline{x = 5.0;}」會發生什麼事？
+    \item 「\lstinline{x = 0.5;}」呢？
+    \item 那改成「\lstinline{5 = x;}」呢？
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+      \item 這些練習目的是要讓你了解\alert{問題出現時}的現象，了解出問題的原因才有辦法 debug
+      \item<+-> 為什麼會出現這些現象我們繼續下去就知道了
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\subsection{輸入}
+
+\begin{frame}[fragile]
+  \frametitle{程式的輸入}
+  \begin{block}{輸入}
+    執行以下程式
+    \begin{lstlisting}
+    #include <iostream>
+    using namespace std;
+    int main() {
+      int x;
+      cin >> x;
+      cout << x << endl;
+    }
+    \end{lstlisting}
+    會發生什麼事呢？
+  \end{block}
+  \begin{block}{練習}<2->
+  如果沒發生什麼事，試著輸入「1」再按 enter 鍵，會發生什麼事呢？
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{程式的輸入}
+  \begin{block}{練習}
+    \begin{itemize}
+    \item<1-> 如果在 \lstinline{cout} 那一行後面加上「\lstinline{system("PAUSE");}」，再輸入「1」然後按 enter 呢？
+    \item<6-> 如果輸入「5.0」呢？
+    \item<7-> 如果輸入「0.5」呢？
+    \item<8-> 如果輸入「XD」呢？
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{輸入「符號」}<2->
+    \begin{itemize}
+    \item 「\lstinline{cin}」代表輸入符號，可以輸入後面變數的資料。
+      \begin{itemize}
+      \item<3-> 此例中，\lstinline{x} 是整數，因此可以\alert{輸入一個整數}。
+      \item<4-> \lstinline{cin} 的 \alert{\lstinline{>>}} 不要和 \lstinline{cout} 的 \alert{\lstinline{<<}} 搞混。
+      \end{itemize}
+    \item<5-> \lstinline{system("PAUSE");} 代表「暫停」的意思。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\section{算術運算子}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
+
+\subsection{運算性質}
+
+\begin{frame}
+  \frametitle{算術運算子}
+  \begin{table}[h]
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  算術運算子  & 意義 & 運算順序 & 結合性\\
+  \hline
+  +         & 加法 & 5       & 左$\rightarrow$右\\
+  \hline
+  -         & 減法 & 5       & 左$\rightarrow$右\\
+  \hline
+  *         & 乘法 & 4       & 左$\rightarrow$右\\
+  \hline
+  /         & 除法 & 4       & 左$\rightarrow$右\\
+  \hline
+  \%        & 取餘數 & 4       & 左$\rightarrow$右\\
+  \hline
+  \end{tabular}
+  \caption{算術運算子}
+  \end{table}
+  \begin{exampleblock}{註}<2->
+    \begin{itemize}
+    \item<2-> 不管\alert{運算順序}和\alert{結合性}，一般來說可以用五則運算來理解
+    \item<3-> 只不過程式跟數學還是有差距 ...
+      \begin{itemize}[<4->]
+      \item 這個故事說來話長，我們先舉個簡單的例子吧！
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{舉個例子}
+  \begin{exampleblock}{$1+2+3=?$}
+    \begin{itemize}
+    \item<2-> 答案：6。
+    \item<3-> 為什麼？ (謎之音：「什麼為什麼？」)
+    \end{itemize}
+  \end{exampleblock}
+  \begin{block}{定義}<4->
+  \alert{二元運算}有一個\alert{運算子}和兩個\alert{運算元}，例如：
+    \begin{enumerate}
+    \item<5-> $1+2$：「$+$」稱為「運算元」，「$1$」和「$2$」稱為運算子 (我們常稱為「被加數」和「加數」)。
+    \item<6-> 我們可以知道「加減乘除餘」都是二元運算。
+    \end{enumerate}
+  \end{block}
+  \begin{itemize}[<7->]
+  \item Well, 我們回到原來的問題 ...
+  \end{itemize}
+\end{frame}
+
+\subsection{結合性與運算順序}
+
+\begin{frame}
+  \frametitle{回到原來的問題 ...}
+  \begin{exampleblock}{$1+2+3=?$}
+    \begin{itemize}
+    \item \alert{出現大麻煩啦！}
+      \begin{itemize}[<2->]
+        \item 根據剛剛說的，加法只有兩個運算元，那麼「$1+2+3$」該怎麼辦呢？
+      \end{itemize}
+    \item<3-> 解法：決定運算的先後順序。例如：
+      \begin{enumerate}
+        \item<4-> 先算 $1+2=3$，再算 $\alert{3}+3=6$
+        \item<5-> 先算 $2+3=5$，再算 $1+\alert{5}=6$
+      \end{enumerate}
+    \item<6-> 謎之音：「那還不是一樣嘛？廢話= =」
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{注意}
+  決定先後順序對「電腦」而言\alert{意義重大}！
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{再舉個例子 ...}
+  \begin{exampleblock}{$1-2-3=?$}
+    \begin{itemize}
+    \item<1-> 我們直觀上會先算 $1-2=-1$，再算 $\alert{-1}-3=-4$。
+    \item<2-> 因此 C++ 在設計上也會把加減乘除餘的運算順序「設定」成\alert{從左到右算}。
+    \end{itemize}
+  \end{exampleblock}
+  \pause\pause
+  \begin{table}[h]
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  算術運算子  & 意義 & 運算順序 & 結合性\\
+  \hline
+  +         & 加法 & 5       & 左$\rightarrow$右\\
+  \hline
+  -         & 減法 & 5       & 左$\rightarrow$右\\
+  \hline
+  *         & 乘法 & 4       & 左$\rightarrow$右\\
+  \hline
+  /         & 除法 & 4       & 左$\rightarrow$右\\
+  \hline
+  \%        & 取餘數 & 4       & 左$\rightarrow$右\\
+  \hline
+  \end{tabular}
+  \caption{算術運算子}
+  \end{table}
+\end{frame}
+
+\subsection{除零問題}
+\subsection{取餘數技巧}
+
+\section{比較和邏輯運算子}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
+
+\subsection{簡化規則}
+
+\subsection{短路運算}
+
+\section{位元運算子}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
+
+\subsection{int 和 long long 的儲存形式}
+
+\subsection{取特定餘數}
+
+\subsection{mask}
+
+\subsection{set bit}
+
+\subsection{消失的數}
+
+\subsection{parity}
+
+\section{指定運算子}
+
+\clearpage
+\end{CJK}
+\end{document}
