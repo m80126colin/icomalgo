@@ -1,0 +1,63 @@
+\documentclass[utf8]{beamer}
+
+%% === CJK 套件 ===
+\usepackage{CJKutf8,CJKnumb}                 % 中文套件
+%% === AMS 標準套件 ===
+\usepackage{amsmath,amsfonts,amssymb,amsthm} % 數學符號
+\usepackage{ulem}
+%% ===  ===
+%\usepackage[chapter]{algorithm}              % 演算法套件
+%\usepackage[noend]{algpseudocode}            % pseudocode 套件
+\usepackage{listings}                        % 程式碼
+%% === TikZ 套件 ===
+\usepackage{tikz,tkz-graph,tkz-berge}        % 繪圖
+\usepackage{multicol}
+\usepackage{xkeyval,xargs}
+\usepackage{xcolor}
+
+\usetheme{Boadilla}
+\usecolortheme{whale}
+
+\setbeamertemplate{items}[circle]
+
+%% === 設定 C++ 格式 ===
+\lstset{%
+  language=C++,                     % 設定語言
+  %% === 空白, tab 相關 ===
+  tabsize=2,                            % 設定 tab = 多少空白
+  %showspaces=true,                      % 設定是否標示空白
+  %showtabs=true,                        % 設定是否標示 tab
+  %tab=\rightarrowfill,                  % 設定 tab 樣式
+  %% === 行數相關 ===
+  %numbers=left,                         % 行數標示位置
+  %stepnumber=1,                         % 每隔幾行標示行數
+  %numberstyle=\tiny,
+  %% === 顏色設定 ===
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue}\ttfamily,
+  stringstyle=\color{red!50!brown}\ttfamily,
+  commentstyle=\color{green!50!black}\ttfamily,
+  identifierstyle=\color{black}\ttfamily,
+  emphstyle=\color{purple}\ttfamily,
+  extendedchars=false,
+  texcl=true,
+  moredelim=[l][\color{magenta}]{\#}
+}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\title{基礎程式設計技巧(二)\\程式與計算}
+\author{許胖}
+\institute[PCSH]{板燒高中}
+
+
+\section{程式控制}
+\subsection{分支結構}
+\subsection{迴圈結構}
+
+\section{資料型態}
+
+
+\begin{CJK}
+\end{document}

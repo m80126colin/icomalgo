@@ -1,0 +1,179 @@
+\ifx \allfiles \undefined
+\documentclass[12pt,a4paper,oneside]{report}
+
+%% === CJK 套件 ===
+\usepackage{CJKutf8,CJKnumb}                    % 中文套件
+\usepackage[unicode]{hyperref,xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!100!black},
+    citecolor={blue!75!black},
+    urlcolor={blue!50!black}
+}
+%% === AMS 標準套件 ===
+\usepackage{amsmath,amsfonts,amssymb,amsthm}    % 數學符號
+%% === 章節內容 ===
+\usepackage{enumitem}                           % 修改 enumerate, item
+\usepackage{titletoc,titlesec}                  % titletoc 目錄修改套件, titlesec 美化章節標題套件
+\usepackage{imakeidx}                           % 索引
+%% ===  ===
+\usepackage[chapter]{algorithm}                 % 演算法套件
+\usepackage[noend]{algpseudocode}               % pseudocode 套件
+\usepackage{listings}                           % 程式碼
+%% ===  ===
+\usepackage{tikz,tkz-graph,tkz-berge}
+%% ===  ===
+\usepackage{xkeyval,xargs}
+
+\makeindex[name=noun]        % 索引生成
+\linespread{1.24}
+
+%% === 設定頁面格式 ===
+%\hoffset         = 10pt                      % 水平位移，預設為 0pt
+\voffset         = -15pt                     % 垂直位移，預設為 0pt
+\oddsidemargin   = 0pt                       % 預設為 31pt
+%\topmargin       = 20pt                      % 預設為 20pt
+%\headheight      = 12pt                      % header 的高度，預設為 12pt
+%\headsep         = 25pt                      % header 和 body 的距離，預設為 25pt
+\textheight      = 620pt                     % body 內文部分的高度，預設為 592pt
+\textwidth       = 450pt                     % body 內文部分的寬度，預設為 390pt
+%\marginparsep    = 10pt                      % margin note 和 body 的距離，預設為 10pt
+%\marginparwidth  = 35pt                      % margin note 的寬度，預設為 35pt
+%\footskip        = 30pt                      % footer 高度 + footer 和 body 的距離，預設為 30pt
+
+%% === itemize,enumerate 設定 ===
+%  使用 enumitem 套件
+\setlist[itemize]{itemsep=0pt,parsep=0pt}
+\setlist[enumerate]{itemsep=0pt,parsep=0pt}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+%% === 常用的指令，替換成中文 ===
+\renewcommand{\figurename}{圖}
+\renewcommand{\tablename}{表}
+\renewcommand{\contentsname}{目~錄~}
+\renewcommand{\listfigurename}{插~圖~目~錄}
+\renewcommand{\listtablename}{表~格~目~錄}
+\renewcommand{\appendixname}{附~錄}
+%\renewcommand{\refname}{參~考~資~料}    % article
+\renewcommand{\bibname}{參~考~文~獻}     % book
+\renewcommand{\indexname}{索~引}
+\renewcommand{\today}{\number\year~年~\number\month~月~\number\day~日}
+%\newcommand{\zhtoday}{\CJKdigits{\the\year}年\CJKnumber{\the\month}月\CJKnumber{\the\day}日}
+
+%% === 
+\floatname{algorithm}{演算法}
+
+%% === 定義 ===
+\newtheorem{myrule}{\begin{CJK}{UTF8}{bkai}原理\end{CJK}}[section]
+\newtheorem{mythm}{\begin{CJK}{UTF8}{bkai}定理\end{CJK}}[section]
+\newtheorem{mydef}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}[section]
+\newtheorem*{mydef*}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}
+\newtheorem{mypropo}{\begin{CJK}{UTF8}{bkai}性質\end{CJK}}[section]
+\newtheorem{myquest}{\begin{CJK}{UTF8}{bkai}例題\end{CJK}}[section]
+\newtheorem{myexe}{\begin{CJK}{UTF8}{bkai}練習題\end{CJK}}[subsection]
+\numberwithin{equation}{section}
+\renewenvironment{proof}{\begin{CJK}{UTF8}{bkai}\textbf{證明}\end{CJK}}{\qed}
+\newenvironment{mysol}{\begin{CJK}{UTF8}{bkai}\textbf{解答}\end{CJK}}{\qed}
+
+%%
+\newcommand{\True}{\textsc{True}}
+\newcommand{\False}{\textsc{False}}
+
+\fi
+
+\chapter{計算幾何}
+
+\section{向量}
+\subsection{向量運算}
+
+\paragraph{}向量是數學上常用的一種思維，它包含了大小及方向兩種概念，無論是在二維平面、或是三維空間中，我們通常以一個箭頭來表示一個向量。舉例來說，小明今天往北走了 5 公里，那麼「往北走了 5 公里」這句話就代表著一個向量－－大小是 5 公里而方向是北方；另一個例子，假設小明往東北走了 10 公里，那麼這時大小是 10 公里、方向是東北方。
+\paragraph{}為了以數學來描述向量，我們利用座標平面，來描述二維平面上向量所擁有的特性。假設 x-y 平面上，以 x 軸正向為東邊，y 軸正向為北邊，以第一個例子來說，假設小明一開始在原點 (0,0) 的位置，往北走 5 公里後，小明的位置會在 (0,5) 的地方，這時 (0,0) 和 (0,5) 間的直線距離就會「產生」一條向量，方向是從 (0,0) 指向 (0,5)，如圖 10.1。
+\paragraph{}讀者可能會以為，向量就是小明所走過的路徑。其實並不盡然，假設小明的好朋友小華，他昨天從原點往東邊走了 4 公里到達 (4,0)，休息一下過後，接著再往北走 3 公里抵達 (4,3)，依照上面的法則，我們可以像圖 10.2 一樣畫出兩條藍色的，分別是 (0,0) 指向 (4,0)，和 (4,0) 指向 (4,3) 的兩條向量。
+\paragraph{}但是總和來說，我們可以看做是起點是 (0,0)，終點是 (4,3) 的一條向量，如圖 10.3 的紅色向量。我們把兩條藍色向量「合併」成一條紅色向量，這就是向量的「加法」。向量加法可以看做是兩段路程相加所造成的結果。
+\paragraph{}為了精準描述向量，我們定義向量－－意即箭頭－－的兩端，三角形的箭頭表示「終點」的概念，而另外一端是「起點」的概念，如圖 10.4。
+\paragraph{}那麼我們用一組數字 (x,y) 來描述一個向量：定義一個向量的起點在 (0,0) 的位置，終點在 (x,y) 的位置，那麼這個向量的值為 (x,y)。這麼定義的好處是：我們可以很方便作向量上的一些運算，與一開始提到向量是有「大小」和「方向」的概念有些微不同，但是經由一些運算，我們也是能求出向量所擁有的大小和方向。
+\paragraph{}我們回頭看小明，小明原本起點在 (0,0) 的位置，終點在 (0,5)，因此小明距離原點的向量為 (0,5)；而小華一開始在原點 (0,0) 的位置，經過 (4,0) 後，最後「終點」在 (4,3)，注意！向量只看「起點」和「終點」的直線距離，不管路程為何，因此小華總和的向量為 (4,3)，即是圖 10.3 的紅色向量。
+\paragraph{}我們再來仔細分析小華的例子：我們剛剛從圖 10.3 得到的結論－－圖中紅色向量是兩條藍色向量「相加」的結果。那我們要怎樣知道這兩條藍色向量「相加」會得到後來的紅色向量呢？我們先從那兩條藍色向量開始觀察。第一條藍色向量，是從原點走到 (4,0)，因此第一段向量的值毫無意外是 (4,0)。
+\paragraph{}第二段向量就麻煩了，它的起點是 (4,0)，終點是 (4,3)，跟我們原來向量起點在 (0,0) 的定義並不相同，這時我們如果想要知道它的向量，我們就得「假裝」把它的起點搬回原點，如圖 10.5，我們把整段向量搬回起點時，終點位置的座標也會跟著改變，不難想像整段向量是「平移」回原點的，因此起點座標從 (4,0) 變成 (0,0)，那終點座標如何改變呢？
+\paragraph{}我們觀察起點座標的數值變化，我們發現：當起點從 (4,0) 搬回 (0,0)，x 座標減了 4。因此，終點座標在平移的過程中，x 座標也減去 4，最後終點座標變成了 (0,3)，由此可知第二段向量的值就是 (0,3)。
+\paragraph{}我們知道兩段藍色向量的值 (4,0) 和 (0,3)，我們可以發現，這兩段向量的 x 值相加，並且 y 值相加，就會是最後的紅色向量 (4,3)。其實，向量加法也可以從原本的敘述中找出：小華原本在原點，一開始先「向東走 4 公里」(第一段藍色向量)，接著「往北走 3 公里」(第二段藍色向量)，因此最後結果就會變成－－
+\paragraph{}(4,0) + (0,3) = (4+0, 0+3) = (4,3)
+\paragraph{}更廣義來說，如果兩個向量 (x1,y1) 和 (x2,y2) 相加，他的結果為：
+\paragraph{}(x1 + x2, y1 + y2)
+\paragraph{}此外，剛剛我們還運用到了「向量減法」的概念，同樣的道理，如果有兩個點 (x2, y2) 和 (x1, y1) 相減，他的結果會是：
+\paragraph{}(x2 - x1, y2 - y1)
+\paragraph{}向量減法可以看做是以 (x1,y1) 做為起點、(x2,y2) 做為終點時向量的值。
+
+\subsection{內積}
+
+\paragraph{}是向量的一種乘法，常常被稱為內積 (Inner Product)。
+\begin{algorithm}
+\caption{內積}
+\label{algo:dot_product}
+\begin{algorithmic}
+\Procedure{Dot}{$O,A,B$}\Comment{$O,A,B$ 是點座標}
+  \State \Return $(A.x-O.x)\times{(B.x-O.x)}+(A.y-O.y)\times{(B.y-O.y)}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{向量內積}
+\label{algo:dot_product_vector}
+\begin{algorithmic}
+\Procedure{DotVector}{$A,B$}\Comment{$A,B$ 是向量}
+  \State \Return $A.x\times{B.x}+A.y\times{B.y}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{外積}
+\paragraph{}常常被稱為外積 (Outer Product)。
+
+\begin{algorithm}
+\caption{外積}
+\label{algo:cross_product}
+\begin{algorithmic}
+\Procedure{Cross}{$O,A,B$}\Comment{$O,A,B$ 是點座標}
+  \State \Return $(A.x-O.x)\times{(B.y-O.y)}-(A.y-O.y)\times{(B.x-O.x)}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{向量外積}
+\label{algo:cross_product_vector}
+\begin{algorithmic}
+\Procedure{CrossVector}{$A,B$}\Comment{$A,B$ 是向量}
+  \State \Return $A.x\times{B.y}-A.y\times{B.x}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\section{計算幾何初步}
+
+\subsection{基本操作}
+\paragraph{}計算幾何中，通常要注意的有兩件事：第一、就是浮點數誤差；而第二、就是我們如何減少計算量來提高求出答案的效率。
+\paragraph{}首先，我們會遇到的問題是：怎樣判斷一個浮點數為零？
+
+\begin{algorithm}
+\caption{判斷浮點數為零}
+\begin{algorithmic}
+\Procedure{IsZero}{$x$}\Comment{$x$ 是一個浮點數}
+  \If{$-\epsilon<x<\epsilon$}\Comment{$\epsilon$ 是你「定義」的一個很小的常數}
+    \State \Return \True
+  \Else
+    \State \Return \False
+  \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\ifx \allfiles \undefined
+\printindex[noun]
+
+\clearpage
+\end{CJK}
+\end{document}
+\fi

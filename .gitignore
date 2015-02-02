@@ -5,9 +5,13 @@
 *.log
 *.pdf
 *.synctex.gz
+*.synctex.gz(busy)
 *.idx
 *.toc
 *.loa
 *.lof
 *.out
+*.nav
+*.snm
+*.vrb
 Thumbs.db

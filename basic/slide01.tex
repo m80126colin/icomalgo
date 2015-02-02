@@ -29,9 +29,9 @@
   %showtabs=true,                        % 設定是否標示 tab
   %tab=\rightarrowfill,                  % 設定 tab 樣式
   %% === 行數相關 ===
-  numbers=left,                         % 行數標示位置
-  stepnumber=1,                         % 每隔幾行標示行數
-  numberstyle=\tiny,
+  %numbers=left,                         % 行數標示位置
+  %stepnumber=1,                         % 每隔幾行標示行數
+  %numberstyle=\tiny,
   %% === 顏色設定 ===
   basicstyle=\ttfamily,
   keywordstyle=\color{blue}\ttfamily,
@@ -54,8 +54,20 @@
 \begin{frame}
   \titlepage
 \end{frame}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents
+  \end{multicols}
+\end{frame}
 
 \section{簡介}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
 
 \begin{frame}
   \frametitle{寫程式的差別}
@@ -104,13 +116,6 @@
   \end{exampleblock}
 \end{frame}
 
-\begin{frame}
-  \frametitle{大綱}
-  \begin{multicols}{2}
-    \tableofcontents
-  \end{multicols}
-\end{frame}
-
 \section{程式架構}
 \begin{frame}
   \frametitle{大綱}
@@ -126,19 +131,19 @@
   \begin{block}{C++ 基本架構}
     \pause
     \begin{lstlisting}
-    #include <iostream>
-    using namespace std;
-    int main() {
-    }
+  #include <iostream>
+  using namespace std;
+  int main() {
+  }
     \end{lstlisting}
   \end{block}
   \begin{exampleblock}{註}<3->
     \begin{itemize}
-    \item<3-> 怎麼理解？
+    \item 怎麼理解？
       \begin{itemize}[<4->]
       \item 不需要理解，我們先記起來。
       \end{itemize}
-    \item<5-> 我們的程式都寫在\alert{大括號}中。
+    \item<5-> 基本上程式的內容都寫在\alert{大括號}中。
     \item<6-> 裡面每個符號都要一樣 (分號也是)。
     \end{itemize}
   \end{exampleblock}
@@ -149,19 +154,37 @@
 \begin{frame}[fragile]
   \frametitle{程式的輸出}
   \begin{block}{輸出}
-    \begin{enumerate}
-    \item<1-> 試著在剛剛的大括號中打上「\lstinline{cout << 1;}」。
-    \item<3-> 如果只打上「\lstinline{cout << 1}」(去掉分號) 會發生什麼結果？
-    \item<5-> 試試看「\lstinline{cout << 1 << 2;}」，和你所想的有何不同？
-    \item<7-> 那麼「\lstinline{cout << 1 << " " << 2;}」呢？
+    \begin{enumerate}[<+->]
+      \item 試著在剛剛的大括號中打上「\lstinline{cout << 1;}」，會發生什麼事？
+      \item 還不清楚的話，可以在更下一行加上「\lstinline{system("PAUSE");}」，在觀察看看。
     \end{enumerate}
   \end{block}
-  \begin{exampleblock}{註}
+  \begin{exampleblock}{註}<+->
     \begin{itemize}
-    \item<2-> \lstinline{cout} 是「輸出」符號，你要輸出的東西用「\lstinline{<<}」串連。
-    \item<4-> 「分號」對 C++ 而言代表「一個句子的結束」，因此當一行\alert{指令結束就要加分號}。
-    \item<6-> \lstinline{<<} 可以串很多東西一起輸出。
-    \item<7-> \lstinline{" "} 是雙引號中間夾著一個「空白」，\alert{要注意}！
+    \item \lstinline{cout} 是「輸出」符號，你要輸出的東西用「\lstinline{<<}」串連。
+    \item<+-> \lstinline{system("PAUSE");} 代表「暫停」的意思。
+      \begin{itemize}[<+->]
+      \item 因為沒加上這行，程式就會直接執行結束。
+      \item 加上這行，程式會在這裡「等你」。
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{注意事項}
+  \begin{block}{輸出}
+    \begin{enumerate}
+    \item<1-> 如果改成「\lstinline{cout << 1}」(去掉分號) 會發生什麼結果？
+    \item<3-> 試試看「\lstinline{cout << 1 << 2;}」，和你所想的有何不同？
+    \item<5-> 那麼「\lstinline{cout << 1 << " " << 2;}」呢？
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}<2->
+    \begin{itemize}
+    \item<2-> 「分號」對 C++ 而言代表「\alert{一個句子的結束}」，因此當一行\alert{指令結束就要加分號}。
+    \item<4-> \lstinline{<<} 可以串很多東西一起輸出。
+    \item<5-> \lstinline{" "} 是雙引號中間夾著一個「空白」，\alert{要注意}！
     \end{itemize}
   \end{exampleblock}
 \end{frame}
@@ -198,9 +221,9 @@
   \end{lstlisting}
   \end{alertblock}
   \begin{exampleblock}{註}<+->
-    \begin{itemize}[<+->]
+    \begin{itemize}
     \item 宣告就是幫變數取名字，此例將變數取名為「\lstinline{x}」。
-    \item 「\lstinline{int}」代表的意義是「\alert{整數}」，規定變數 \lstinline{x} \alert{只能裝整數}。
+    \item<+-> 「\lstinline{int}」代表的意義是「\alert{整數}」，規定變數 \lstinline{x} \alert{只能裝整數}。
     \end{itemize}
   \end{exampleblock}
 \end{frame}
@@ -220,7 +243,7 @@
   \end{block}
   \begin{exampleblock}{註}<+->
     \begin{itemize}
-    \item 「\lstinline{int}」宣告變數可以裝整數之外，還有很多不同的種類，以後會慢慢介紹
+    \item 「\lstinline{int}」宣告變數可以裝整數之外，還有很多不同的種類，以後會慢慢介紹。
     \item<+-> 「\lstinline{x = 5;}」這行\alert{不要}和數學中的「等於」搞混。
     \end{itemize}
   \end{exampleblock}
@@ -244,6 +267,65 @@
   \end{exampleblock}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{宣告多個變數}
+  \begin{exampleblock}{宣告兩個整數}
+    \begin{itemize}[<+->]
+    \item 可以寫成這樣：
+      \begin{lstlisting}
+  int a;
+  int b;
+      \end{lstlisting}
+    \item 更可以簡化成這樣：
+      \begin{lstlisting}
+  int a, b;
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+  \begin{exampleblock}{宣告三個整數}<+->
+    \begin{lstlisting}
+  int a, b, c;
+    \end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{如果容器不塞東西呢 ...}
+  \begin{block}{變數不塞整數進去}<+->
+    \begin{lstlisting}
+  #include <iostream>
+  using namespace std;
+  int main() {
+    int x;             // 宣告變數 x
+    cout << x << endl; // 印出變數 x 存的值
+  }
+    \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{練習}<+->
+    \begin{enumerate}
+    \item 執行看看，發生什麼事？
+    \item<+-> 再執行幾次，又會發生什麼事呢？
+    \end{enumerate}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{初始化}
+  \begin{alertblock}{初始化}
+    \begin{itemize}[<+->]
+    \item C++ 中，所有變數都要自己去\alert{初始化}。
+      \begin{itemize}
+      \item 例如：\lstinline{x = 5;}，把整數 5 丟給 \lstinline{x} 等等。
+      \end{itemize}
+    \item 沒有初始化過的變數，裡面裝的資料是\alert{不確定}的。
+      \begin{itemize}[<+->]
+      \item 或許你很幸運看到 \lstinline{x} 都是 0
+      \item 但那只是\lstinline{恰巧}而已。
+      \end{itemize}
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
 \subsection{輸入}
 
 \begin{frame}[fragile]
@@ -251,13 +333,13 @@
   \begin{block}{輸入}
     執行以下程式
     \begin{lstlisting}
-    #include <iostream>
-    using namespace std;
-    int main() {
-      int x;
-      cin >> x;
-      cout << x << endl;
-    }
+  #include <iostream>
+  using namespace std;
+  int main() {
+    int x;
+    cin >> x;
+    cout << x << endl;
+  }
     \end{lstlisting}
     會發生什麼事呢？
   \end{block}
@@ -266,24 +348,159 @@
   \end{block}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{程式的輸入}
-  \begin{block}{練習}
-    \begin{itemize}
-    \item<1-> 如果在 \lstinline{cout} 那一行後面加上「\lstinline{system("PAUSE");}」，再輸入「1」然後按 enter 呢？
-    \item<6-> 如果輸入「5.0」呢？
-    \item<7-> 如果輸入「0.5」呢？
-    \item<8-> 如果輸入「XD」呢？
-    \end{itemize}
-  \end{block}
-  \begin{exampleblock}{輸入「符號」}<2->
+  \begin{exampleblock}{輸入「符號」}<1->
     \begin{itemize}
     \item 「\lstinline{cin}」代表輸入符號，可以輸入後面變數的資料。
       \begin{itemize}
-      \item<3-> 此例中，\lstinline{x} 是整數，因此可以\alert{輸入一個整數}。
-      \item<4-> \lstinline{cin} 的 \alert{\lstinline{>>}} 不要和 \lstinline{cout} 的 \alert{\lstinline{<<}} 搞混。
+      \item<2-> 此例中，\lstinline{x} 是整數，因此可以\alert{輸入一個整數}。
+      \item<3-> \lstinline{cin} 的 \alert{\lstinline{>>}} 不要和 \lstinline{cout} 的 \alert{\lstinline{<<}} 搞混。
       \end{itemize}
-    \item<5-> \lstinline{system("PAUSE");} 代表「暫停」的意思。
+    \end{itemize}
+  \end{exampleblock}
+  \begin{block}{練習 (續)}<4->
+    \begin{itemize}
+    \item 如果輸入「5.0」再按 enter 鍵呢？
+    \item<5-> 如果輸入「0.5」再按 enter 鍵呢？
+    \item<6-> 如果輸入「XD」再按 enter 鍵呢？
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{多變數輸入}<7->
+    \begin{lstlisting}
+  int x, y;
+  cin >> x >> y;
+    \end{lstlisting}
+    \begin{itemize}[<8->]
+    \item 不要在輸入中加入「\lstinline{endl}」。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\subsection{資料型態}
+
+\begin{frame}[fragile]
+  \frametitle{資料型態}
+  \begin{block}{資料型態}
+    \begin{itemize}
+    \item<1-> 有裝整數的容器，那麼當然也可以宣告裝「小數點」的容器啦！
+    \item<2-> 這些容器我們稱為「\alert{資料型態}」。
+    \end{itemize}
+  \end{block}
+  \pause\pause
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|}
+    \hline
+    關鍵字                 & 意義 & 備註\\
+    \hline
+    \lstinline{bool}      & 布林值 & 只有 \lstinline{true} 和 \lstinline{false}\\
+    \hline
+    \lstinline{int}       & 整數 &\\
+    \hline
+    \lstinline{long long} & 長整數 & 存比較大的整數，以後會介紹\\
+    \hline
+    \lstinline{double}    & \alert{浮點數} & 也就是小數點\\
+    \hline
+    \end{tabular}
+    \caption{資料型態}
+  \end{table}
+  \begin{exampleblock}{註}<4->
+  詳細內容之後再介紹，先來用看看這些東西。
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{布林值}
+  \begin{exampleblock}{布林值}
+    \begin{itemize}[<+->]
+    \item 一種資料型態，只拿來裝兩種數值：「\lstinline{true}」和「\lstinline{false}」。
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{宣告}<+->
+    \begin{lstlisting}
+  bool b;
+    \end{lstlisting}
+  \end{alertblock}
+  \begin{alertblock}{注意}<+->
+    \begin{itemize}
+    \item 兩種不同的宣告不能用「逗號」隔開：
+      \begin{lstlisting}
+  int a, bool b;
+      \end{lstlisting}
+    \item<+-> 逗號有\alert{特殊意義}，不要想成一般的「逗號」。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{賦值}
+  \begin{block}{定義}
+    \begin{itemize}[<+->]
+    \item 將一個「數值」裝進一個變數中，稱為\alert{賦值}。
+    \item 例如，之前把整數 5 裝進整數變數 \lstinline{x} 中：
+      \begin{lstlisting}
+  int x;
+  x = 5;
+      \end{lstlisting}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{賦值簡化}<+->
+    \begin{itemize}
+    \item 變數宣告和賦值可以寫在一起：
+      \begin{lstlisting}
+  int x = 5; // 宣告一個整數變數 x 並且把 5 裝進去
+      \end{lstlisting}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{布林值}
+  \begin{block}{練習}
+    \begin{lstlisting}
+ bool b;
+ cout << b << endl;
+    \end{lstlisting}
+    對程式碼的 \lstinline{b} 做以下賦值，會發生什麼事？
+    \begin{enumerate}
+    \item<2-> \lstinline{b = true;}
+    \item<3-> \lstinline{b = false;}
+    \item<4-> \lstinline{b = 2;}
+    \item<5-> \lstinline{b = 0;}
+    \item<6-> \lstinline{b = -1;}
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{布林值的重要觀念}
+  \begin{alertblock}{觀念}
+    \begin{itemize}
+    \item C++ 中，「\alert{非零整數}」會被當做「\lstinline{true}」，印出時也會印出一個非零整數 (\alert{通常是 1})。
+    \item<2-> 「0」會被當做「\lstinline{false}」，印出時會印出「\alert{0}」。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{浮點數}
+  \begin{itemize}[<+->]
+    \item 先跳過 \lstinline{long long}，先知道 \lstinline{long long} 也是存整數就好。
+    \item 謎之音：「那幹嘛現在說= =」
+  \end{itemize}
+  \begin{alertblock}{浮點數宣告}<+->
+    \begin{lstlisting}
+  double d;
+    \end{lstlisting}
+  \end{alertblock}
+  \begin{exampleblock}{賦值}<+->
+    \begin{itemize}
+    \item 把 1.0 丟給 \lstinline{d} $\Rightarrow$ \lstinline{d = 1.0;}
+    \item<+-> 把 0.5 丟給 \lstinline{d} $\Rightarrow$ \lstinline{d = 0.5;}
+      \begin{itemize}[<+->]
+      \item 0.5 也可寫為 \lstinline{d = .5;}
+      \end{itemize}
+    \item<+-> \lstinline{18.23e5} $\Rightarrow$ 代表 $18.23\times{10^5}$ (\alert{科學記號})
     \end{itemize}
   \end{exampleblock}
 \end{frame}
@@ -298,26 +515,9 @@
 
 \subsection{運算性質}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{算術運算子}
-  \begin{table}[h]
-  \begin{tabular}{|c|c|c|c|}
-  \hline
-  算術運算子  & 意義 & 運算順序 & 結合性\\
-  \hline
-  +         & 加法 & 5       & 左$\rightarrow$右\\
-  \hline
-  -         & 減法 & 5       & 左$\rightarrow$右\\
-  \hline
-  *         & 乘法 & 4       & 左$\rightarrow$右\\
-  \hline
-  /         & 除法 & 4       & 左$\rightarrow$右\\
-  \hline
-  \%        & 取餘數 & 4       & 左$\rightarrow$右\\
-  \hline
-  \end{tabular}
-  \caption{算術運算子}
-  \end{table}
+  \input{./res/operator_arithmetic.tex}
   \begin{exampleblock}{註}<2->
     \begin{itemize}
     \item<2-> 不管\alert{運算順序}和\alert{結合性}，一般來說可以用五則運算來理解
@@ -359,7 +559,7 @@
       \begin{itemize}[<2->]
         \item 根據剛剛說的，加法只有兩個運算元，那麼「$1+2+3$」該怎麼辦呢？
       \end{itemize}
-    \item<3-> 解法：決定運算的先後順序。例如：
+    \item<3-> 解法：決定運算的\alert{方向}。例如：
       \begin{enumerate}
         \item<4-> 先算 $1+2=3$，再算 $\alert{3}+3=6$
         \item<5-> 先算 $2+3=5$，再算 $1+\alert{5}=6$
@@ -367,42 +567,184 @@
     \item<6-> 謎之音：「那還不是一樣嘛？廢話= =」
     \end{itemize}
   \end{exampleblock}
-  \begin{alertblock}{注意}
-  決定先後順序對「電腦」而言\alert{意義重大}！
+  \begin{alertblock}{注意}<7->
+  決定運算方向對「電腦」而言\alert{意義重大}！
   \end{alertblock}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{再舉個例子 ...}
   \begin{exampleblock}{$1-2-3=?$}
-    \begin{itemize}
-    \item<1-> 我們直觀上會先算 $1-2=-1$，再算 $\alert{-1}-3=-4$。
-    \item<2-> 因此 C++ 在設計上也會把加減乘除餘的運算順序「設定」成\alert{從左到右算}。
+    \begin{itemize}[<+->]
+    \item 我們直觀上會先算 $1-2=-1$，再算 $\alert{-1}-3=-4$。
+    \item 因此 C++ 在設計上也會把加減乘除餘的\alert{結合性}「設定」成\alert{從左到右算}。
     \end{itemize}
   \end{exampleblock}
-  \pause\pause
   \begin{table}[h]
   \begin{tabular}{|c|c|c|c|}
   \hline
-  算術運算子  & 意義 & 運算順序 & 結合性\\
+  算術運算子      & 意義 & 運算順序 & 結合性\\
   \hline
-  +         & 加法 & 5       & 左$\rightarrow$右\\
+  \lstinline{+} & 加法 & 6       & 左$\rightarrow$右\\
   \hline
-  -         & 減法 & 5       & 左$\rightarrow$右\\
+  \lstinline{-} & 減法 & 6       & \alert{左$\rightarrow$右}\\
   \hline
-  *         & 乘法 & 4       & 左$\rightarrow$右\\
+  \lstinline{*} & 乘法 & 5       & \alert{左$\rightarrow$右}\\
   \hline
-  /         & 除法 & 4       & 左$\rightarrow$右\\
+  \lstinline{/} & 除法 & 5       & \alert{左$\rightarrow$右}\\
   \hline
-  \%        & 取餘數 & 4       & 左$\rightarrow$右\\
+  \lstinline{%} & 取餘數 & 5       & \alert{左$\rightarrow$右}\\
   \hline
   \end{tabular}
   \caption{算術運算子}
   \end{table}
 \end{frame}
 
-\subsection{除零問題}
-\subsection{取餘數技巧}
+\begin{frame}
+  \frametitle{萬一是四則運算呢？}
+  \begin{exampleblock}{$1+2*3-4=?$}
+    \begin{itemize}[<+->]
+    \item 我們的運算規則：「\alert{先乘除餘，後加減}」。
+    \item 因此 C++ 發展出一套規則：\alert{運算順序}
+      \begin{itemize}[<+->]
+      \item 運算順序小的優先運算
+      \item 若運算順序相同，則依照運算方向做計算。
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+  \onslide<+->{
+  %\begin{table}[h]
+  %\begin{tabular}{|c|c|c|c|}
+  %\hline
+  %算術運算子      & 意義 & \alert{運算順序} & 結合性\\
+  %\hline
+  %\lstinline{+} & 加法 & \alert{6}       & 左$\rightarrow$右\\
+  %\hline
+  %\lstinline{-} & 減法 & \alert{6}       & 左$\rightarrow$右\\
+  %\hline
+  %\lstinline{*} & 乘法 & \alert{5}       & 左$\rightarrow$右\\
+  %\hline
+  %\lstinline{/} & 除法 & \alert{5}       & 左$\rightarrow$右\\
+  %\hline
+  %\lstinline{%} & 取餘數 & \alert{5}     & 左$\rightarrow$右\\
+  %\hline
+  %\end{tabular}
+  %\caption{算術運算子}
+  %\end{table}
+  }
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{回到原來例子}
+  \begin{exampleblock}{$1+2*3-4=?$}
+    \begin{align*}
+    \onslide<1->{  & 1+\alert{2*3}-4 &\text{我們可以看到 }*\text{ 的運算順序最高}\\}
+    \onslide<2->{= & \alert{1+6}-4   &\text{加法和減法運算順序相同，依照結合性從左到右算}\\}
+    \onslide<3->{= & \alert{7-4}     &\text{依照結合性從左到右算}\\
+                 = & 3}
+    \end{align*}
+  \end{exampleblock}
+  \begin{alertblock}{觀念}<4->
+    \begin{itemize}
+    \item C++ 的四則運算用\alert{優先順序}和\alert{結合性}來處理。
+    \item<5-> 這件事情非常重要，稍後就會知道為什麼。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\subsection{整數除法與除零問題}
+
+\begin{frame}[fragile]
+  \frametitle{整數除法}
+  \begin{block}{整數除法}
+    \begin{enumerate}[<+->]
+    \item \lstinline{cout << 8 / 5 << endl;} 的結果？\onslide<+->{\alert{Ans: 1}}
+    \item \lstinline{cout << 8.0 / 5.0 << endl;} 的結果？\onslide<+->{\alert{Ans: 1.6}}
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item 在 \lstinline{8 / 5} 中，8 和 5 被視為 \lstinline{int}，因此 C++ 會做「\alert{整數除法}」。
+    \item<+-> 而在 \lstinline{8.0 / 5.0} 中，8.0 和 5.0 被視為浮點數 \lstinline{double}，因此會做「\alert{浮點數除法}」。
+    \end{itemize}
+  \end{exampleblock}
+  \begin{itemize}[<+->]
+  \item 除法還有另外一個問題點 ...
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{除以零}
+  \begin{block}{試試看}
+    我們知道數學上是不能除以零的，那程式呢？
+    \begin{enumerate}
+    \item \lstinline{cout << 1 / 0 << endl;}
+    \item<3-> \lstinline{cout << 0 / 0 << endl;}
+    \item<4-> \lstinline{cout << 1.0 / 0.0 << endl;}
+    \item<5-> \lstinline{cout << 0.0 / 0.0 << endl;}
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}<2->
+  如果無法編譯成功，那麼就宣告一個變數，把分母裝進去再試試看。
+  \end{exampleblock}
+  \begin{alertblock}{注意}<6->
+  通常編譯可以過，但是在執行時會出些狀況，各位知道出了哪些狀況就好，不用了解太詳細。
+  \end{alertblock}
+\end{frame}
+
+\subsection{應用：取餘數}
+
+\begin{frame}[fragile]
+  \frametitle{取餘數}
+  \begin{block}{觀察現象}
+    \begin{enumerate}[<+->]
+    \item \lstinline{cout << 5 % 3 << endl;} 會輸出什麼？\onslide<+->{\alert{Ans:2}}
+    \item \lstinline{cout << (-5) % 3 << endl;} 呢？\onslide<+->{\alert{Ans:-2}}
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item 事情不該是這樣發展的啊！！！
+    \item<+-> 謎之音：「應該結果是要 1 才對。」
+      \begin{itemize}[<+->]
+      \item C++ 一個\alert{奇怪的特性} ...
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{解決辦法？}
+  \begin{block}{問題}<+->
+  要怎麼做出取餘數的效果呢？
+  \end{block}
+  \begin{enumerate}[<+->]
+  \item 假設 n 要 mod m ...
+  \item 首先，我們取 \lstinline{n % m}
+    \begin{itemize}[<+->]
+    \item 如果 $n\geq{0}$\onslide<+->{，會得到介於 $0$ 到 $m-1$ 的數字}
+    \item 如果 $n<0$\onslide<+->{，會得到介於 $-(m-1)$ 到 $0$ 的數字}
+    \end{itemize}
+  \item 接著加上 m
+    \begin{itemize}[<+->]
+    \item 如果 $n\geq{0}$\onslide<+->{，會得到介於 $m$ 到 $2m-1$ 的數字}
+    \item 如果 $n<0$\onslide<+->{，會得到介於 $-(m-1)+m=1$ 到 $m$ 的數字}
+    \item 全都修成正值了！\onslide<+->{\alert{但還差最後一步 ...}}
+    \end{itemize}
+  \item 最後，再 mod m 一次，把所有數字修正回 $0$ 到 $m-1$ 之間。
+    \begin{itemize}[<+->]
+    \item 大功告成啦~ \lstinline{(n % m + m) % m}
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{練習題}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10071/}{UVa 10071}}
+  \label{uva:10071}
+  這題只要能夠讀懂題意都不難寫。如果不知道怎樣讀取多筆測資請先參考迴圈部分 (EOF 版)。
+  \end{exampleblock}
+\end{frame}
 
 \section{比較和邏輯運算子}
 \begin{frame}
@@ -413,6 +755,35 @@
 \end{frame}
 
 \subsection{簡化規則}
+
+\begin{frame}[fragile]
+  \frametitle{比較運算子}
+  \begin{table}[h]
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  比較運算子       & 意義   & 運算順序 & 結合性\\
+  \hline
+  \lstinline{==} & 等於   & 9       & 左$\rightarrow$右\\
+  \hline
+  \lstinline{!=} & 不等於 & 9       & 左$\rightarrow$右\\
+  \hline
+  \lstinline{>}  & 大於   & 8       & 左$\rightarrow$右\\
+  \hline
+  \lstinline{<}  & 小於   & 8       & 左$\rightarrow$右\\
+  \hline
+  \lstinline{>=} & 不小於 & 8       & 左$\rightarrow$右\\
+  \hline
+  \lstinline{<=} & 不大於 & 8       & 左$\rightarrow$右\\
+  \hline
+  \end{tabular}
+  \caption{比較運算子}
+  \end{table}
+  \begin{alertblock}{注意}<2->
+    \begin{itemize}
+    \item C++ 的等於寫作「\lstinline{==}」，不要和賦值的「\lstinline{=}」搞混。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
 
 \subsection{短路運算}
 
@@ -426,6 +797,10 @@
 
 \subsection{int 和 long long 的儲存形式}
 
+\begin{frame}[fragile]
+  \frametitle{\lstinline{int} 表示法}
+\end{frame}
+
 \subsection{取特定餘數}
 
 \subsection{mask}
@@ -437,6 +812,26 @@
 \subsection{parity}
 
 \section{指定運算子}
+
+\subsection{未定義行為}
+
+\section{結論}
+
+\begin{frame}[fragile]
+  \frametitle{小結}
+  \begin{alertblock}{重點整理}
+    \begin{enumerate}[<+->]
+    \item 句子結尾是分號「\lstinline{;}」。
+    \item 初始化的重要性。
+    \item C++ 依照運算順序和結合性做運算。
+    \item 除以零會遇到的現象。
+    \item 「零」代表 \lstinline{false}，「非零」代表 \lstinline{true}。
+    \item 邏輯運算子是短路運算。
+    \item \lstinline{int} 和 \lstinline{long long} 如何儲存，以及位元運算技巧。
+    \item 注意未定義行為。
+    \end{enumerate}
+  \end{alertblock}
+\end{frame}
 
 \clearpage
 \end{CJK}

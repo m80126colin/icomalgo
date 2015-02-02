@@ -56,16 +56,16 @@
   %tab=\rightarrowfill,                  % 設定 tab 樣式
   %% === 行數相關 ===
   numbers=left,                         % 行數標示位置
-  stepnumber=1,                         % 每隔幾行標示行數
+  stepnumber=3,                         % 每隔幾行標示行數
   numberstyle=\tiny,
+  %% === 顏色設定 ===
   basicstyle=\ttfamily,
   keywordstyle=\color{blue}\ttfamily,
   stringstyle=\color{red}\ttfamily,
   commentstyle=\color{green}\ttfamily,
   morecomment=[l][\color{magenta}]{\#},
-  morekeywords={cout,endl}
+  morekeywords={}
 }
-
 
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
@@ -113,7 +113,7 @@
 \begin{lstlisting}
   1
 \end{lstlisting}
-\paragraph{}若資料型態為 double，則除法為浮點數除法，
+\paragraph{}若資料型態為 \lstinline{double}，則除法為浮點數除法，
 \begin{lstlisting}
   cout << 8.0 / 5.0 << endl;
 \end{lstlisting}
@@ -121,7 +121,79 @@
 \begin{lstlisting}
   1.6
 \end{lstlisting}
-\paragraph{}除此之外，除法還有除以零的問題，以下四種 cout 請各位讀者自行分別執行，會發生什麼問題、產生什麼現象，有興趣的話可以在網路上多查些資料。
+\paragraph{}除此之外，除法還有除以零的問題，以下四種 \lstinline{cout} 請各位讀者自行分別執行，會發生什麼問題、產生什麼現象，有興趣的話可以在網路上多查些資料。
+\begin{enumerate}
+\item \lstinline{cout << 1 / 0 << endl;}
+\item \lstinline{cout << 0 / 0 << endl;}
+\item \lstinline{cout << 1.0 / 0.0 << endl;}
+\item \lstinline{cout << 0.0 / 0.0 << endl;}
+\end{enumerate}
+\paragraph{}取餘數的運算子會和平常直觀也不太一樣，一般來說 mod m 取出來的餘數會介於 0 ~ n - 1 之間，但是在負數下，取出來的餘數也會是負數，例如：
+\begin{lstlisting}
+  cout << -5 % 3 << endl;
+\end{lstlisting}
+\paragraph{}結果會是：
+\begin{lstlisting}
+  -2
+\end{lstlisting}
+\paragraph{}如果我們要做出我們常見 n mod m 的效果，就利用下列方法：
+\begin{lstlisting}
+  cout << ((n % m) + m) % m << endl;
+\end{lstlisting}
+\paragraph{}因為我們不知道 n 是正整數還是負整數，因此我們先取 mod m，保證它如果是正整數時，它的值會在 0 到 m-1 之間；如果是負整數的話，它的值就會在 -(m-1) 到 0 之間。
+\paragraph{}接著加完 m 之後再取一次 mod m，對於正整數而言雖然結果沒有影響；但是對於負整數，在加完 m 之後就會變成正的餘數，再下來 mod m 對結果沒有影響，但要是萬一 n 是正整數的話，在加完 m 之後就會大於 m，因此 mod m 這個步驟是針對正整數來做的。
+\label{UVa:10071}
+\paragraph{}UVa 10071: Back to High School Physics
+\paragraph{}這題只要能夠讀懂題意都不難寫。如果不知道怎樣讀取多筆測資請先參考迴圈部分。
+
+\section{比較、邏輯運算子}
+
+\paragraph{}C++ 的比較運算子有六種：
+\paragraph{}注意！判斷等於是「雙等號」！若讀者在一開始寫程式與預期不同時，不妨檢查一下等於是否寫錯寫成指定 (單等號)了。比較運算子的回傳值為「真、假」兩種，在 C++ 中以「非零」當做「真」，「零」做為「假」。因此假設我們判斷 a mod b 是否「非零」時，一般的寫法如下：
+\begin{lstlisting}
+  a % b != 0
+\end{lstlisting}
+\paragraph{}但是我們可以簡化為：
+\begin{lstlisting}
+  a % b
+\end{lstlisting}
+\paragraph{}原因是當 \lstinline{a % b} 非零時，一般 \lstinline{a % b != 0} 的寫法會回傳「真」，但非零會被 C++ 當做「真」來看待；同樣地，當 \lstinline{a % b} 為零時，一般的寫法會回傳「假」，但為零會被 C++ 當做「假」。因此簡化過的寫法，大多時候可以取代原來一般寫法。
+\paragraph{}C++ 邏輯運算子有三種：
+\paragraph{}如果我們要判斷一個整數 x 是否介於整數 a 和 b 之間，數學上我們會寫成：
+\begin{lstlisting}
+  a <= x <= b
+\end{lstlisting}
+\paragraph{}但程式不能這樣子寫－－這段程式是無法編譯的！原因是因為比較運算子是二元運算子，二元運算子大多是將運算子兩邊的運算元做運算後，在回傳一個結果，例如下面這個算術運算式：
+\begin{lstlisting}
+  1 + 2 + 3
+\end{lstlisting}
+\paragraph{}這個式子中因為 + 法的結合性是從左到右，因此這個運算式會先算 \lstinline{1 + 2}，回傳 \lstinline{3}，變成：
+\begin{lstlisting}
+  3 + 3
+\end{lstlisting}
+\paragraph{}再算 \lstinline{3 + 3}，回傳 \lstinline{6}。如果是更一般的四則運算：
+\begin{lstlisting}
+  1 + 2 * 3
+\end{lstlisting}
+\paragraph{}這個式子會因為 \lstinline{*} 法的優先順序高於 \lstinline{+} 法，因此會先算 \lstinline{2 * 3}，回傳 \lstinline{6}：
+\begin{lstlisting}
+  1 + 6
+\end{lstlisting}
+\paragraph{}再算 \lstinline{1 + 6}，回傳 \lstinline{7}。同樣的道理，如果我們的比較運算式寫成如下：
+\begin{lstlisting}
+  a <= x <= b
+\end{lstlisting}
+\paragraph{}那麼我們會「先算」 \lstinline{a <= x}，因為對於我們人類來說，我們可以很容易知道這是一個判斷的式子，但是電腦不能，電腦只會認為這一切都是「計算」－－意即抓出一個運算元和數個運算子，做運算之後，再丟回去結果－－因此電腦依照「運算順序」和「結合性」來做計算，如果 \lstinline{a <= x} 是對的，就會傳「真」，如果不是就回傳「假」，但無論真還是假都無法和 b 做比較，因此數學上的寫法在電腦上沒辦法直接表達原來我們想要的意思。
+\paragraph{}因此我們就將這個判斷式做改變，既然要判斷 x 是否在 a 和 b 之間，我們可以改寫成：\lstinline{a <= x} 而且 \lstinline{x <= b}，符合二元運算的特性，而且在直觀上也不偏離原意，這正好是電腦可以接受的寫法：
+\begin{lstlisting}
+  a <= x && x <= b
+\end{lstlisting}
+\paragraph{}同樣我們的邏輯運算式有「非」這個選項，因此也有一個小技巧來判斷 a mod b 是否「為零」，原本的寫法如下：
+\begin{lstlisting}
+  a % b == 0
+\end{lstlisting}
+\paragraph{}利用 \lstinline{!} 運算子，我們判斷 a mod b 是否非零後，再反向，換句話說就是把非零判斷為「真」的選項反過來變成「假」；「假」反過來變成「真」：
+
 
 \ifx \allfiles \undefined
 \printindex[noun]
