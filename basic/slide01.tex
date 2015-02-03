@@ -517,7 +517,24 @@
 
 \begin{frame}[fragile]
   \frametitle{算術運算子}
-  \input{./res/operator_arithmetic.tex}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    算術運算子      & 意義 & 運算順序 & 結合性\\
+    \hline
+    \lstinline{+} & 加法 & 6       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{-} & 減法 & 6       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{*} & 乘法 & 5       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{/} & 除法 & 5       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{%} & 取餘數 & 5       & 左$\rightarrow$右\\
+    \hline
+    \end{tabular}
+  \caption{算術運算子}
+  \end{table}
   \begin{exampleblock}{註}<2->
     \begin{itemize}
     \item<2-> 不管\alert{運算順序}和\alert{結合性}，一般來說可以用五則運算來理解
@@ -551,7 +568,7 @@
 
 \subsection{結合性與運算順序}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{回到原來的問題 ...}
   \begin{exampleblock}{$1+2+3=?$}
     \begin{itemize}
@@ -575,66 +592,66 @@
 \begin{frame}[fragile]
   \frametitle{再舉個例子 ...}
   \begin{exampleblock}{$1-2-3=?$}
-    \begin{itemize}[<+->]
-    \item 我們直觀上會先算 $1-2=-1$，再算 $\alert{-1}-3=-4$。
-    \item 因此 C++ 在設計上也會把加減乘除餘的\alert{結合性}「設定」成\alert{從左到右算}。
+    \begin{itemize}
+    \item<2-> 我們直觀上會先算 $1-2=-1$，再算 $\alert{-1}-3=-4$。
+    \item<3-> 因此 C++ 在設計上也會把加減乘除餘的\alert{結合性}「設定」成\alert{從左到右算}。
     \end{itemize}
   \end{exampleblock}
+  \pause \pause \pause
   \begin{table}[h]
-  \begin{tabular}{|c|c|c|c|}
-  \hline
-  算術運算子      & 意義 & 運算順序 & 結合性\\
-  \hline
-  \lstinline{+} & 加法 & 6       & 左$\rightarrow$右\\
-  \hline
-  \lstinline{-} & 減法 & 6       & \alert{左$\rightarrow$右}\\
-  \hline
-  \lstinline{*} & 乘法 & 5       & \alert{左$\rightarrow$右}\\
-  \hline
-  \lstinline{/} & 除法 & 5       & \alert{左$\rightarrow$右}\\
-  \hline
-  \lstinline{%} & 取餘數 & 5       & \alert{左$\rightarrow$右}\\
-  \hline
-  \end{tabular}
-  \caption{算術運算子}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    算術運算子      & 意義 & 運算順序 & \alert{結合性}\\
+    \hline
+    \lstinline{+} & 加法 & 6       & \alert{左$\rightarrow$右}\\
+    \hline
+    \lstinline{-} & 減法 & 6       & \alert{左$\rightarrow$右}\\
+    \hline
+    \lstinline{*} & 乘法 & 5       & \alert{左$\rightarrow$右}\\
+    \hline
+    \lstinline{/} & 除法 & 5       & \alert{左$\rightarrow$右}\\
+    \hline
+    \lstinline{%} & 取餘數 & 5       & \alert{左$\rightarrow$右}\\
+    \hline
+    \end{tabular}
+    \caption{算術運算子}
+  \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{萬一是四則運算呢？}
+  \begin{exampleblock}{$1+2*3-4=?$}
+    \begin{itemize}
+    \item<2-> 我們的運算規則：「\alert{先乘除餘，後加減}」。
+    \item<3-> 因此 C++ 發展出一套規則：\alert{運算順序}
+      \begin{itemize}
+      \item<4-> 運算順序小的優先運算
+      \item<5-> 若運算順序相同，則依照運算方向做計算。
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+  \pause \pause \pause \pause \pause
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    算術運算子      & 意義 & \alert{運算順序} & 結合性\\
+    \hline
+    \lstinline{+} & 加法 & \alert{6}       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{-} & 減法 & \alert{6}       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{*} & 乘法 & \alert{5}       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{/} & 除法 & \alert{5}       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{%} & 取餘數 & \alert{5}     & 左$\rightarrow$右\\
+    \hline
+    \end{tabular}
+    \caption{算術運算子}
   \end{table}
 \end{frame}
 
 \begin{frame}
-  \frametitle{萬一是四則運算呢？}
-  \begin{exampleblock}{$1+2*3-4=?$}
-    \begin{itemize}[<+->]
-    \item 我們的運算規則：「\alert{先乘除餘，後加減}」。
-    \item 因此 C++ 發展出一套規則：\alert{運算順序}
-      \begin{itemize}[<+->]
-      \item 運算順序小的優先運算
-      \item 若運算順序相同，則依照運算方向做計算。
-      \end{itemize}
-    \end{itemize}
-  \end{exampleblock}
-  \onslide<+->{
-  %\begin{table}[h]
-  %\begin{tabular}{|c|c|c|c|}
-  %\hline
-  %算術運算子      & 意義 & \alert{運算順序} & 結合性\\
-  %\hline
-  %\lstinline{+} & 加法 & \alert{6}       & 左$\rightarrow$右\\
-  %\hline
-  %\lstinline{-} & 減法 & \alert{6}       & 左$\rightarrow$右\\
-  %\hline
-  %\lstinline{*} & 乘法 & \alert{5}       & 左$\rightarrow$右\\
-  %\hline
-  %\lstinline{/} & 除法 & \alert{5}       & 左$\rightarrow$右\\
-  %\hline
-  %\lstinline{%} & 取餘數 & \alert{5}     & 左$\rightarrow$右\\
-  %\hline
-  %\end{tabular}
-  %\caption{算術運算子}
-  %\end{table}
-  }
-\end{frame}
-
-\begin{frame}[fragile]
   \frametitle{回到原來例子}
   \begin{exampleblock}{$1+2*3-4=?$}
     \begin{align*}
@@ -759,24 +776,24 @@
 \begin{frame}[fragile]
   \frametitle{比較運算子}
   \begin{table}[h]
-  \begin{tabular}{|c|c|c|c|}
-  \hline
-  比較運算子       & 意義   & 運算順序 & 結合性\\
-  \hline
-  \lstinline{==} & 等於   & 9       & 左$\rightarrow$右\\
-  \hline
-  \lstinline{!=} & 不等於 & 9       & 左$\rightarrow$右\\
-  \hline
-  \lstinline{>}  & 大於   & 8       & 左$\rightarrow$右\\
-  \hline
-  \lstinline{<}  & 小於   & 8       & 左$\rightarrow$右\\
-  \hline
-  \lstinline{>=} & 不小於 & 8       & 左$\rightarrow$右\\
-  \hline
-  \lstinline{<=} & 不大於 & 8       & 左$\rightarrow$右\\
-  \hline
-  \end{tabular}
-  \caption{比較運算子}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    比較運算子       & 意義   & 運算順序 & 結合性\\
+    \hline
+    \lstinline{==} & 等於   & 9       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{!=} & 不等於 & 9       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{>}  & 大於   & 8       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{<}  & 小於   & 8       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{>=} & 不小於 & 8       & 左$\rightarrow$右\\
+    \hline
+    \lstinline{<=} & 不大於 & 8       & 左$\rightarrow$右\\
+    \hline
+    \end{tabular}
+    \caption{比較運算子}
   \end{table}
   \begin{alertblock}{注意}<2->
     \begin{itemize}
@@ -785,7 +802,105 @@
   \end{alertblock}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{回傳值}
+  \begin{block}{例子}<+->
+    \begin{enumerate}
+    \item \lstinline{cout << (3 < 5) << endl;}，會發生什麼事？
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item 比較運算子也是\alert{二元運算}，他會比較兩邊數字大小：
+      \begin{itemize}[<+->]
+      \item 如果正確，則為 \lstinline{true}
+      \item 否則就是 \lstinline{false}
+      \end{itemize}
+    \item<+-> 這種概念我們稱為「\alert{回傳值}」
+      \begin{itemize}[<+->]
+      \item 比較運算子的回傳值是布林值 \lstinline{bool}
+      \item \alert{\lstinline{3 < 5}} $\Rightarrow$ \lstinline{true}
+      \item 因為我們要輸出 \lstinline{true}，根據 C++ 的規則，我們知道 \lstinline{true} 代表\alert{非零}，因此會印出一個非零的數字 (通常是 1)
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{運算簡化}
+  \begin{block}{例子}<+->
+  判斷整數 \lstinline{n % m} 是否「不是 0」。
+  \end{block}
+  \begin{exampleblock}{判斷整除}<+->
+    \lstinline{n % m != 0}
+    \begin{itemize}[<+->]
+    \item 如果 \lstinline{n % m} 的回傳值 $\neq{0}$ $\Rightarrow$ \lstinline{true}
+    \item 如果是 0，則為 \lstinline{false}
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{簡化寫法}<+->
+    \lstinline{n % m}
+    \begin{itemize}[<+->]
+    \item 如果 \lstinline{n % m} 的回傳值 $\neq{0}$ ，可以被當做「\lstinline{true}」
+    \item 如果是 0，那麼就可以當做「\lstinline{false}」
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{遙遠的記憶}
+  \begin{alertblock}{布林值的重要觀念}<+->
+    \begin{itemize}
+    \item C++ 中，「\alert{非零整數}」會被當做「\lstinline{true}」，印出時也會印出一個非零整數 (\alert{通常是 1})。
+    \item 「0」會被當做「\lstinline{false}」，印出時會印出「\alert{0}」。
+    \end{itemize}
+  \end{alertblock}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item 簡化的寫法大多時候可以取代原來一般寫法。
+    \item<+-> 通常比較運算子要和 \lstinline{if}、\lstinline{else} 配合。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
 \subsection{短路運算}
+
+\begin{frame}[fragile]
+  \frametitle{邏輯運算子}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    比較運算子       & 意義 & 運算順序 & 結合性\\
+    \hline
+    \lstinline{&&} & 且   & 13      & 左$\rightarrow$右\\
+    \hline
+    \lstinline{||} & 或   & 14      & 左$\rightarrow$右\\
+    \hline
+    \lstinline{!}  & 非   & 3       & \alert{右$\rightarrow$左}\\
+    \hline
+    \end{tabular}
+    \caption{邏輯運算子}
+  \end{table}
+  \begin{exampleblock}{作用}<2->
+    \begin{itemize}
+    \item 一般來說是連接比較運算子
+    \item<3-> 例如：\lstinline{1 < x && x < 5}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{舉個例子}
+  \begin{block}{例子}<+->
+  判斷 x 是否介於 a 和 b 之間能不能寫成 \lstinline{a<=x<=b} 呢？\onslide<+->{\alert{Ans:不行}。}
+  \end{block}
+  \begin{exampleblock}{用回傳值的觀點}<+->
+    \begin{itemize}
+    \item 我們知道 \lstinline{<=} 運算子在列出很多個時，會\alert{由左到右算}
+    \item \lstinline{a <= x <= b}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
 
 \section{位元運算子}
 \begin{frame}
@@ -798,7 +913,7 @@
 \subsection{int 和 long long 的儲存形式}
 
 \begin{frame}[fragile]
-  \frametitle{\lstinline{int} 表示法}
+  \frametitle{int 表示法}
 \end{frame}
 
 \subsection{取特定餘數}
