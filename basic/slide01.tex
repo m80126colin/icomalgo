@@ -37,7 +37,7 @@
   keywordstyle=\color{blue}\ttfamily,
   stringstyle=\color{red!50!brown}\ttfamily,
   commentstyle=\color{green!50!black}\ttfamily,
-  identifierstyle=\color{black}\ttfamily,
+  %identifierstyle=\color{black}\ttfamily,
   emphstyle=\color{purple}\ttfamily,
   extendedchars=false,
   texcl=true,
@@ -863,8 +863,6 @@
   \end{exampleblock}
 \end{frame}
 
-\subsection{短路運算}
-
 \begin{frame}[fragile]
   \frametitle{邏輯運算子}
   \begin{table}[h]
@@ -889,18 +887,27 @@
   \end{exampleblock}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{舉個例子}
   \begin{block}{例子}<+->
-  判斷 x 是否介於 a 和 b 之間能不能寫成 \lstinline{a<=x<=b} 呢？\onslide<+->{\alert{Ans:不行}。}
+  判斷 x 是否介於 a 和 b 之間能不能寫成 \lstinline{a <= x <= b;} 呢？\onslide<+->{\alert{Ans:不行}。}
   \end{block}
   \begin{exampleblock}{用回傳值的觀點}<+->
     \begin{itemize}
     \item 我們知道 \lstinline{<=} 運算子在列出很多個時，會\alert{由左到右算}
-    \item \lstinline{a <= x <= b}
+    \item<+-> \alert{\lstinline{a <= x}} 先算出 \lstinline{true} 或者是 \lstinline{false}
+    \item<+-> 如果是 \lstinline{true}，假設 \lstinline{a=-4}、\lstinline{b=-1}、\lstinline{x=-2}
+      \begin{itemize}[<+->]
+      \item \lstinline{a <= x <= b} 先算 \lstinline{a <= x} 得到 \lstinline{true}
+      \item \lstinline{true <= b}，因為 \lstinline{true} 通常是 1，但此時我們假設 \lstinline{b=-1}，整句就會回傳 \lstinline{false}
+      \item 但事實上 \lstinline{x} 是在 \lstinline{a} 和 \lstinline{b} 裡面。
+      \end{itemize}
+    \item<+-> \lstinline{a <= x} 是 \lstinline{false} 也會有同樣的問題。
     \end{itemize}
   \end{exampleblock}
 \end{frame}
+
+\subsection{短路運算}
 
 \section{位元運算子}
 \begin{frame}
@@ -913,6 +920,29 @@
 \subsection{int 和 long long 的儲存形式}
 
 \begin{frame}[fragile]
+  \frametitle{基本觀念}
+  \begin{exampleblock}{觀念}
+    \begin{itemize}[<+->]
+    \item 位元(bit, b)：計算機儲存資料的基本單位，只儲存 \alert{0 和 1}
+    \item 位元組(byte, B)：因為位元很多，所以我們把 8 個位元「打包起來」，變成一個位元組
+      \begin{table}
+        \begin{tabular}{|c|}
+        \hline
+        01001010\\
+        \hline
+        \end{tabular}
+        \caption{位元組}
+      \end{table}
+    \item 常見應用
+      \begin{itemize}[<+->]
+      \item KB、MB、GB、TB、PB：資料大小
+      \item Kbps、Mbps、Gbps：資料傳輸速度
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
   \frametitle{int 表示法}
 \end{frame}
 
