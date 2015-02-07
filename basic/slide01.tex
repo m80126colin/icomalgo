@@ -757,7 +757,7 @@
 
 \begin{frame}
   \frametitle{練習題}
-  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10071/}{UVa 10071}}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10071/}{UVa 10071: Back to High School Physics}}
   \label{uva:10071}
   這題只要能夠讀懂題意都不難寫。如果不知道怎樣讀取多筆測資請先參考迴圈部分 (EOF 版)。
   \end{exampleblock}
@@ -868,7 +868,7 @@
   \begin{table}[h]
     \begin{tabular}{|c|c|c|c|}
     \hline
-    比較運算子         & 意義 & 運算順序 & 結合性\\
+    邏輯運算子         & 意義 & 運算順序 & 結合性\\
     \hline
     \lstinline{&&}{} & 且   & 13      & 左$\rightarrow$右\\
     \hline
@@ -904,6 +904,29 @@
       \end{itemize}
     \item<+-> \lstinline{a <= x}{} 是 \lstinline{false}{} 也會有同樣的問題。
     \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{練習題 (1)}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10055/}{UVa 10055: Hashmat the brave warrior}}<+->
+  \label{uva:10055}
+  取絕對值有兩種做法，一種是用 \lstinline{if}{} 判斷；另一種是呼叫函數 \lstinline{abs()}{} 就好了。\lstinline{abs()}{} 函數被定義在 \lstinline{<cstdlib>}{} 中，雖然沒有 \lstinline{include}{} 在 Visual C++ 依然能編譯過，但是上傳時因為編譯器的原因會導致\alert{編譯錯誤} (Compilation Error, CE)。
+  \end{exampleblock}
+  \begin{alertblock}{注意}
+  另外要注意這一題的整數型態需用 \lstinline{long long}{}，用 \lstinline{int}{} 會造成溢位現象，這個原因會在後面說明。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{練習題 (2)}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/111/p11172/}{UVa 11172: Relational Operators}}<+->
+  \label{uva:11172}
+  能夠理解題意就不難解決此道問題。
+  \end{exampleblock}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/119/p11942/}{UVa 11942: Lumberjack Sequencing}}<+->
+  \label{uva:11942}
+  依序給你一些木頭的長度，問你這些木頭是不是由長到短，或是由短到長排列。
   \end{exampleblock}
 \end{frame}
 
@@ -1065,7 +1088,7 @@
   \end{block}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{int 負數規則}
   \begin{exampleblock}{練習}
     \begin{itemize}[<+->]
@@ -1093,10 +1116,36 @@
   \end{exampleblock}
   \begin{alertblock}{重點}<+->
     \begin{itemize}
-    \item 
-    \item 記得 \lstinline{0}{} 是\alert{全 0}，\lstinline{-1}{} 是\alert{全 1}
+    \item 這種表示法稱為\alert{二補數 (2's complement)}
+    \item<+-> 要想像負數 $-x$ 的表示法，訣竅是 $(-x)+x$ 會因為溢位等於 0
+    \item<+-> 記得 \lstinline{0}{} 是\alert{全 0}，\lstinline{-1}{} 是\alert{全 1}
     \end{itemize}
   \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{另外一個訣竅}
+  \begin{alertblock}{問題}<1->
+  給你一個正數 \lstinline{x}{}，問如何不用負號的情況下求出 \lstinline{-x}{} 呢？
+  \end{alertblock}
+  \begin{block}{一元運算子}<2->
+    \alert{一元運算子}就是只有一個運算元的運算子。
+    \pause \pause
+    \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|}
+      \hline
+      運算子           & 意義 & 運算順序 & 結合性\\
+      \hline
+      \lstinline{+}{} & 正號 & 3      & \alert{右$\rightarrow$左}\\
+      \hline
+      \lstinline{-}{} & 負號 & 3      & \alert{右$\rightarrow$左}\\
+      \hline
+      \end{tabular}
+    \end{table}
+  \end{block}
+  \begin{exampleblock}{舉例}<4->
+  \lstinline{--3}{} 會先算右邊的 \lstinline{-3}{}，接著 \lstinline{-3}{} 再和左邊的負號運算子「運算」，回傳結果 \lstinline{3}{}。
+  \end{exampleblock}
 \end{frame}
 
 \subsection{取特定餘數}
@@ -1112,6 +1161,35 @@
 \section{指定運算子}
 
 \subsection{未定義行為}
+
+\section{其他運算子}
+
+\begin{frame}[fragile]
+  \frametitle{其他運算子}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    運算子                & 意義       & 運算順序 & 結合性\\
+    \hline
+    \lstinline{sizeof}{} & 求記憶體大小 & 3      & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{(type)}{} & 強制轉型    & 3      & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{,}{}      & 逗號       & 18      & 左$\rightarrow$右\\
+    \hline
+    \end{tabular}
+  \end{table}
+  \begin{alertblock}{觀念}<2->
+    \begin{itemize}
+    \item 萬物對計算機而言皆是「\alert{運算}」。
+    \item<3-> 既然是運算，就有「結合性」和「運算順序」。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \
+\end{frame}
 
 \section{結論}
 
