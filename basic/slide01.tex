@@ -111,7 +111,18 @@
       \item<11-> 韌體 coding
     \end{itemize}
   \end{itemize}
-  \begin{exampleblock}{XD}<12->
+\end{frame}
+
+\begin{frame}
+  \frametitle{關於這份投影片}
+  \begin{block}{目標}
+    \begin{enumerate}[<+->]
+    \item 知道 C++ 的語法皆為「\alert{運算}」
+    \item 各運算子的用法及特性。
+    \item 注意\alert{未定義行為}。
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{XD}<+->
   祝各位接下來一周快樂寫程式 XD！
   \end{exampleblock}
 \end{frame}
@@ -585,7 +596,7 @@
     \end{itemize}
   \end{exampleblock}
   \begin{alertblock}{注意}<7->
-  決定運算方向對「電腦」而言\alert{意義重大}！
+  決定運算方向對「計算機」而言\alert{意義重大}！
   \end{alertblock}
 \end{frame}
 
@@ -757,9 +768,13 @@
 
 \begin{frame}
   \frametitle{練習題}
-  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10071/}{UVa 10071: Back to High School Physics}}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10071/}{UVa 10071 - Back to High School Physics}}<+->
   \label{uva:10071}
-  這題只要能夠讀懂題意都不難寫。如果不知道怎樣讀取多筆測資請先參考迴圈部分 (EOF 版)。
+  這題只要能夠讀懂題意就不難寫。如果不知道怎樣讀取多筆測資請先參考迴圈部分 (EOF 版)。
+  \end{exampleblock}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/103/p10300/}{UVa 10300 - Ecological Premium}}<+->
+  \label{uva:10300}
+  一樣能讀懂題意就不難寫。
   \end{exampleblock}
 \end{frame}
 
@@ -909,7 +924,7 @@
 
 \begin{frame}[fragile]
   \frametitle{練習題 (1)}
-  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10055/}{UVa 10055: Hashmat the brave warrior}}<+->
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10055/}{UVa 10055 - Hashmat the brave warrior}}<+->
   \label{uva:10055}
   取絕對值有兩種做法，一種是用 \lstinline{if}{} 判斷；另一種是呼叫函數 \lstinline{abs()}{} 就好了。\lstinline{abs()}{} 函數被定義在 \lstinline{<cstdlib>}{} 中，雖然沒有 \lstinline{include}{} 在 Visual C++ 依然能編譯過，但是上傳時因為編譯器的原因會導致\alert{編譯錯誤} (Compilation Error, CE)。
   \end{exampleblock}
@@ -920,11 +935,11 @@
 
 \begin{frame}
   \frametitle{練習題 (2)}
-  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/111/p11172/}{UVa 11172: Relational Operators}}<+->
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/111/p11172/}{UVa 11172 - Relational Operators}}<+->
   \label{uva:11172}
   能夠理解題意就不難解決此道問題。
   \end{exampleblock}
-  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/119/p11942/}{UVa 11942: Lumberjack Sequencing}}<+->
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/119/p11942/}{UVa 11942 - Lumberjack Sequencing}}<+->
   \label{uva:11942}
   依序給你一些木頭的長度，問你這些木頭是不是由長到短，或是由短到長排列。
   \end{exampleblock}
@@ -1124,6 +1139,164 @@
 \end{frame}
 
 \begin{frame}[fragile]
+  \frametitle{位元運算子}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    位元運算子         & 意義      & 運算順序 & 結合性\\
+    \hline
+    \lstinline{<<}{} & 左移運算子 & 7      & 左$\rightarrow$右\\
+    \hline
+    \lstinline{>>}{} & 右移運算子 & 7      & 左$\rightarrow$右\\
+    \hline
+    \lstinline{&}{}  & 位元 AND  & 10     & 左$\rightarrow$右\\
+    \hline
+    \lstinline{^}{}  & 位元 XOR  & 11     & 左$\rightarrow$右\\
+    \hline
+    \lstinline{|}{}  & 位元 OR   & 12     & 左$\rightarrow$右\\
+    \hline
+    \lstinline{~}{}  & 1's 補數  & 3      & \alert{右$\rightarrow$左}\\
+    \hline
+    \end{tabular}
+    \caption{位元運算子}
+  \end{table}
+  \begin{alertblock}{注意}<2->
+    \begin{itemize}
+    \item 左移運算子和右移運算子不要和 \lstinline{cin}{} 與 \lstinline{cout}{} 的 \lstinline{<<}{}、\lstinline{>>}{} 混淆
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{左移和右移運算子}
+  \begin{block}{左移和右移}<+->
+  在位元操作上左移和右移 k 個位元。
+  \end{block}
+  \begin{exampleblock}{舉例}<+->
+    \begin{itemize}
+    \item \lstinline{2 << 2}{}\onslide<+->{ $\rightarrow$ \lstinline{8}{}}
+    \end{itemize}
+    \onslide<+->{
+      \begin{table}[h]
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & 000000\alert{10}\\
+        \hline
+        \end{tabular}
+      \onslide<+->{
+        \begin{center}
+          $\Downarrow$
+        \end{center}
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & 0000\alert{10}00\\
+        \hline
+        \end{tabular}
+      }
+    \end{table}
+    }
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{左移和右移運算子 (2)}
+  \begin{exampleblock}{再來個例子}<+->
+    \begin{itemize}
+    \item \lstinline{5 >> 1}{}\onslide<+->{ $\rightarrow$ \lstinline{2}{}}
+    \onslide<+->{
+      \begin{table}[h]
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & 00000\alert{101}\\
+        \hline
+        \end{tabular}
+      \onslide<+->{
+        \begin{center}
+          $\Downarrow$
+        \end{center}
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & 000000\alert{10}\\
+        \hline
+        \end{tabular}
+      }
+      \end{table}
+    }
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{注意}<+->
+    \begin{itemize}
+    \item 不管是左移還是右移，移出去的位元會被捨棄。
+    \item<+-> 之前提到 $x_{31}$ 決定正負號，在左移右移會影響到 $x_{31}$ 時會比較複雜，例如
+      \begin{itemize}[<+->]
+      \item \lstinline{2147483647 << 1}{}
+      \item \lstinline{-5 >> 1}{}
+      \item \lstinline{(2147483647 << 1) >> 1}{}
+      \end{itemize}
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{左移和右移運算子 (3)}
+  \begin{block}{觀察}
+    \begin{itemize}[<+->]
+    \item \lstinline{a << k}{} 會得到什麼數字呢？
+    \item 那麼 \lstinline{a >> k}{} 呢？
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{結論}<+->
+    \begin{itemize}
+    \item \lstinline{a << k}{} 會得到 $a\times{2^k}$
+    \item<+-> \lstinline{a >> k}{} 會得到 $a / 2^k$
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{位元運算子 (3)}
+  \begin{block}{\lstinline{&}{} 運算子}<+->
+    對於兩個位元 \lstinline{x}{} 和 \lstinline{y}{}，遵守以下運算規則：
+    \onslide<+->{
+      \begin{table}[h]
+        \begin{tabular}{|c||c|c|}
+        \hline
+                  & \alert{1} & \alert{0}\\
+        \hline
+        \hline
+        \alert{1} & 1         & 0\\
+        \hline
+        \alert{0} & 0         & 0\\
+        \hline
+        \end{tabular}
+      \end{table}
+    }
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{位元運算子 (4)}
+  \begin{block}{\lstinline{^}{} 運算子}<+->
+    對於兩個位元 \lstinline{x}{} 和 \lstinline{y}{}，遵守以下運算規則：
+    \onslide<+->{
+      \begin{table}[h]
+        \begin{tabular}{|c||c|c|}
+        \hline
+                  & \alert{1} & \alert{0}\\
+        \hline
+        \hline
+        \alert{1} & 0         & 1\\
+        \hline
+        \alert{0} & 1         & 0\\
+        \hline
+        \end{tabular}
+      \end{table}
+    }
+  \end{block}
+  \
+\end{frame}
+
+\begin{frame}[fragile]
   \frametitle{另外一個訣竅}
   \begin{alertblock}{問題}<1->
   給你一個正數 \lstinline{x}{}，問如何不用負號的情況下求出 \lstinline{-x}{} 呢？
@@ -1144,7 +1317,7 @@
     \end{table}
   \end{block}
   \begin{exampleblock}{舉例}<4->
-  \lstinline{--3}{} 會先算右邊的 \lstinline{-3}{}，接著 \lstinline{-3}{} 再和左邊的負號運算子「運算」，回傳結果 \lstinline{3}{}。
+  \lstinline{~~3}{} 會先算右邊的 \lstinline{~3}{}，得到 \lstinline{-4}{}，接著 \lstinline{-4}{} 再和左邊的負號運算子「運算」，回傳結果為 \lstinline{3}{}。
   \end{exampleblock}
 \end{frame}
 
@@ -1158,9 +1331,149 @@
 
 \subsection{parity}
 
+\begin{frame}
+  \frametitle{練習題}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/104/p10469/}{UVa 10469 - To Carry or not to Carry}}<+->
+  \label{uva:10469}
+  這題算是位元運算的基本應用。
+  \end{exampleblock}
+\end{frame}
+
 \section{指定運算子}
 
+\begin{frame}[fragile]
+  \frametitle{指定運算子}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    運算子           & 意義 & 運算順序 & 結合性\\
+    \hline
+    \lstinline{=}{} & 賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \end{tabular}
+    \caption{指定運算子}
+  \end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{複合指定運算子}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    運算子            & 意義    & 運算順序 & 結合性\\
+    \hline
+    \lstinline{+=}{} & 加法賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{-=}{} & 加法賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{*=}{} & 乘法賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{/=}{} & 除法賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{%=}{} & 取餘賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \end{tabular}
+  \end{table}
+  \begin{exampleblock}{意義}<2->
+    這些複合指定運算子代表的意義為：
+    \begin{multicols}{2}
+    \begin{itemize}
+    \item \lstinline{x+=a}{} $\Rightarrow$ \lstinline{x=x+a}{}
+    \item \lstinline{x-=a}{} $\Rightarrow$ \lstinline{x=x-a}{}
+    \item \lstinline{x*=a}{} $\Rightarrow$ \lstinline{x=x*a}{}
+    \item \lstinline{x/=a}{} $\Rightarrow$ \lstinline{x=x/a}{}
+    \item \lstinline{x%=a}{} $\Rightarrow$ \lstinline{x=x%a}{}
+    \item 不難理解。
+    \end{itemize}
+    \end{multicols}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{複合指定運算子}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    運算子             & 意義         & 運算順序 & 結合性\\
+    \hline
+    \lstinline{<<=}{} & 左移賦值      & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{>>=}{} & 右移賦值      & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{&=}{}  & 位元 AND 賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{^=}{}  & 位元 XOR 賦值 & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \lstinline{|=}{}  & 位元 OR 賦值  & 16     & \alert{右$\rightarrow$左}\\
+    \hline
+    \end{tabular}
+  \end{table}
+  \begin{exampleblock}{意義}<2->
+    這些複合指定運算子代表的意義為：
+    \begin{multicols}{2}
+    \begin{itemize}
+    \item \lstinline{x <<= a}{} $\Rightarrow$ \lstinline{x = x << a}{}
+    \item \lstinline{x >>= a}{} $\Rightarrow$ \lstinline{x = x >> a}{}
+    \item \lstinline{x &= a}{}  $\Rightarrow$ \lstinline{x = x & a}{}
+    \item \lstinline{x ^= a}{}  $\Rightarrow$ \lstinline{x = x ^ a}{}
+    \item \lstinline{x |= a}{}  $\Rightarrow$ \lstinline{x = x | a}{}
+    \item 以此類推。
+    \end{itemize}
+    \end{multicols}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{複合指定運算子}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    運算子            & 意義         & 運算順序 & 結合性\\
+    \hline
+    \lstinline{++}{} & 字尾遞增      & 2     & 左$\rightarrow$右\\
+    \hline
+    \lstinline{--}{} & 字尾遞減      & 2     & 左$\rightarrow$右\\
+    \hline
+    \lstinline{++}{} & 字首遞增      & 3     & 左$\rightarrow$右\\
+    \hline
+    \lstinline{--}{} & 字首遞減      & 3     & 左$\rightarrow$右\\
+    \hline
+    \end{tabular}
+  \end{table}
+  \begin{exampleblock}{註}<2->
+    \begin{itemize}
+    \item 字尾系列寫做「\lstinline{i++}{}」、「\lstinline{j--}{}」。
+    \item<3-> 字頭系列寫做「\lstinline{++i}{}」、「\lstinline{--j}{}」。
+    \item<4-> 不管是字首還是字尾，代表的意義都是 \lstinline{i = i + 1}{} 和 \lstinline{j = j - 1}{}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
 \subsection{未定義行為}
+
+\begin{frame}[fragile]
+  \frametitle{未定義行為}
+  \begin{exampleblock}{例子}<+->
+    \begin{lstlisting}
+  int i = 0;
+  cout << i++ + ++i << endl;
+    \end{lstlisting}
+    答案是多少？
+  \end{exampleblock}
+  \begin{block}{註}<+->
+    \begin{itemize}
+    \item 答案：\alert{沒有人知道！}
+    \item<+-> 在不同的編譯器會有不同的結果。
+    \item<+-> 大多數是因為在同一行之內改同一變數一次以上。
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{例如}<+->
+    \begin{itemize}
+    \item \lstinline{i = ++i + 1;}{}
+    \item<+-> \lstinline{i++*++i+i--*--i}{}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
 
 \section{其他運算子}
 
@@ -1187,8 +1500,63 @@
   \end{alertblock}
 \end{frame}
 
-\begin{frame}
-  \
+\begin{frame}[fragile]
+  \frametitle{sizeof 運算子}
+  \begin{block}{用途}<+->
+  可以知道某個\alert{資料型態}或\alert{變數}所使用的位元組數。
+  \end{block}
+  \begin{exampleblock}{例子}<+->
+    \begin{itemize}
+    \item \lstinline{sizeof(int)}{}\onslide<+->{ 在\alert{筆者的機器}上會是 4 位元組}
+    \item<+-> \lstinline{sizeof(double)}{}\onslide<+->{ 在\alert{筆者的機器}上會是 8 位元組}
+    \item<+->
+      \begin{lstlisting}
+      bool b = true;
+      cout << sizeof b << endl;
+      \end{lstlisting}
+      \onslide<+->{在\alert{筆者的機器}上會是 1 位元組}
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{注意}<+->
+  每個人的機器會出現不同的結果，像是之前提到有些機器的 \lstinline{int}{} 會是 2 個位元組。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{型別轉換}
+  \begin{block}{(type) 運算子}<+->
+  C++ 有資料型態，若型態間需要\alert{強制轉換}就要使用這個運算子
+  \end{block}
+  \begin{exampleblock}{例子}<+->
+    \begin{itemize}
+    \item \lstinline{int}{} 變數 \lstinline{x}{} 轉為 \lstinline{double}{} %
+      \onslide<+->{$\rightarrow$ \lstinline{(double) x}{} 或者 \lstinline{double(x)}{}}
+    \item<+-> \lstinline{double}{} 常數轉為 \lstinline{int}{} %
+      \onslide<+->{$\rightarrow$ \lstinline{(int) 5.14}{} 或者 \lstinline{int(5.14)}{}}
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{註}<+->
+  我們說過資料型態代表容器可以裝的資料類型不同，因此我們之後會遇到需要「\alert{改變資料類型}」的狀況，那時需要做型別轉換。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{逗號運算子}
+  \begin{block}{意義}
+    \begin{itemize}
+    \item 最常被人誤解的\alert{運算子}\onslide<2->{、\alert{運算子}}\onslide<3->{、\alert{運算子}！(因為很重要所以要說三次)}
+    \item<4-> 逗號運算子可以\alert{分隔}兩個運算式，回傳值是\alert{右邊}運算式的回傳值。
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{實例}<5->
+  用迴圈讀入 n，直到 $n=0$ 停止：
+    \pause \pause \pause \pause \pause
+    \begin{lstlisting}
+  int n;
+  while (cin >> n, n) {
+  }
+    \end{lstlisting}
+  \end{exampleblock}
 \end{frame}
 
 \section{結論}
@@ -1199,7 +1567,7 @@
     \begin{enumerate}[<+->]
     \item 句子結尾是分號「\lstinline{;}{}」。
     \item 初始化的重要性。
-    \item C++ 依照運算順序和結合性做運算。
+    \item C++ 運算子依照運算順序和結合性做運算，大約了解運算的優先順序。
     \item 除以零會遇到的現象。
     \item 「零」代表 \lstinline{false}{}，「非零」代表 \lstinline{true}{}。
     \item 邏輯運算子是短路運算。
@@ -1207,6 +1575,9 @@
     \item 注意未定義行為。
     \end{enumerate}
   \end{alertblock}
+  \begin{exampleblock}{運算優先順序}<+->
+  一元運算子 $\rightarrow$ 算術運算子 $\rightarrow$ 比較運算子 $\rightarrow$ 邏輯運算子 $\rightarrow$ 位元運算子 $\rightarrow$ 指定運算子、複合指定運算子 $\rightarrow$ 逗號運算子
+  \end{exampleblock}
 \end{frame}
 
 \clearpage
