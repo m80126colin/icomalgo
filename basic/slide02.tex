@@ -37,7 +37,7 @@
   keywordstyle=\color{blue}\ttfamily,
   stringstyle=\color{red!50!brown}\ttfamily,
   commentstyle=\color{green!50!black}\ttfamily,
-  identifierstyle=\color{black}\ttfamily,
+  %identifierstyle=\color{black}\ttfamily,
   emphstyle=\color{purple}\ttfamily,
   extendedchars=false,
   texcl=true,
@@ -47,17 +47,339 @@
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
 
-\title{基礎程式設計技巧(二)\\程式與計算}
+\title{基礎程式設計技巧(二)\\程式與結構}
 \author{許胖}
 \institute[PCSH]{板燒高中}
 
+\begin{frame}
+  \titlepage
+\end{frame}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents
+  \end{multicols}
+\end{frame}
 
-\section{程式控制}
-\subsection{分支結構}
-\subsection{迴圈結構}
+\section{簡介}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
 
 \section{資料型態}
 
+\begin{frame}[fragile]
+  \frametitle{溢位}
+  \begin{block}{問題}
+  執行這段程式碼之後，會發生什麼現象？
+  \pause
+  \begin{lstlisting}
+  int x = 2147483647;
+  cout << x + 1 << endl;
+  \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{答案}<3->
+    \begin{itemize}
+    \item \texttt{-2147483648}
+    \item<4-> 為什麼？\onslide<5->{\alert{Ans:溢位現象}}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
 
-\begin{CJK}
+\begin{frame}
+  \frametitle{溢位}
+  \begin{block}{說明}<1->
+    \onslide<2->{
+    \begin{table}[h]
+      \begin{tabular}{c|c|c|c|c|l}
+          & 01111111         & 11111111 & 11111111 & 11111111 & \onslide<3->{\alert{2147483647}}\\
+      $+$ & 00000000         & 00000000 & 00000000 & 00000001 & \onslide<3->{\alert{1}}\\
+      \hline
+      \hline
+          & \alert{1}0000000 & 00000000 & 00000000 & 00000000 & \onslide<3->{\alert{-2147483648}}\\
+      \end{tabular}
+    \end{table}
+    }
+  \end{block}
+  \begin{alertblock}{觀念}<4->
+    \begin{itemize}
+    \item 只要存資料的記憶體是有限的，那麼
+      \begin{itemize}[<5->]
+      \item 儲存的資料就有\alert{範圍}上的限制
+      \item<6-> 不然，就是\alert{精確度}的限制
+      \end{itemize}
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{資料型態}
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    資料型態                   & 位元組 & 下界                       & 上界\\
+    \hline
+    \lstinline{char}{}        & 1     & -128                      & 127\\
+    \hline
+    \lstinline{short}{}       & 2     & -32768                    & 32767\\
+    \hline
+    \lstinline{int}{}         & 4     & -2147483648               & 2147483647\\
+    \hline
+    \lstinline{long long}{}   & 8     & -9223372036854775808      & 9223372036854775807\\
+    \hline
+    \lstinline{float}{}       & 4     & $-3.40282\times{10^{38}}$ & $3.40282\times{10^{38}}$\\
+    \hline
+    \lstinline{double}{}      & 8     & $-1.79769 * 10^{308}$     & $1.79769 * 10^{308}$\\
+    \hline
+    \end{tabular}
+    \caption{資料型態上下界}
+  \end{table}
+\end{frame}
+
+\section{程式的執行}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
+
+\subsection{記憶體}
+
+\begin{frame}
+  \frametitle{重點回顧}
+  \begin{exampleblock}{重點回顧}
+    \begin{itemize}[<+->]
+    \item \alert{位元} (bit, b)：計算機儲存資料的基本單位，只儲存 \alert{0 和 1}
+    \item \alert{位元組} (byte, B)：因為位元很多，所以我們把 8 個位元「打包起來」，變成一個位元組
+      \begin{table}[h]
+        \begin{tabular}{|c|}
+        \hline
+        01001010\\
+        \hline
+        \end{tabular}
+        \caption{位元組}
+      \end{table}
+    \item 常見應用
+      \begin{itemize}
+      \item KB、MB、GB、TB、PB：資料大小
+      \item Kbps、Mbps、Gbps：資料傳輸速度
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{記憶體分類}
+  \begin{block}{根據用途來分類，可分為 ...}<+->
+    \begin{enumerate}[<+->]
+    \item 硬碟，速度最慢
+      \begin{itemize}[<+->]
+      \item 長時間保存資料
+      \item 容量大
+      \end{itemize}
+    \item \alert{主記憶體}，俗稱記憶體
+      \begin{itemize}[<+->]
+      \item \alert{程式執行的地方}
+      \item 我們說的記憶體、RAM 多是指這裡
+      \item 關機後資料就消失
+      \end{itemize}
+    \item 快取記憶體
+    \item 暫存器
+      \begin{itemize}[<+->]
+      \item 這兩個與 CPU 有關，可以先不管
+      \end{itemize}
+    \end{enumerate}
+  \end{block}
+  \begin{exampleblock}{主軸}<+->
+    \begin{itemize}
+    \item 我們將集中記憶體和程式之間的關係來討論。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\subsection{位址與指標}
+
+\begin{frame}[fragile]
+  \frametitle{位址}
+  \begin{block}{記憶體 ...}<+->
+    \begin{itemize}[<+->]
+    \item 記憶體就像「土地」一樣，可以分配用途
+      \begin{itemize}
+      \item 例如 \lstinline{int}{}、\lstinline{double}{} 等分配方式
+      \end{itemize}
+    \item 既然要把土地分配，那麼每一塊地都要有個類似「\alert{地址}」(地籍) 的編號
+    \item 每個\alert{位元組}都有一個地址，稱為「\alert{位址}」。
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{觀念}<+->
+    \begin{itemize}
+    \item 位元組是計算機中，\alert{擁有位址}的最小單位。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{觀察位址}
+  \begin{block}{取址運算子}
+  下列程式會印出變數 \lstinline{x}{} 的位址。
+  \pause
+  \begin{lstlisting}
+  #include <iostream>
+  using namespace std;
+  int main() {
+    int x;
+    cout << &x << endl;
+  }
+  \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{註}<3->
+    \begin{itemize}
+    \item 印出來是一個 16 進位的數字，代表變數被分配到的「位址」。
+    \item<4-> 分配到的位址會依據機器、作業系統、編譯器不同而不同。
+    \item<5-> 總之就是\alert{不一定}啦！(╯°□°）╯︵ ╧╧
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{連續宣告}
+  \begin{block}{觀察}
+  觀察一下多變數的位址。
+  \pause
+  \begin{lstlisting}
+  int x, y, z;
+  cout << &x << endl << &y << endl << &z << endl;
+  \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{結果}<3->
+    \begin{itemize}
+    \item 以筆者的機器來說，會出現以下結果：
+      \onslide<4->{
+      \begin{center}
+      \texttt{0040EC64}\onslide<5->{ \alert{$\leftarrow$ 變數 \texttt{x} 的位址}}\\
+      \texttt{0040EC68}\onslide<5->{ \alert{$\leftarrow$ 變數 \texttt{y} 的位址}}\\
+      \texttt{0040EC6C}\onslide<5->{ \alert{$\leftarrow$ 變數 \texttt{z} 的位址}}
+      \end{center}
+      }
+    \item<6-> 以筆者的機器，\lstinline{int}{} 的大小是 \alert{4} 個位元組。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{大印第安和小印第安}
+  \begin{block}{問題}
+  假設現在 \lstinline{int x = 0x12345678;}{} 的位址是 \texttt{0040EC64}，那麼這個 16 進位的數字「實際上」是怎樣儲存的呢？
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{記憶體分配}
+  \begin{block}{說明}<+->
+    \begin{itemize}
+    \item 觀察這幾個記憶體
+      \onslide<+->{
+      \begin{table}[h]
+        \begin{tabular}{r|c|c|c|c|l}
+        \cline{2-5}
+        \texttt{0040EC64} & & & & & $\leftarrow$ 變數 \texttt{x} 存放位置\\
+        \cline{2-5}
+        \texttt{0040EC68} & & & & & $\leftarrow$ 變數 \texttt{y} 存放位置\\
+        \cline{2-5}
+        \texttt{0040EC6C} & & & & & $\leftarrow$ 變數 \texttt{z} 存放位置\\
+        \cline{2-5}
+        \end{tabular}
+      \end{table}
+      }
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item \texttt{x} 佔 4 個位元組 (\texttt{0040EC64}、\texttt{0040EC65}、\texttt{0040EC66}、\texttt{0040EC67})
+    \item<+-> \texttt{y} 佔 4 個位元組 (\texttt{0040EC68} 到 \texttt{0040EC6B})
+    \item<+-> \texttt{z} 佔 4 個位元組 (\texttt{0040EC6C} 到 \texttt{0040EC6F})
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{指標}
+  \begin{block}{概念}
+    \begin{itemize}[<+->]
+    \item 像是一根「\alert{手指}」，指著一塊記憶體。
+    \item<+-> 指著的記憶體，可以指定用途。
+    \end{itemize}
+  \end{block}
+  \begin{alertblock}{宣告}<+->
+    \begin{lstlisting}
+  int *x;
+    \end{lstlisting}
+  \end{alertblock}
+  \begin{exampleblock}{註}<+->
+    \begin{itemize}
+    \item \lstinline{x}{} 是一個指標，會指向一塊記憶體。\onslide<+->{謎之音：「怎麼指？」}
+      \begin{itemize}[<+->]
+      \item 去\alert{儲存}某一塊記憶體的\alert{位址}。
+      \end{itemize}
+    \item<+-> 那塊記憶體的用途是 \lstinline{int}{}。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{指標實戰}
+  \begin{block}{實戰}
+    \begin{lstlisting}
+  int x = 5;
+  int *ptr = &x;
+  cout << x << endl;
+  cout << *ptr << endl;
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+\section{程式控制}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
+
+\subsection{選擇結構}
+\subsection{迴圈結構}
+\subsection{陣列}
+
+\begin{frame}
+  \frametitle{練習題}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10035/}{UVa 10035 - Primary Arithmetic}}<+->
+  \label{uva:10035}
+  不難。
+  \end{exampleblock}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/100/p10038/}{UVa 10038 - Jolly Jumpers}}<+->
+  \label{uva:10038}
+  讀懂題意就不難。
+  \end{exampleblock}
+  \begin{exampleblock}{\href{http://unfortunate-dog.github.io/articles/1/p109/}{UVa 109 - SCUD Busters}}<+->
+  \label{uva:591}
+  這一題敘述和公式稍嫌複雜，但是用我們之前所學的工具依然可以輕鬆解決。
+  \end{exampleblock}
+\end{frame}
+
+\section{函數}
+
+\subsection{傳值呼叫}
+
+\subsection{傳址呼叫}
+
+\subsection{傳參考呼叫}
+
+\section{暴力搜尋法}
+
+\clearpage
+\end{CJK}
 \end{document}
