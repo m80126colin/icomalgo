@@ -270,13 +270,6 @@
   \end{exampleblock}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{大印第安和小印第安}
-  \begin{block}{問題}
-  假設現在 \lstinline{int x = 0x12345678;}{} 的位址是 \texttt{0040EC64}，那麼這個 16 進位的數字「實際上」是怎樣儲存的呢？
-  \end{block}
-\end{frame}
-
 \begin{frame}
   \frametitle{記憶體分配}
   \begin{block}{說明}<+->
@@ -304,6 +297,13 @@
     \item<+-> \texttt{z} 佔 4 個位元組 (\texttt{0040EC6C} 到 \texttt{0040EC6F})
     \end{itemize}
   \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{大印第安和小印第安}
+  \begin{block}{問題}
+  假設現在 \lstinline{int x = 0x12345678;}{} 的位址是 \texttt{0040EC64}，那麼這個 16 進位的數字「實際上」是怎樣儲存的呢？
+  \end{block}
 \end{frame}
 
 \begin{frame}[fragile]
