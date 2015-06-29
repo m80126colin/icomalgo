@@ -86,8 +86,8 @@
     \end{enumerate}
   \end{exampleblock}
   \begin{itemize}
-  \item<10-> 以上就是快樂寒訓營的\alert{培訓目標}！
-  \item<11-> 也就是要讓大家熟悉\alert{基本的 C++ 語法}，以及學會基本的 \alert{coding 技巧}。
+  \item<10-> 以上就是\alert{培訓目標}！
+  \item<11-> 就是要讓大家熟悉\alert{基本的 C++ 語法}，以及學會基本的 \alert{coding 技巧}。
   \end{itemize}
 \end{frame}
 
@@ -118,12 +118,14 @@
   \begin{block}{目標}
     \begin{enumerate}[<+->]
     \item 知道 C++ 的語法皆為「\alert{運算}」
-    \item 各運算子的用法及特性。
-    \item 注意\alert{未定義行為}。
+    \item 各運算子的用法及特性
+    \item 注意\alert{未定義行為}
     \end{enumerate}
   \end{block}
   \begin{exampleblock}{XD}<+->
-  祝各位接下來一周快樂寫程式 XD！
+    \begin{itemize}
+    \item 希望各位在之後的內容都要動手快樂寫程式 XD！
+    \end{itemize}
   \end{exampleblock}
 \end{frame}
 
@@ -150,10 +152,7 @@
   \end{block}
   \begin{exampleblock}{註}<3->
     \begin{itemize}
-    \item 怎麼理解？
-      \begin{itemize}[<4->]
-      \item 不需要理解，我們先記起來。
-      \end{itemize}
+    \item 怎麼理解？\uncover<4->{ 不需要理解，我們先\alert{記}起來。}
     \item<5-> 基本上程式的內容都寫在\alert{大括號}中。
     \item<6-> 裡面每個符號都要一樣 (分號也是)。
     \end{itemize}
@@ -354,9 +353,9 @@
     \end{lstlisting}
     會發生什麼事呢？
   \end{block}
-  \begin{block}{練習}<2->
+  \begin{exampleblock}{練習}<2->
   如果沒發生什麼事，試著輸入「1」再按 enter 鍵，會發生什麼事呢？
-  \end{block}
+  \end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -486,11 +485,14 @@
 \begin{frame}[fragile]
   \frametitle{布林值的重要觀念}
   \begin{alertblock}{觀念}
-    \begin{itemize}
+    \begin{itemize}[<+->]
     \item C++ 中，「\alert{非零整數}」會被當做「\lstinline{true}{}」，印出時也會印出一個非零整數 (\alert{通常是 1})。
-    \item<2-> 「0」會被當做「\lstinline{false}{}」，印出時會印出「\alert{0}」。
+    \item 「0」會被當做「\lstinline{false}{}」，印出時會印出「\alert{0}」。
     \end{itemize}
   \end{alertblock}
+  \begin{exampleblock}{技巧}<+->
+  這個特性在之後會\alert{非常}常用！大家要注意！
+  \end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -947,6 +949,10 @@
 
 \subsection{短路運算}
 
+\begin{frame}
+  \frametitle{短路運算}
+\end{frame}
+
 \section{位元運算子}
 \begin{frame}
   \frametitle{大綱}
@@ -1029,7 +1035,7 @@
       \hline
       \end{tabular}
       \end{table}
-    \item $x_{31}$ 可表示正負號
+    \item $x_{31}$ 表示正負號
       \begin{itemize}[<+->]
       \item 0 代表 \lstinline{int}{} 是正數
       \item 1 代表 \lstinline{int}{} 是負數
@@ -1174,7 +1180,7 @@
   \end{block}
   \begin{exampleblock}{舉例}<+->
     \begin{itemize}
-    \item \lstinline{2 << 2}{}\onslide<+->{ $\rightarrow$ \lstinline{8}{}}
+    \item \lstinline{2 << 2}{}\onslide<+->{ $\Rightarrow$ \lstinline{8}{}}
     \end{itemize}
     \onslide<+->{
       \begin{table}[h]
@@ -1202,7 +1208,7 @@
   \frametitle{左移和右移運算子 (2)}
   \begin{exampleblock}{再來個例子}<+->
     \begin{itemize}
-    \item \lstinline{5 >> 1}{}\onslide<+->{ $\rightarrow$ \lstinline{2}{}}
+    \item \lstinline{5 >> 1}{}\onslide<+->{ $\Rightarrow$ \lstinline{2}{}}
     \onslide<+->{
       \begin{table}[h]
         \begin{tabular}{|c|c|c|c|}
@@ -1247,57 +1253,132 @@
   \end{block}
   \begin{alertblock}{結論}<+->
     \begin{itemize}
-    \item \lstinline{a << k}{} 會得到 $a\times{2^k}$
-    \item<+-> \lstinline{a >> k}{} 會得到 $a / 2^k$
+    \item 一般來說 \lstinline{a << k}{} 會得到 $a\times{2^k}$，\lstinline{a >> k}{} 會得到 $a / 2^k$
+    \item<+-> 有些情況比較複雜，大家看看就好，起碼對這些運算「有感覺」。
     \end{itemize}
   \end{alertblock}
 \end{frame}
 
 \begin{frame}[fragile]
+  \frametitle{位元運算子 (2)}
+  \begin{block}{位元運算子}
+    對於兩個位元 \lstinline{x}{} 和 \lstinline{y}{}，遵守以下運算規則：
+    \begin{multicols}{3}
+    \pause
+      \begin{table}[h]
+        \begin{tabular}{|c||c|c|}
+        \hline
+        \lstinline{&}{} & \alert{1} & \alert{0}\\
+        \hline
+        \hline
+        \alert{1}       & 1         & 0\\
+        \hline
+        \alert{0}       & 0         & 0\\
+        \hline
+        \end{tabular}
+        \caption{and 運算子}
+      \end{table}
+    \pause
+      \begin{table}[h]
+        \begin{tabular}{|c||c|c|}
+        \hline
+        \lstinline{^}{} & \alert{1} & \alert{0}\\
+        \hline
+        \hline
+        \alert{1}       & 0         & 1\\
+        \hline
+        \alert{0}       & 1         & 0\\
+        \hline
+        \end{tabular}
+        \caption{xor 運算子}
+      \end{table}
+    \pause
+      \begin{table}[h]
+        \begin{tabular}{|c||c|c|}
+        \hline
+        \lstinline{|}{} & \alert{1} & \alert{0}\\
+        \hline
+        \hline
+        \alert{1}       & 1         & 1\\
+        \hline
+        \alert{0}       & 1         & 0\\
+        \hline
+        \end{tabular}
+        \caption{or 運算子}
+      \end{table}
+    \end{multicols}
+  \end{block}
+  \pause
+  \begin{exampleblock}{觀察}
+    \begin{itemize}
+    \item and、or 運算子類似之前的邏輯運算子，不同在於這是\alert{位元}運算。\pause
+    \item xor 很特別，可以記為不同數字為 1，相同為 0。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{舉例}
+  \begin{itemize}[<+->]
+  \item \lstinline{5 & 3}{}\onslide<+->{ $\Rightarrow$ \lstinline{1}{}}
+  \begin{block}{結果}<+->
+    \begin{table}[h]
+      \begin{tabular}{|c|r|c|c|c|}
+      \hline
+           & 00000000 & 00000000 & 00000000 & 00000\alert{101}\\
+      \hline
+      $\&$ & 00000000 & 00000000 & 00000000 & 00000\alert{011}\\
+      \hline
+      \hline
+           & 00000000 & 00000000 & 00000000 & 00000\alert{001}\\
+      \hline
+      \end{tabular}
+    \end{table}
+  \end{block}
+  \item \lstinline{5 | 3}{}\onslide<+->{ $\Rightarrow$ \lstinline{7}{}}
+  \begin{block}{結果}<+->
+    \begin{table}[h]
+      \begin{tabular}{|c|r|c|c|c|}
+      \hline
+          & 00000000 & 00000000 & 00000000 & 00000\alert{101}\\
+      \hline
+      $|$ & 00000000 & 00000000 & 00000000 & 00000\alert{011}\\
+      \hline
+      \hline
+          & 00000000 & 00000000 & 00000000 & 00000\alert{111}\\
+      \hline
+      \end{tabular}
+    \end{table}
+  \end{block}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
   \frametitle{位元運算子 (3)}
-  \begin{block}{\lstinline{&}{} 運算子}<+->
+  \begin{block}{補數運算子}<+->
     對於兩個位元 \lstinline{x}{} 和 \lstinline{y}{}，遵守以下運算規則：
-    \onslide<+->{
-      \begin{table}[h]
-        \begin{tabular}{|c||c|c|}
-        \hline
-                  & \alert{1} & \alert{0}\\
-        \hline
-        \hline
-        \alert{1} & 1         & 0\\
-        \hline
-        \alert{0} & 0         & 0\\
-        \hline
-        \end{tabular}
-      \end{table}
-    }
+    \begin{table}[h]
+      \begin{tabular}{|c||c|c|}
+      \hline
+      \lstinline{~}{} & \alert{1} & \alert{0}\\
+      \hline
+                      & 0         & 1\\
+      \hline
+      \end{tabular}
+      \caption{and 運算子}
+    \end{table}
   \end{block}
+  \begin{exampleblock}{說明}<+->
+    \begin{itemize}
+    \item 就是把 1 變為 0，把 0 變為 1 (相當於邏輯運算子的 \lstinline{!}{})
+    \item<+-> 又稱為 1's 補數
+    \item<+-> \lstinline{~0}{}\onslide<+->{ $\Rightarrow$ \lstinline{-1}{}}
+    \end{itemize}
+  \end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{位元運算子 (4)}
-  \begin{block}{\lstinline{^}{} 運算子}<+->
-    對於兩個位元 \lstinline{x}{} 和 \lstinline{y}{}，遵守以下運算規則：
-    \onslide<+->{
-      \begin{table}[h]
-        \begin{tabular}{|c||c|c|}
-        \hline
-                  & \alert{1} & \alert{0}\\
-        \hline
-        \hline
-        \alert{1} & 0         & 1\\
-        \hline
-        \alert{0} & 1         & 0\\
-        \hline
-        \end{tabular}
-      \end{table}
-    }
-  \end{block}
-  \
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{另外一個訣竅}
+  \frametitle{位元技巧 (1)}
   \begin{alertblock}{問題}<1->
   給你一個正數 \lstinline{x}{}，問如何不用負號的情況下求出 \lstinline{-x}{} 呢？
   \end{alertblock}
@@ -1321,7 +1402,24 @@
   \end{exampleblock}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{位元技巧 (1)}
+  \begin{alertblock}{問題}<+->
+  給你一個正數 \lstinline{x}{}，問如何不用負號的情況下求出 \lstinline{-x}{} 呢？
+  \end{alertblock}
+  \begin{block}{提示}<+->
+  比較 \lstinline{-x}{} 和 \lstinline{~x}{} 的不同。
+  \end{block}
+\end{frame}
+
 \subsection{取特定餘數}
+
+\begin{frame}[fragile]
+  \frametitle{位元技巧 (2)－－取特定餘數}
+  \begin{itemize}[<+->]
+  \item 取 2 的餘數
+  \end{itemize}
+\end{frame}
 
 \subsection{mask}
 
