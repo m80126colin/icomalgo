@@ -279,24 +279,30 @@
 
 \begin{frame}[fragile]
   \frametitle{宣告多個變數}
-  \begin{exampleblock}{宣告兩個整數}
-    \begin{itemize}[<+->]
-    \item 可以寫成這樣：
-      \begin{lstlisting}
+  \begin{columns}[T]
+    \begin{column}[T]{5cm}
+    \begin{block}{宣告兩個整數}
+      \begin{itemize}[<+->]
+      \item 可以寫成這樣：
+        \begin{lstlisting}
   int a;
   int b;
-      \end{lstlisting}
-    \item 更可以簡化成這樣：
-      \begin{lstlisting}
+        \end{lstlisting}
+      \item 更可以簡化成這樣：
+        \begin{lstlisting}
   int a, b;
-      \end{lstlisting}
-    \end{itemize}
-  \end{exampleblock}
-  \begin{exampleblock}{宣告三個整數}<+->
-    \begin{lstlisting}
+        \end{lstlisting}
+      \end{itemize}
+    \end{block}
+    \end{column}
+    \begin{column}[T]{5cm}
+    \begin{exampleblock}{宣告三個整數}<+->
+      \begin{lstlisting}
   int a, b, c;
-    \end{lstlisting}
-  \end{exampleblock}
+      \end{lstlisting}
+    \end{exampleblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -426,11 +432,11 @@
     \item 一種資料型態，只拿來裝兩種數值：「\lstinline{true}{}」和「\lstinline{false}{}」。
     \end{itemize}
   \end{exampleblock}
-  \begin{alertblock}{宣告}<+->
+  \begin{block}{宣告}<+->
     \begin{lstlisting}
   bool b;
     \end{lstlisting}
-  \end{alertblock}
+  \end{block}
   \begin{alertblock}{注意}<+->
     \begin{itemize}
     \item 兩種不同的宣告不能用「逗號」隔開：
@@ -913,10 +919,10 @@
     \begin{itemize}
     \item 我們知道 \lstinline{<=}{} 運算子在列出很多個時，會\alert{由左到右算}
     \item<+-> \alert{\lstinline{a <= x}{}} 先算出 \lstinline{true}{} 或者是 \lstinline{false}{}
-    \item<+-> 如果是 \lstinline{true}{}，假設 \lstinline{a=-4}{}、\lstinline{b=-1}{}、\lstinline{x=-2}{}
+    \item<+-> 假設 \lstinline{a=-4}{}、\lstinline{b=-1}{}、\lstinline{x=-2}{} (我們知道結果是 \lstinline{true}{})
       \begin{itemize}[<+->]
       \item \lstinline{a <= x <= b}{} 先算 \lstinline{a <= x}{} 得到 \lstinline{true}{}
-      \item \lstinline{true <= b}{}，因為 \lstinline{true}{} 通常是 1，但此時我們假設 \lstinline{b=-1}{}，整句就會回傳 \lstinline{false}{}
+      \item \lstinline{true <= b}{}，因為 \lstinline{true}{} 通常是 1，但此時 \lstinline{b=-1}{}，整句就會回傳 \lstinline{false}{}
       \item 但事實上 \lstinline{x}{} 是在 \lstinline{a}{} 和 \lstinline{b}{} 裡面。
       \end{itemize}
     \item<+-> \lstinline{a <= x}{} 是 \lstinline{false}{} 也會有同樣的問題。
@@ -931,7 +937,7 @@
   取絕對值有兩種做法，一種是用 \lstinline{if}{} 判斷；另一種是呼叫函數 \lstinline{abs()}{} 就好了。\lstinline{abs()}{} 函數被定義在 \lstinline{<cstdlib>}{} 中，雖然沒有 \lstinline{include}{} 在 Visual C++ 依然能編譯過，但是上傳時因為編譯器的原因會導致\alert{編譯錯誤} (Compilation Error, CE)。
   \end{exampleblock}
   \begin{alertblock}{注意}
-  另外要注意這一題的整數型態需用 \lstinline{long long}{}，用 \lstinline{int}{} 會造成溢位現象，這個原因會在後面說明。
+  另外要注意這一題的整數型態需用 \lstinline{long long}{}，用 \lstinline{int}{} 會造成「溢位現象」，這個原因會在後面說明。
   \end{alertblock}
 \end{frame}
 
@@ -1378,13 +1384,10 @@
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{位元技巧 (1)}
-  \begin{alertblock}{問題}<1->
-  給你一個正數 \lstinline{x}{}，問如何不用負號的情況下求出 \lstinline{-x}{} 呢？
-  \end{alertblock}
-  \begin{block}{一元運算子}<2->
+  \frametitle{一元運算子}
+  \begin{block}{一元運算子}<1->
     \alert{一元運算子}就是只有一個運算元的運算子。
-    \pause \pause
+    \pause
     \begin{table}[h]
       \begin{tabular}{|c|c|c|c|}
       \hline
@@ -1397,37 +1400,227 @@
       \end{tabular}
     \end{table}
   \end{block}
-  \begin{exampleblock}{舉例}<4->
+  \begin{exampleblock}{舉例}<3->
   \lstinline{~~3}{} 會先算右邊的 \lstinline{~3}{}，得到 \lstinline{-4}{}，接著 \lstinline{-4}{} 再和左邊的負號運算子「運算」，回傳結果為 \lstinline{3}{}。
   \end{exampleblock}
 \end{frame}
 
+\subsection{常用位元運算技巧}
+
 \begin{frame}[fragile]
-  \frametitle{位元技巧 (1)}
+  \frametitle{常用技巧：連續的 1}
+  \begin{block}{問題}<+->
+  要怎樣產生 2 進位下連續 k 個 1？
+  \end{block}
+  \begin{exampleblock}{舉例}<+->
+    \begin{itemize}
+    \item 3 個 1
+      \begin{table}[h]
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & 00000\alert{111}\\
+        \hline
+        \end{tabular}
+      \end{table}
+    \item<+-> 5 個 1
+      \begin{table}[h]
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & 000\alert{11111}\\
+        \hline
+        \end{tabular}
+      \end{table}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{常用技巧：連續的 1}
+  \begin{block}{問題}<+->
+  要怎樣產生 2 進位下連續 k 個 1？
+  \end{block}
+  \begin{exampleblock}{觀察}<+->
+    \begin{itemize}
+    \item 可以很容易發現，k 個 1 恰好是 $2^k-1$。
+    \item<+-> \alert{前提是不牽扯到正負號 $x_{31}$}
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{結論}<+->
+    \begin{itemize}
+    \item \lstinline{(1 << k) - 1}{}
+    \item<+-> 注意減號和左移運算子的優先順序。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{常用技巧：連續的 1 (加強版)}
+  \begin{block}{問題 \alert{(加強版)}}<1->
+  要怎樣產生 2 進位下 $x_a$ 到 $x_b$ 都是 1？ (假設 $a<b$)
+  \end{block}
+  \begin{exampleblock}{舉例}<2->
+    \begin{itemize}
+    \item $x_0$ 到 $x_2$ \onslide<3->{$\Rightarrow$ 恰好是 3 個 1 的情形}
+      \begin{table}[h]
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & 00000\alert{111}\\
+        \hline
+        \end{tabular}
+      \end{table}
+    \item<4-> $x_3$ 到 $x_7$
+      \begin{table}[h]
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        00000000 & 00000000 & 00000000 & \alert{11111}000\\
+        \hline
+        \end{tabular}
+      \end{table}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{常用技巧：連續的 1 (加強版)}
+  \begin{block}{問題 \alert{(加強版)}}<+->
+  要怎樣產生 2 進位下 $x_a$ 到 $x_b$ 都是 1？ (假設 $a<b$)
+  \end{block}
+  \begin{alertblock}{結論}<+->
+    \begin{itemize}
+    \item 觀察之後，可以發現是 $2^(b+1)-2^a$
+    \item<+-> 該怎麼實作就從之前取 k 個 1 的方法去擴展就可以得到。
+    \item<+-> 記得熟悉位元運算，有時候就會有題目會用到。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{位元技巧：取負數}
   \begin{alertblock}{問題}<+->
   給你一個正數 \lstinline{x}{}，問如何不用負號的情況下求出 \lstinline{-x}{} 呢？
   \end{alertblock}
   \begin{block}{提示}<+->
   比較 \lstinline{-x}{} 和 \lstinline{~x}{} 的不同。
   \end{block}
+  \begin{exampleblock}{註}<+->
+  這個例子只是展現位元運算有時候很神奇，這個方法很多時候並不常用。
+  \end{exampleblock}
 \end{frame}
-
-\subsection{取特定餘數}
 
 \begin{frame}[fragile]
-  \frametitle{位元技巧 (2)－－取特定餘數}
-  \begin{itemize}[<+->]
-  \item 取 2 的餘數
-  \end{itemize}
+  \frametitle{更多性質}
+  \begin{block}{位元運算的性質}<1->
+  再看看位元運算的性質：
+    \pause
+    \begin{multicols}{2}
+      \begin{table}[h]
+        \begin{tabular}{|c||c|}
+        \hline
+        \lstinline{&}{} & \alert{x}\\
+        \hline
+        \hline
+        \alert{1}       & x\\
+        \hline
+        \alert{0}       & 0\\
+        \hline
+        \end{tabular}
+        \caption{and 運算子}
+      \end{table}
+    \pause
+      \begin{table}[h]
+        \begin{tabular}{|c||c|}
+        \hline
+        \lstinline{|}{} & \alert{x}\\
+        \hline
+        \hline
+        \alert{1}       & 1\\
+        \hline
+        \alert{0}       & x\\
+        \hline
+        \end{tabular}
+        \caption{or 運算子}
+      \end{table}
+    \end{multicols}
+  \end{block}
+  \begin{exampleblock}{觀察}<4->
+    \lstinline{x}{} 是變數時 ... (可能是 0 或 1)
+    \begin{itemize}
+    \item<5-> \lstinline{x & 0}{} 永遠是 \lstinline{0}{}
+    \item<6-> \lstinline{x | 1}{} 永遠是 \lstinline{1}{}\onslide<7->{ \alert{(這些性質很有用途！)}}
+    \end{itemize}
+  \end{exampleblock}
 \end{frame}
 
-\subsection{mask}
+\begin{frame}[fragile]
+  \frametitle{常用技巧：遮罩}
+  \begin{block}{問題}<+->
+  要知道 $x_0$ 是 1 還是 0，要怎麼做呢？
+  \end{block}
+  \begin{exampleblock}{做法}<+->
+    \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|c|}
+      \hline
+          & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}x_{6}\cdots{x_{0}}$\\
+      \hline
+      $\&$ & 00000000 & 00000000 & 00000000 & 0000000\alert{1}\\
+      \hline
+      \hline
+          & 00000000 & 00000000 & 00000000 & 0000000\alert{$x_0$}\\
+      \hline
+      \end{tabular}
+    \end{table}
+    \onslide<+->{還記得剛剛位元運算的性質嗎？}
+  \end{exampleblock}
+  \begin{alertblock}{推廣版}<+->
+    \begin{itemize}
+    \item 要知道 $x_i$ 是 1 還是 0 要怎麼做？
+    \item<+-> 如果我們要取出 $x_a$ 到 $x_b$ 的位元，要怎麼做呢？
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
 
-\subsection{set bit}
+\begin{frame}[fragile]
+  \frametitle{常用技巧：指定位元}
+\end{frame}
 
-\subsection{消失的數}
+\begin{frame}[fragile]
+  \frametitle{位元技巧：取 $2^k$ 餘數}
+  \begin{itemize}[<+->]
+  \item 取 2 的餘數
+    \begin{itemize}
+    \item 因為餘數只有 0、1 兩種，恰好是看 $x_0$
+    \item \lstinline{x % 2}{} $\Rightarrow$ \lstinline{x & 1}{}
+    \end{itemize}
+  \item 取 4 的餘數
+    \begin{itemize}
+    \item 餘數只有 0(\lstinline{00}{})、1(\lstinline{01}{})、2(\lstinline{10}{})、3(\lstinline{11}{}) 四種，恰好是看 $x_1x_0$
+    \item \lstinline{x % 4}{} $\Rightarrow$ \lstinline{x & 3}{} \onslide<+->{$\Rightarrow$ \lstinline{x & ((1 << 2) - 1)}{}}
+    \end{itemize}
+  \item 取 $2^k$ 的餘數 \onslide<+->{$\Rightarrow$ \lstinline{x & ((1 << k) - 1)}{}}
+  \end{itemize}
+  \begin{columns}[T]
+    \begin{column}[T]{5cm}
+    \begin{exampleblock}{優點}<+->
+      \begin{itemize}
+      \item 和「\lstinline{%}{}」相比速度較快。
+      \item<+-> 在負數下也沒有問題。
+      \end{itemize}
+    \end{exampleblock}
+    \end{column}
+    \begin{column}[T]{5cm}
+    \begin{alertblock}{缺點}<+->
+      \begin{itemize}
+      \item 不易閱讀。
+      \item<+-> \alert{運算順序}要注意！
+      \end{itemize}
+    \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
 
-\subsection{parity}
+\begin{frame}[fragile]
+  \frametitle{Parity}
+\end{frame}
 
 \begin{frame}
   \frametitle{練習題}
@@ -1444,6 +1637,8 @@
     \tableofcontents[currentsection]
   \end{multicols}
 \end{frame}
+
+\subsection{運算性質}
 
 \begin{frame}[fragile]
   \frametitle{指定運算子}
@@ -1553,6 +1748,37 @@
   \end{exampleblock}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{字首系列 vs 字尾系列}
+  \begin{block}{試試看}<+->
+    \begin{itemize}
+    \item \lstinline{cout << i++ << endl;}{}
+    \item \lstinline{cout << ++i << endl;}{}
+    \item \lstinline{i++; cout << i << endl;}{}
+    \item \lstinline{++i; cout << i << endl;}{}
+    \end{itemize}
+    比較這四者之間有何不同？
+  \end{block}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{exampleblock}{字首系列}<+->
+      \begin{itemize}
+      \item 會先做運算，再回傳
+      \item<+-> 回傳值是運算\alert{後}的值
+      \end{itemize}
+    \end{exampleblock}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{alertblock}{字尾系列}<+->
+      \begin{itemize}
+      \item 會先回傳，再做運算
+      \item<+-> 回傳值是運算\alert{前}的值
+      \end{itemize}
+    \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 \subsection{未定義行為}
 
 \begin{frame}[fragile]
@@ -1568,15 +1794,15 @@
     \begin{itemize}
     \item 答案：\alert{沒有人知道！}
     \item<+-> 在不同的編譯器會有不同的結果。
-    \item<+-> 大多數是因為在同一行之內改同一變數一次以上。
+    \item<+-> 大多數是因為在同一行之內改同一變數\alert{一次}以上。
     \end{itemize}
   \end{block}
-  \begin{exampleblock}{例如}<+->
+  \begin{alertblock}{其他例子}<+->
     \begin{itemize}
     \item \lstinline{i = ++i + 1;}{}
     \item<+-> \lstinline{i++*++i+i--*--i}{}
     \end{itemize}
-  \end{exampleblock}
+  \end{alertblock}
 \end{frame}
 
 \section{其他運算子}
@@ -1701,7 +1927,7 @@
   \begin{alertblock}{觀念}<+->
     \begin{itemize}
     \item 萬一忘記順序怎麼辦呢？
-    \item<+-> 當然是把\alert{括號括好}啦～
+    \item<+-> 當然是把\alert{括號括好}啦～運算順序只要知道大概，這不是必背的東西，我們的目的是「寫出好程式」而非在運算順序上多作著墨！
     \end{itemize}
   \end{alertblock}
 \end{frame}
