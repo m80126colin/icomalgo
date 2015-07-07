@@ -955,8 +955,48 @@
 
 \subsection{短路運算}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{短路運算}
+  \begin{block}{性質}<+->
+    \begin{itemize}
+    \item \lstinline{A && B}{}
+      \begin{itemize}[<+->]
+      \item \lstinline{&&}{} 運算子：只要 A 或 B 其中一個回傳 \lstinline{false}{}，則整個運算式就會是 \lstinline{false}{}
+      \item C++ 設計上當 A 已經是 \lstinline{false}{} (也就是確定整個運算式\alert{必為} \lstinline{false}{})，則 C++ 會\alert{跳過} B
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{範例}<+->
+    \begin{lstlisting}
+  int i, j;
+  i = j = 0;
+  if ((i++ < 0) && (j++ > 0))
+    cout << "XD" << endl; // 這行不會輸出
+  cout << i << " " << j << endl;
+    \end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{短路運算}
+  \begin{block}{性質}<+->
+    \begin{itemize}
+    \item \lstinline{A || B}{}
+      \begin{itemize}[<+->]
+      \item \lstinline{||}{} 運算子：只要 A 或 B 其中一個回傳 \lstinline{true}{}，則整個運算式就會是 \lstinline{true}{}
+      \item C++ 設計上當 A 已經是 \lstinline{true}{} (也就是確定整個運算式\alert{必為} \lstinline{true}{})，則 C++ 會\alert{跳過} B
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{範例}<+->
+    \begin{lstlisting}
+  int i, j;
+  i = j = 0;
+  if ((i++ >= 0) || (j++ < 0))
+    cout << "XD" << endl; // 會輸出 XD
+  cout << i << " " << j << endl;
+    \end{lstlisting}
+  \end{exampleblock}
 \end{frame}
 
 \section{位元運算子}
@@ -1405,7 +1445,7 @@
   \end{exampleblock}
 \end{frame}
 
-\subsection{常用位元運算技巧}
+\subsection{常用技巧：連續的 1}
 
 \begin{frame}[fragile]
   \frametitle{常用技巧：連續的 1}
@@ -1487,7 +1527,7 @@
   \end{block}
   \begin{alertblock}{結論}<+->
     \begin{itemize}
-    \item 觀察之後，可以發現是 $2^(b+1)-2^a$
+    \item 觀察之後，可以發現是 $2^{b+1}-2^a$
     \item<+-> 該怎麼實作就從之前取 k 個 1 的方法去擴展就可以得到。
     \item<+-> 記得熟悉位元運算，有時候就會有題目會用到。
     \end{itemize}
@@ -1506,6 +1546,8 @@
   這個例子只是展現位元運算有時候很神奇，這個方法很多時候並不常用。
   \end{exampleblock}
 \end{frame}
+
+\subsection{常用技巧：遮罩與指定位元}
 
 \begin{frame}[fragile]
   \frametitle{更多性質}
@@ -1581,6 +1623,77 @@
 
 \begin{frame}[fragile]
   \frametitle{常用技巧：指定位元}
+  \begin{block}{問題}<+->
+  要如何把一個整數 x 當中，$x_a$ 的位元「變成」1？
+  \end{block}
+  \begin{exampleblock}{觀察}<+->
+    將 $x_0$ 改為 1
+    \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|c|}
+      \hline
+          & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}x_{6}\cdots{x_{0}}$\\
+      \hline
+      \lstinline{|}{} & 00000000 & 00000000 & 00000000 & 0000000\alert{1}\\
+      \hline
+      \hline
+          & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}x_{6}\cdots{x_{1}}$\alert{1}\\
+      \hline
+      \end{tabular}
+    \end{table}
+  \end{exampleblock}
+  \begin{alertblock}{註}<+->
+  利用剛剛提到的性質：\lstinline{1}{} 和任意位元 or 起來都是 \lstinline{1}{}。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{常用技巧：指定位元}
+  \begin{exampleblock}{觀察 (續)}<+->
+    將 $x_2$ 改為 1
+    \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|c|}
+      \hline
+          & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}\cdots{x_{3}}x_{2}x_{1}x_{0}$\\
+      \hline
+      \lstinline{|}{} & 00000000 & 00000000 & 00000000 & 00000\alert{1}00\\
+      \hline
+      \hline
+          & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}\cdots{x_{3}}$\alert{1}$x_{1}x_{0}$\\
+      \hline
+      \end{tabular}
+    \end{table}
+  \end{exampleblock}
+  \begin{alertblock}{結論}<+->
+  可以套用之前連續 1 的技巧，就可以任意指定一些位元為 1。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{常用技巧：指定位元}
+  \begin{block}{另一個問題}<+->
+  要如何把一個整數 x 當中，$x_a$ 的位元「變成」0？
+  \end{block}
+  \begin{exampleblock}{觀察}<+->
+    將 $x_0$ 改為 0
+    \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|c|}
+      \hline
+          & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}x_{6}\cdots{x_{0}}$\\
+      \hline
+      \lstinline{&}{} & 11111111 & 11111111 & 11111111 & 1111111\alert{0}\\
+      \hline
+      \hline
+          & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}x_{6}\cdots{x_{1}}$\alert{0}\\
+      \hline
+      \end{tabular}
+    \end{table}
+  \end{exampleblock}
+  \begin{alertblock}{結論}<+->
+    \begin{itemize}
+    \item 同樣也是利用位元運算的性質，和剛剛指定 \lstinline{1}{} 相似。
+    \item<+-> 求出此常數可利用「補數」來求出。
+    \end{itemize}
+  \end{alertblock}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -1599,7 +1712,7 @@
   \item 取 $2^k$ 的餘數 \onslide<+->{$\Rightarrow$ \lstinline{x & ((1 << k) - 1)}{}}
   \end{itemize}
   \begin{columns}[T]
-    \begin{column}[T]{5cm}
+    \begin{column}[T]{5.5cm}
     \begin{exampleblock}{優點}<+->
       \begin{itemize}
       \item 和「\lstinline{%}{}」相比速度較快。
@@ -1607,19 +1720,180 @@
       \end{itemize}
     \end{exampleblock}
     \end{column}
-    \begin{column}[T]{5cm}
+    \begin{column}[T]{5.5cm}
     \begin{alertblock}{缺點}<+->
       \begin{itemize}
       \item 不易閱讀。
-      \item<+-> \alert{運算順序}要注意！
+      \item<+-> 只能取特定餘數。
+      \item<+-> 要注意\alert{運算順序}！
       \end{itemize}
     \end{alertblock}
     \end{column}
   \end{columns}
 \end{frame}
 
+\subsection{Parity}
+
 \begin{frame}[fragile]
   \frametitle{Parity}
+  \begin{block}{Parity 問題}<+->
+  給妳一個正整數 $x$，問在 2 進位下有幾個 1？
+  \end{block}
+  \begin{exampleblock}{範例}<+->
+    \begin{itemize}
+    \item Parity(5) \onslide<+->{$\Rightarrow$ 2}
+    \onslide<+->{
+    \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|}
+      \hline
+       00000000 & 00000000 & 00000000 & 00000\alert{1}0\alert{1}\\
+      \hline
+      \end{tabular}
+    \end{table}
+    }
+    \item<+-> Parity(255) \onslide<+->{$\Rightarrow$ 8}
+    \onslide<+->{
+    \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|}
+      \hline
+       00000000 & 00000000 & 00000000 & \alert{11111111}\\
+      \hline
+      \end{tabular}
+    \end{table}
+    }
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Parity}
+  \begin{block}{普通寫法}<+->
+  一個一個計算：
+    \begin{lstlisting}
+  for (; x; x /= 2) {
+    if (x % 2 != 0)
+      cnt++;
+  }
+    \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{位元運算寫法}<+->
+    \begin{lstlisting}
+  for ( ; x; x >>= 1) { // 右移代替除法
+    if (x & 1) // 省略「!= 0」，同時把除法改成位元運算
+      cnt++;
+  }
+    \end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Parity}
+  \begin{exampleblock}{究極 Parity}<+->
+  檢查 Parity 是否為奇數：
+    \begin{lstlisting}
+  unsigned int v; // 32-bit word
+  v ^= v >> 1;
+  v ^= v >> 2;
+  v = (v & 0x11111111U) * 0x11111111U;
+  (v >> 28) & 1;
+    \end{lstlisting}
+  \end{exampleblock}
+  \begin{alertblock}{註}<+->
+  看看就好，不要刻意去記這些炫砲技能。
+  \end{alertblock}
+\end{frame}
+
+\subsection{xor 性質}
+
+\begin{frame}[fragile]
+  \frametitle{xor 性質}
+  \begin{block}{xor 性質}<+->
+  給一個整數 \lstinline{x}{}，\lstinline{x ^ x}{} 恆為 0。
+  \end{block}
+  \begin{exampleblock}{解說}<+->
+    \begin{table}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+      & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}x_{6}\cdots{x_{0}}$\\
+    \hline
+     \lstinline{^}{} & $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdots{x_{8}}$ & $x_{7}x_{6}\cdots{x_{0}}$\\
+    \hline
+    \hline
+      & 00000000 & 00000000 & 00000000 & 00000000\\
+    \hline
+    \end{tabular}
+    \end{table}
+  \end{exampleblock}
+  \begin{alertblock}{註}<+->
+  xor 運算的性質是「同為 0 或同為 1 xor 起來就是 0」。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{位元技巧：交換兩數}
+  \begin{block}{問題}<+->
+  交換兩個 \lstinline{int}{} x 和 y 的值。
+  \end{block}
+  \begin{columns}[T]
+    \begin{column}[T]{3.5cm}
+    \begin{exampleblock}{swap 版}<+->
+      \begin{lstlisting}
+  swap(x, y);
+      \end{lstlisting}
+    \end{exampleblock}
+    \end{column}
+    \begin{column}[T]{3.5cm}
+    \begin{exampleblock}{變數版}<+->
+      \begin{lstlisting}
+  int tmp = x;
+  x = y;
+  y = tmp;
+      \end{lstlisting}
+    \end{exampleblock}
+    \end{column}
+    \begin{column}[T]{3.5cm}
+    \begin{alertblock}{位元運算版}<+->
+      \begin{lstlisting}
+  x ^= y;
+  y ^= x;
+  x ^= y;
+      \end{lstlisting}
+    \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{位元技巧：交換兩數}
+  \begin{columns}[T]
+    \begin{column}[T]{3.5cm}
+    \begin{alertblock}{位元運算版}<1->
+      \begin{lstlisting}
+  x ^= y;
+  y ^= x;
+  x ^= y;
+      \end{lstlisting}
+    \end{alertblock}
+    \end{column}
+    \begin{column}[T]{7.5cm}
+    \onslide<2->{
+    \begin{table}[h]
+      \begin{tabular}{c|c|c}
+                 & \alert{x}           & \alert{y}\\
+      \hline
+      \hline
+      原來的值    & x     & y \onslide<3->\\
+      \hline
+      第一行後 & x xor y & y \onslide<4->\\
+      \hline
+      第二行後 & x xor y & \uncover<4>{\alert{y} xor }x\uncover<4>{ xor \alert{y}} \onslide<6->\\
+      \hline
+      第三行後 & \uncover<6>{\alert{x} xor }y\uncover<6>{ xor \alert{x}} & x \onslide<7>\\
+      \end{tabular}
+    \end{table}
+    }
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
@@ -1677,11 +1951,11 @@
     這些複合指定運算子代表的意義為：
     \begin{multicols}{2}
     \begin{itemize}
-    \item \lstinline{x+=a}{} $\Rightarrow$ \lstinline{x=x+a}{}
-    \item \lstinline{x-=a}{} $\Rightarrow$ \lstinline{x=x-a}{}
-    \item \lstinline{x*=a}{} $\Rightarrow$ \lstinline{x=x*a}{}
-    \item \lstinline{x/=a}{} $\Rightarrow$ \lstinline{x=x/a}{}
-    \item \lstinline{x%=a}{} $\Rightarrow$ \lstinline{x=x%a}{}
+    \item \lstinline{x += a}{} $\Rightarrow$ \lstinline{x = x + a}{}
+    \item \lstinline{x -= a}{} $\Rightarrow$ \lstinline{x = x - a}{}
+    \item \lstinline{x *= a}{} $\Rightarrow$ \lstinline{x = x * a}{}
+    \item \lstinline{x /= a}{} $\Rightarrow$ \lstinline{x = x / a}{}
+    \item \lstinline{x %= a}{} $\Rightarrow$ \lstinline{x = x % a}{}
     \item 不難理解。
     \end{itemize}
     \end{multicols}
