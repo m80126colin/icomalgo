@@ -69,7 +69,13 @@
   \end{multicols}
 \end{frame}
 
-\section{資料型態}
+\section{溢位現象}
+\begin{frame}
+  \frametitle{大綱}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection]
+  \end{multicols}
+\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{溢位}
@@ -132,7 +138,7 @@
     \hline
     \lstinline{float}{}       & 4     & $-3.40282\times{10^{38}}$ & $3.40282\times{10^{38}}$\\
     \hline
-    \lstinline{double}{}      & 8     & $-1.79769 * 10^{308}$     & $1.79769 * 10^{308}$\\
+    \lstinline{double}{}      & 8     & $-1.79769\times{10^{308}}$     & $1.79769\times{10^{308}}$\\
     \hline
     \end{tabular}
     \caption{資料型態上下界}
@@ -301,9 +307,24 @@
 
 \begin{frame}[fragile]
   \frametitle{大印第安和小印第安}
-  \begin{block}{問題}
+  \begin{block}{問題}<+->
   假設現在 \lstinline{int x = 0x12345678;}{} 的位址是 \texttt{0040EC64}，那麼這個 16 進位的數字「實際上」是怎樣儲存的呢？
   \end{block}
+  \begin{exampleblock}{大印第安與小印第安}<+->
+    \begin{itemize}
+    \item 大印第安存法：大位數存在\alert{低}位址
+    \onslide<+->{
+      \begin{table}[h]
+      \begin{tabular}{|c|c|c|c|}
+      \hline
+      0x12 & 0x34 & 0x56 & 0x78\\
+      \hline
+      \end{tabular}
+      \end{table}
+    }
+    \item<+-> 小印第安存法：大位數存在\alert{高}位址
+    \end{itemize}
+  \end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -351,6 +372,11 @@
 \end{frame}
 
 \subsection{選擇結構}
+
+\begin{frame}
+  \frametitle{選擇結構}
+\end{frame}
+
 \subsection{迴圈結構}
 \subsection{陣列}
 
@@ -371,12 +397,19 @@
 \end{frame}
 
 \section{函數}
-
 \subsection{傳值呼叫}
-
 \subsection{傳址呼叫}
-
 \subsection{傳參考呼叫}
+\subsection{函數多載}
+
+\section{程式技巧}
+\subsection{函式化}
+\subsection{define與inline}
+
+\section{C++物件導向}
+\subsection{物件與類別}
+\subsection{建構子與解構子}
+\subsection{運算子多載}
 
 \section{暴力搜尋法}
 

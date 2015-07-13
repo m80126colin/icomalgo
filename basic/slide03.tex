@@ -95,9 +95,535 @@
 
 \subsection{字元與 ASCII}
 
+\begin{frame}[fragile]
+  \frametitle{字元}
+  \begin{exampleblock}{字元}
+    \begin{itemize}[<+->]
+    \item 字元：一個位元組長，是介於 -128 到 127 的\alert{整數}
+      \begin{itemize}
+      \item 保留字為 \lstinline{char}{}
+      \end{itemize}
+    \item ASCII：一個編碼表，將字元的編碼對應到一個符號
+    \item 表示法
+      \begin{itemize}
+      \item 單引號夾著一個符號：\lstinline{'0'}{}
+      \item 或者是字元的 ASCII 編碼 (8 進位)：\lstinline{'\60'}{} \onslide<+->{$\Rightarrow$ \lstinline{'0'}{}}
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{alertblock}{ASCII 特性}<+->
+      \begin{itemize}
+      \item 某些字元是連續編碼
+        \begin{itemize}[<+->]
+        \item \lstinline{'0'}{} 到 \lstinline{'9'}{}
+        \item \lstinline{'A'}{} 到 \lstinline{'Z'}{}
+        \item \lstinline{'a'}{} 到 \lstinline{'z'}{}
+        \end{itemize}
+      \end{itemize}
+    \end{alertblock}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{block}{常見的 ASCII 編碼}<+->
+    \begin{multicols}{2}
+      \begin{itemize}[<+->]
+      \item \lstinline{'\0'}{}：0
+      \item \lstinline{'\n'}{}：32
+      \item \lstinline{'0'}{}：48
+      \item \lstinline{'A'}{}：65
+      \item \lstinline{'a'}{}：97
+      \end{itemize}
+    \end{multicols}
+    \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{判斷英數字}
+  \begin{exampleblock}{方法}<+->
+  利用字元連續性，例如判斷數字：
+  \onslide<+->
+    \begin{lstlisting}
+  bool isMyDigit(char ch) {
+    return ('0' <= ch) && (ch <= '9');
+    // 檢查是否在此區間
+  }
+    \end{lstlisting}
+  \end{exampleblock}
+  \begin{block}{內建函數}<+->
+  在 \lstinline{<cctype>}{} 中，判斷是否為
+  \begin{multicols}{2}
+    \begin{itemize}[<+->]
+    \item \lstinline{isalnum(char)}{}：英數字
+    \item \lstinline{isalpha(char)}{}：英文字母
+    \item \lstinline{isdigit(char)}{}：數字
+    \item \lstinline{islower(char)}{}：小寫字母
+    \item \lstinline{isupper(char)}{}：大寫字母
+    \item etc.
+    \end{itemize}
+  \end{multicols}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字元轉數字}
+  \begin{itemize}[<+->]
+  \item 利用\alert{連續編碼}的特性，加上 \lstinline{char}{} 是\alert{存整數}，可以將字元轉數字
+  \item 常用到爛掉的技巧
+  \end{itemize}
+  \begin{exampleblock}{範例：字元轉數字}<+->
+    \begin{lstlisting}
+  int charToDigit(char ch) {
+    return ch - '0'; // 直接減 '0'，不需特別記 48
+  }
+    \end{lstlisting}
+  \end{exampleblock}
+  \begin{alertblock}{註}<+->
+    \begin{itemize}
+    \item 同樣的道理可以套用在大小寫字母中。
+    \item<+-> 要是今天要轉換的\alert{字串}是 \lstinline{"10"}{} 呢？這方法還會湊效嗎？
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字元的輸入}
+  \begin{block}{輸入字元}<+->
+    \begin{lstlisting}
+  char a, b;
+  cin >> a >> b;
+  cout << "X" << a << "D" << b << "D" << endl;
+    \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{觀察}<+->
+  輸入「1 2」會發生什麼事？\onslide<+->{ \alert{Ans: b 會讀到空白}}
+  \end{exampleblock}
+  \begin{alertblock}{注意}<+->
+  輸入字元時，會讀入\alert{空白}和\alert{換行}。
+  \end{alertblock}
+\end{frame}
+
 \subsection{字串}
 
+\begin{frame}[fragile]
+  \frametitle{C 與 C++ 字串}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C++ 字串}<+->
+      \begin{itemize}[<+->]
+      \item 在 \lstinline{<string>}{} 中。
+      \item 是一個類別。
+      \end{itemize}
+    \end{block}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{exampleblock}{C 字串}<+->
+      \begin{itemize}
+      \item 本質上是字元陣列
+      \item<+-> 宣告時就是字元陣列
+      \end{itemize}
+    \end{exampleblock}
+    \end{column}
+  \end{columns}
+  \begin{alertblock}{字串宣告}<+->
+    \begin{multicols}{2}
+    \begin{itemize}[<+->]
+      \item \lstinline{string str;}{}
+      \item \lstinline{char str[110];}{}
+    \end{itemize}
+    \end{multicols}
+  \end{alertblock}
+  \begin{exampleblock}{常數}<+->
+  字串是由兩個雙引號夾著一堆字元：\lstinline{"XD"}{}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{C 字串儲存狀況}
+  \begin{block}{C 字串}<+->
+    \begin{lstlisting}
+  char str[10] = "bird";
+    \end{lstlisting}
+  \end{block}
+  \begin{exampleblock}{實際儲存狀況}<+->
+  \begin{table}[h]
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \lstinline{'b'}{} & \lstinline{'i'}{} & \lstinline{'r'}{} & \lstinline{'d'}{} &
+    \lstinline{'\0'}{} & 未知 & 未知 & 未知 & 未知 & 未知\\
+    \hline
+    \end{tabular}
+  \end{table}
+  \end{exampleblock}
+  \begin{alertblock}{注意}<+->
+  \lstinline{'\0'}{} 代表\alert{字串的結尾}，佔一個字元，因此在使用 C 字串時要多注意空間上的問題。
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串操作}
+  \begin{block}{字串操作}<+->
+    \begin{itemize}[<+->]
+    \item 取長度
+    \item 比較字串
+    \item 複製字串
+    \item 串接字串
+    \item 其他操作
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串操作：取長度}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C++ 字串}<+->
+      \begin{itemize}
+      \item \lstinline{str.size()}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C 字串}<+->
+      \begin{itemize}[<+->]
+      \item 在 \lstinline{<cstring>}{} 中
+      \item \lstinline{strlen(const char *)}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+  \end{columns}
+  \begin{exampleblock}{C++ 字串用法}<+->
+    \begin{lstlisting}
+  for (int i = 0; i < str.size(); i++) {}
+    \end{lstlisting}
+  \end{exampleblock}
+  \begin{exampleblock}{C 字串用法}<+->
+    \begin{lstlisting}
+  for (int i = 0; i < strlen(str); i++) {}
+    \end{lstlisting}
+    \onslide<+->{\alert{盡量少這樣用！}}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{原理}
+  \begin{exampleblock}{原理}<+->
+    \begin{itemize}[<+->]
+    \item \lstinline{strlen()}{} 是\alert{函數}
+      \begin{itemize}
+      \item \lstinline{strlen()}{} 計算長度的方法，就是從傳入指標開始數，數到 \lstinline{'\0'}{} 字元為止！
+      \item 在沒優化下，每次 \lstinline{for}{} 迴圈判斷時都會執行 \lstinline{strlen()}{} 一次！
+      \item 在字串長度不變下，這個方法會讓程式變慢
+      \end{itemize}
+    \item \lstinline{str.size()}{} 是\alert{取值}
+      \begin{itemize}
+      \item 字串本身就會把長度算好存起來，因此沒這問題。
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+  \begin{alertblock}{改良}<+->
+  宣告變數儲存長度。
+  \onslide<+->
+  \begin{lstlisting}
+  int len = strlen(str);
+  for (int i = 0; i < len; i++) {}
+  \end{lstlisting}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串操作：比較字串}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C++ 字串}<+->
+      \begin{itemize}
+      \item \lstinline{strA == strB}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C 字串}<+->
+      \begin{itemize}[<+->]
+      \item 在 \lstinline{<cstring>}{} 中
+      \item \lstinline{strcmp(strA, strB)}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+  \end{columns}
+  \begin{alertblock}{註}<+->
+    \begin{lstlisting}
+  strcmp(const char *, const char *);
+    \end{lstlisting}
+  \end{alertblock}
+  \begin{exampleblock}{原理}<+->
+  比較 \lstinline{strA}{} 和 \lstinline{strB}{} 每個字元，直到某一邊先\alert{碰到} \lstinline{'\0'}{} 為止。
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{差異}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C++ 字串}
+      \begin{itemize}
+      \item \lstinline{strA == strB}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C 字串}
+      \begin{itemize}
+      \item 在 \lstinline{<cstring>}{} 中
+      \item \lstinline{strcmp(strA, strB)}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+  \end{columns}
+  \onslide<+->
+  \begin{exampleblock}{回傳值}<+->
+    \begin{itemize}[<+->]
+    \item C++ 字串如果\alert{相等}回傳 \lstinline{true}{}，否則回傳 \lstinline{false}{}。
+    \item \lstinline{strcmp()}{} 函數原理類似\alert{兩字串相減}
+      \begin{enumerate}
+      \item \alert{相同回傳 0}
+      \item \lstinline{strA}{} 的\alert{字典順序}比 \lstinline{strB}{} 大，回傳正值 (通常是 1)
+      \item \lstinline{strA}{} 的\alert{字典順序}比 \lstinline{strB}{} 小，回傳負值 (通常是 -1)
+      \end{enumerate}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串操作：複製字串}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C++ 字串}<+->
+      \begin{itemize}
+      \item \lstinline{dest = src}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C 字串}<+->
+      \begin{itemize}[<+->]
+      \item 在 \lstinline{<cstring>}{} 中
+      \item \lstinline{strcpy(dest, src)}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+  \end{columns}
+  \begin{alertblock}{註}<+->
+    \begin{lstlisting}
+  strcpy(char *dest, const char *src);
+  strncpy(char *dest, const char *src, size_t n);
+    \end{lstlisting}
+  \end{alertblock}
+  \begin{exampleblock}{原理}<+->
+    \begin{itemize}
+    \item 將每個 \lstinline{src}{} 的字元一一複製到 \lstinline{dest}{} 中，直到\alert{碰到} \lstinline{'\0'}{} 為止。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串操作：複製字串}
+  \begin{alertblock}{註}<+->
+    \begin{lstlisting}
+  strcpy(char *dest, const char *src);
+  strncpy(char *dest, const char *src, size_t n);
+    \end{lstlisting}
+  \end{alertblock}
+  \begin{exampleblock}{注意}<+->
+    \begin{itemize}[<+->]
+    \item 因為複製字串時，會一直複製\alert{直到}碰到 \lstinline{'\0'}{} 為止。
+    \item 當 \lstinline{dest}{} 長度太短，\lstinline{strcpy()}{} 就會寫出 \lstinline{dest}{}，造成 Runtime Error。
+    \item 避免這種情況可以使用 \lstinline{strncpy()}{}
+      \begin{itemize}
+      \item 第三個參數代表複製的字元數。
+      \item \alert{注意！}使用 \lstinline{strncpy()}{} 在 \lstinline{dest}{} 後面不會補 \lstinline{'\0'}{}， 因此要記得補。
+      \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串操作：串接字串}
+  \onslide<+->
+  \begin{figure}[h]
+    \caption{4 隻 pusheen}
+    \centering\includegraphics[width=0.26\textwidth]{img/box.png}
+  \end{figure}
+  \onslide<+->
+  \begin{figure}[h]
+    \caption{strcat(pusheen)}
+    \centering\includegraphics[width=0.6\textwidth]{img/box_long.jpg}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串操作：串接字串}
+  \begin{columns}[T]
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C++ 字串}<+->
+      \begin{itemize}
+      \item \lstinline{dest += src}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+    \begin{column}[T]{5.5cm}
+    \begin{block}{C 字串}<+->
+      \begin{itemize}[<+->]
+      \item 在 \lstinline{<cstring>}{} 中
+      \item \lstinline{strcat(dest, src)}{}
+      \end{itemize}
+    \end{block}
+    \end{column}
+  \end{columns}
+  \begin{alertblock}{註}<+->
+    \begin{lstlisting}
+  strcat(char *dest, const char *src);
+  strncat(char *dest, const char *src, size_t n);
+    \end{lstlisting}
+  \end{alertblock}
+  \begin{exampleblock}{原理}<+->
+    \begin{itemize}
+    \item 從 \lstinline{dest}{} \alert{第一個} \lstinline{'\0'}{} 開始串接，直到碰到 \lstinline{src}{} 的 \lstinline{'\0'}{} 為止，與 \lstinline{strcpy}{} 有同樣的問題。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{其他字串操作}
+  \begin{block}{其他字串操作}<+->
+    \begin{itemize}[<+->]
+    \item \lstinline{strstr()}{}
+    \item \lstinline{strchr()}{}
+    \item \lstinline{strrchr()}{}
+    \item \lstinline{strtok()}{}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{說明}<+->
+    \begin{itemize}
+    \item 概念較複雜，或者用自己的方法處理就好。
+    \item<+-> 讀者有興趣可以自己查資料。
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串小結}
+  \begin{table}[h]
+    \caption{常見字串操作}
+    \begin{tabular}{c|c|c}
+            & C++ 字串                   & C 字串\onslide<+->\\
+    \hline\hline
+    取長度   & \lstinline{str.size()}{}  & \lstinline{strlen(str)}{}\onslide<+->\\
+    \hline
+    比較字串 & \lstinline{strA == strB}{} & \lstinline{strcmp(strA, strB)}{}\onslide<+->\\
+    \hline
+    複製字串 & \lstinline{dest = src}{}   & \lstinline{strcpy(dest, src)}{}\onslide<+->\\
+    \hline
+    串接字串 & \lstinline{dest += src}{}  & \lstinline{strcat(dest, src)}{}
+    \end{tabular}
+  \end{table}
+  \begin{exampleblock}{差異}<+->
+    \begin{itemize}[<+->]
+    \item C++ 字串是\alert{類別}，C 字串是\alert{字元陣列}
+    \item C++ 字串操作多是\alert{運算子}或\alert{成員函數}，C 字串是\alert{函數}
+    \item C 字串處理速度較 C++ 來得\alert{快}，但要注意會不會超出\alert{陣列範圍}以及補 \lstinline{'\0'}{}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
 \subsection{字串轉換}
+
+\begin{frame}[fragile]
+  \frametitle{C++ 字串轉 C 字串}
+  \begin{block}{成員函數}<+->
+    \begin{itemize}
+    \item 在 \lstinline{<string>}{} 中
+    \item<+-> \lstinline{str.c_str()}{}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{範例}<+->
+    \begin{lstlisting}
+  string str = "bird";
+  cout << str.c_str() << endl;
+    \end{lstlisting}
+  \end{exampleblock}
+  \begin{alertblock}{用途}<+->
+    \begin{itemize}
+    \item C 語言的函數大多只能用 C 字串來做，因此我們可以藉由這個函數把 \lstinline{string}{} 轉成 C 字串。
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{C 字串轉 C++ 字串}
+  \begin{exampleblock}{範例}<+->
+    \begin{lstlisting}
+  char strA[110] = "bird";
+  string strB = strA; // 直接丟進去
+  cout << strB << endl;
+  cout << strB.size() << endl;
+    \end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串練習}
+  \begin{block}{練習一}<+->
+    \begin{lstlisting}
+  char str1[110] = "abcdefghijklmnopqrstuvwxyz";
+    \end{lstlisting}
+  長度為何？\onslide<+-> 用 \lstinline{sizeof}{} 和 \lstinline{strlen}{} 有何不同呢？\onslide<+-> 做完上面的問題後，試著思考下面的語句又和上面的問題有什麼差異呢？
+    \begin{itemize}[<+->]
+    \item \lstinline{strlen("abcdefghijklmnopqrstuvwxyz");}{}
+    \item \lstinline{sizeof("abcdefghijklmnopqrstuvwxyz");}{}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{提示}<+->
+  「記憶體」和「字串」之間的差別與關係。
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串練習}
+  \begin{block}{練習二}<+->
+    \begin{lstlisting}
+  char str2[110] = "bird";  
+  char str3[4];
+    \end{lstlisting}
+    \begin{itemize}[<+->]
+    \item 我們可以用 \lstinline{strcpy(str3, str2);}{} 嘛？
+    \item 如果不行，若我們使用 \lstinline{strncpy(str3, str2, 4);}{} 來避免超出記憶體呢？試著 \lstinline{cout}{} 出來觀察？
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{提示}<+->
+  \lstinline{strcpy}{} 的用法。
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{字串練習}
+  \begin{block}{練習三}
+    \begin{itemize}[<+->]
+    \item
+      \begin{lstlisting}
+  char str4[110] = "cat\0bird";
+      \end{lstlisting}
+      請問這個字串的長度為何？\onslide<+-> 若是 \lstinline{strlen(str4 + 4)}{} 的回傳值為何？\onslide<+-> \lstinline{strlen(str4 + 8)}{} 呢？
+    \item 今天我們使用 \lstinline{strcpy(str4, "dog")}{}，會得到什麼結果？\onslide<+-> 此時印出 \lstinline{str4}{} 和 \lstinline{str4 + 4}{} 會有什麼反應呢？
+    \item 如果我們對原先的 \lstinline{str4}{} 執行 \lstinline{strcat(str4, "dog")}{}，有得到你預期的結果嘛？
+    \item 要是 \lstinline{strcat(str4 + 4, "dog")}{} 呢？ 
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{提示}<+->
+  \lstinline{'\0'}{} 的用途和指標的用法。
+  \end{exampleblock}
+\end{frame}
 
 \section{格式字串}
 \begin{frame}
@@ -111,12 +637,36 @@
 
 \subsection{scanf 和 printf}
 
+\section{檔案輸入}
+
+\subsection{標準輸入}
+
 \section{羅馬數字}
 \begin{frame}
   \frametitle{大綱}
   \begin{multicols}{2}
     \tableofcontents[currentsection]
   \end{multicols}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{練習}
+  \begin{exampleblock}{ZeroJudge a013: 羅馬數字}<+->
+  給你兩個羅馬數字，做相減後輸出羅馬數字。
+  \end{exampleblock}
+  \begin{exampleblock}{ZeroJudge d251: 94北縣賽-3-羅馬數字 (Roman)}<+->
+  給你羅馬數字表示的時間，輸出加上 7 小時 30 分時差後的羅馬數字時刻。
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{練習}
+  \begin{exampleblock}{ZeroJudge d369: 1. 羅馬數字 / UVa 11616: Roman Numerals}<+->
+  給你羅馬數字，轉換為阿拉伯數字；給你阿拉伯數字，轉換為羅馬數字。
+  \end{exampleblock}
+  \begin{exampleblock}{UVa 344 / Ruby 344: Roman Digititis}<+->
+  給你 n，輸出 n 以內需要用到多少個羅馬數字符號？
+  \end{exampleblock}
 \end{frame}
 
 \subsection{阿拉伯數字轉羅馬數字}
