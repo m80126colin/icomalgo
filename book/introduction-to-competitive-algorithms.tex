@@ -1,130 +1,24 @@
 \documentclass[12pt,a4paper,oneside]{book}
 \def \allfiles {}
 
-%% === CJK 套件 ===
-\usepackage{CJK,CJKnumb}                     % 中文套件
-%% === AMS 標準套件 ===
-\usepackage{amsmath,amsfonts,amssymb,amsthm} % 數學符號
-%% === 章節內容 ===
-\usepackage{titletoc,titlesec}               % titletoc 目錄修改套件, titlesec 美化章節標題套件
-\usepackage{imakeidx}                        % 索引
-%% ===  ===
-\usepackage[chapter]{algorithm}              % 演算法套件
-\usepackage[noend]{algpseudocode}            % pseudocode 套件
-\usepackage{listings}                        % 程式碼
-%% === TikZ 套件 ===
-\usepackage{tikz,tkz-graph,tkz-berge}        % 繪圖
-
-\linespread{1.24}
-
-%% === 設定頁面格式 ===
-%\hoffset         = 10pt                      % 水平位移，預設為 0pt
-\voffset         = -15pt                     % 垂直位移，預設為 0pt
-\oddsidemargin   = 0pt                       % 預設為 31pt
-%\topmargin       = 20pt                      % 預設為 20pt
-%\headheight      = 12pt                      % header 的高度，預設為 12pt
-%\headsep         = 25pt                      % header 和 body 的距離，預設為 25pt
-\textheight      = 620pt                     % body 內文部分的高度，預設為 592pt
-\textwidth       = 450pt                     % body 內文部分的寬度，預設為 390pt
-%\marginparsep    = 10pt                      % margin note 和 body 的距離，預設為 10pt
-%\marginparwidth  = 35pt                      % margin note 的寬度，預設為 35pt
-%\footskip        = 30pt                      % footer 高度 + footer 和 body 的距離，預設為 30pt
-
-\makeindex[name=noun]        % 索引生成
+\input{./config/preamble}
 
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
 
-%% === 常用的指令，替換成中文 ===
-\renewcommand{\figurename}{圖}
-\renewcommand{\tablename}{表}
-\renewcommand{\contentsname}{目~錄~}
-\renewcommand{\listfigurename}{插~圖~目~錄}
-\renewcommand{\listtablename}{表~格~目~錄}
-\renewcommand{\appendixname}{附~錄}
-%\renewcommand{\refname}{參~考~資~料}    % article
-\renewcommand{\bibname}{參~考~文~獻}     % book
-\renewcommand{\indexname}{索~引}
-\renewcommand{\today}{\number\year~年~\number\month~月~\number\day~日}
-%\newcommand{\zhtoday}{\CJKdigits{\the\year}年\CJKnumber{\the\month}月\CJKnumber{\the\day}日}
-
-%% === 
-\floatname{algorithm}{演算法}
-
-%% ===
-\setcounter{secnumdepth}{3}                                 %　設定計數到 subsubsection
-\renewcommand{\thepart}{第\CJKnumber{\arabic{part}}部分}
-\renewcommand{\thechapter}{\arabic{chapter}}
-\renewcommand{\thesection}{\arabic{section}}                % 改 section 為 1, 2, 3 非 1.1, 1.2, 1.3
-\renewcommand{\thesubsection}{\arabic{subsection}}          % subsection 也改一改
-\renewcommand{\thesubsubsection}{\arabic{subsubsection}}    % subsubsection 也改一改
-
-%% === 設定章節標題 (配合 titlesec) ===
-\titleformat{\part}[display]
-	{\center\huge\bfseries}
-	{\thepart}
-	{1em}
-	{\Huge}
-%
-\titleformat{\chapter}[display]
-	{\bf\Large}
-	{第~\CJKnumber{\thechapter}~章}
-	{1ex}
-	{\Huge}
-	[\vspace{2ex}]
-%
-\titleformat{\section}{\Large\bfseries}{第\CJKnumber{\thesection}節}{1em}{}
-%
-\titleformat{\subsection}{\large\bfseries}{\CJKnumber{\thesubsection}、}{0.5em}{}
-%
-\titleformat{\subsubsection}{\bfseries}{(\CJKnumber{\thesubsubsection})}{0.5em}{}
-% \titlespacing{\subsubsection}{0pt}{5pt}{-10pt}
-
-%% === 設定目錄標題 (配合 titletoc) ===
-\titlecontents{part}[0em]
-{\center\Large}
-{}
-{}
-{}
-%
-\titlecontents{chapter}[0em]
-{}
-{\large\bf{第\CJKnumber{\thecontentslabel}章~~}}
-{}{~~\titlerule*{.}\bf\contentspage}
-%
-\titlecontents{section}[4em]
-{}
-{第\CJKnumber{\thecontentslabel}節\quad}
-{}{~~\titlerule*{.} \contentspage}
-%
-\titlecontents{subsection}[8em]
-{}
-{\CJKnumber{\thecontentslabel}、}
-{}{~~\titlerule*{.} \contentspage}
-
-%% === 定義 ===
-\newtheorem{myrule}{\begin{CJK}{UTF8}{bkai}原理\end{CJK}}[section]
-\newtheorem{mythm}{\begin{CJK}{UTF8}{bkai}定理\end{CJK}}[section]
-\newtheorem{mydef}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}[section]
-\newtheorem*{mydef*}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}
-\newtheorem{mypropo}{\begin{CJK}{UTF8}{bkai}性質\end{CJK}}[section]
-\newtheorem{myquest}{\begin{CJK}{UTF8}{bkai}例題\end{CJK}}[section]
-\newtheorem{myexe}{\begin{CJK}{UTF8}{bkai}練習題\end{CJK}}[subsection]
-\numberwithin{equation}{section}
-\renewenvironment{proof}{\begin{CJK}{UTF8}{bkai}\textbf{證明}\end{CJK}}{\qed}
-\newenvironment{mysol}{\begin{CJK}{UTF8}{bkai}\textbf{解答}\end{CJK}}{\qed}
-
+\subimport{./config/}{document-config.tex}
 \title{Introduction to Competitive Algorithms\\競賽演算法簡介}
 \author{許胖}
 \maketitle
 \tableofcontents
 
-\part{基礎競賽程式技巧}
-%\input{./part1/01-intro-cpp.tex}
-\part{競賽演算法精要}
-\input{./part2/09-graph-theory.tex}
-\input{./part2/10-computational-geometry.tex}
+\subimport{./chapter/}{03-sorting.tex}
+\subimport{./chapter/}{04-linear-list.tex}
+\subimport{./chapter/}{09-graph-theory.tex}
+\subimport{./chapter/}{10-computational-geometry.tex}
+
 \printindex[noun]
+
 \listoffigures
 \clearpage
 \end{CJK}

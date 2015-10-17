@@ -1,0 +1,54 @@
+\ifx \allfiles \undefined
+\documentclass[12pt,a4paper,oneside]{report}
+
+\input{../config/preamble}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\subimport{../config/}{document-config.tex}
+
+\fi
+
+\chapter{排序 (Sorting)}
+
+\paragraph{}這一章中我們會講到排序，在競賽中大多數的排序已被內建函式取代 (例如 C 語言的 \lstinline{qsort}{}、C++ 的 \lstinline{std::sort}{})，但是在多數筆試中，題目通常會要求\textbf{熟悉}每個排序的過程。因此本章介紹最經典的幾個排序法，務必在腦中多模擬演練。
+
+\paragraph{}我們要探討最經典的\textbf{排序問題}：給你 n 個數字，要如何將他\textbf{從小到大}排序好呢？例如，給你 5 個數字 3、7、1、2、5，這個問題最後要得到的答案是 1、2、3、5、7，那麼如何將前面的數字排序好就是本章的重點所在。
+
+\paragraph{}本章附教學影片，教學影片可以在稍微了解各個排序法之後再觀看，更能熟悉理解每個排序，以免看不懂。
+
+\section{比較排序法 (Comparing Sorting Algorithms)}
+
+\paragraph{}排序中，最基礎的即是比較排序法。比較排序法，意思就是裡面的元素兩兩比較，基本上來說，如果 n 個元素兩兩比較，總共要比較 $\displaystyle{{n\times{(n - 1)}}\over{2}}$ 次，時間複雜度會達到 $O(n^2)$，但事實上，有些比較是多餘的，例如：我們已知 $a<b$，$b<c$，這時我們再比較 a 和 c 就是多餘的 (很明顯，因為我們可以從上述兩個關係式找出 $a<c$)，因此發展出特殊的排序法來減少無謂的比較，時間複雜度可達到 $O(n\lg{n})$。
+
+\paragraph{}接下來介紹三個基礎的排序法：泡沫排序、選擇排序、插入排序。
+
+\subsection{泡沫排序法 (Bubble Sort)}
+
+\paragraph{}教學影片：\href{https://www.youtube.com/watch?v=lyZQPjUT5B4}{泡沫排序法}
+
+\paragraph{}泡沫排序法正如其名，排序時最大的數字會「\textbf{浮出來}」，大略的過程如下：首先我們先讓最大的數字浮上來 (到最右邊)，接著在讓第二大的數字浮上來，以此類推。那要如何讓他「浮上來」呢？答案是「交換」，別忘了我們是比較排序法，因此我們要將數字兩兩比較，如果發現左邊的數字比右邊來得大，那麼就把較大的數字交換到右邊去。
+
+\paragraph{}詳細過程如圖 3.1 所示，第一次我們比較第 0 個和第 1 個數字 (第一行)－－ 3 和 7，發現右邊的 7 比較大，所以不需要做交換的動作；接著比較第 1 個和第 2 個數字 (第二行)－－ 7 和 1，發現左邊的 7 比右邊的 1 大，因此 7 和 1 交換；第 2 個和第 3 個數字 (第三行)－－ 7 和 2，第 2 個數字是 7 是剛剛我們對 7 和 1 比較後交換而來，因此這次 7 大於 2，就將 7 交換到右側；第 3 個和第 4 個數字 (第四行)－－ 7 和 5 交換；最後 (第五行)，我們發現最右邊的 7 就是最大的數字，剩下前 4 個數字還未進行排序的動作。
+
+\subsection{選擇排序法 (Selection Sort)}
+\subsection{插入排序法 (Insertion Sort)}
+\subsection{合併排序法 (Merge Sort)}
+\subsection{快速排序法 (Quick Sort)}
+\section{非比較排序法 (Non-comparing Sorting Algorithms)}
+\subsection{計數排序法 (Counting Sort)}
+\subsection{基數排序法 (Radix Sort)}
+\subsection{桶排序法 (Bucket Sort)}
+\subsection{穩定性 (Stability)}
+\subsection{綜合比較}
+
+\ifx \allfiles \undefined
+
+\printindex[noun]
+\clearpage
+
+\end{CJK}
+\end{document}
+
+\fi

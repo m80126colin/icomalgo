@@ -1,81 +1,12 @@
 \ifx \allfiles \undefined
 \documentclass[12pt,a4paper,oneside]{report}
 
-%% === CJK 套件 ===
-\usepackage{CJKutf8,CJKnumb}                    % 中文套件
-\usepackage[unicode]{hyperref,xcolor}
-\hypersetup{
-    colorlinks,
-    linkcolor={blue!100!black},
-    citecolor={blue!75!black},
-    urlcolor={blue!50!black}
-}
-%% === AMS 標準套件 ===
-\usepackage{amsmath,amsfonts,amssymb,amsthm}    % 數學符號
-%% === 章節內容 ===
-\usepackage{enumitem}                           % 修改 enumerate, item
-\usepackage{titletoc,titlesec}                  % titletoc 目錄修改套件, titlesec 美化章節標題套件
-\usepackage{imakeidx}                           % 索引
-%% ===  ===
-\usepackage[chapter]{algorithm}                 % 演算法套件
-\usepackage[noend]{algpseudocode}               % pseudocode 套件
-\usepackage{listings}                           % 程式碼
-%% ===  ===
-\usepackage{tikz,tkz-graph,tkz-berge}
-%% ===  ===
-\usepackage{xkeyval,xargs}
-
-\makeindex[name=noun]        % 索引生成
-\linespread{1.24}
-
-%% === 設定頁面格式 ===
-%\hoffset         = 10pt                      % 水平位移，預設為 0pt
-\voffset         = -15pt                     % 垂直位移，預設為 0pt
-\oddsidemargin   = 0pt                       % 預設為 31pt
-%\topmargin       = 20pt                      % 預設為 20pt
-%\headheight      = 12pt                      % header 的高度，預設為 12pt
-%\headsep         = 25pt                      % header 和 body 的距離，預設為 25pt
-\textheight      = 620pt                     % body 內文部分的高度，預設為 592pt
-\textwidth       = 450pt                     % body 內文部分的寬度，預設為 390pt
-%\marginparsep    = 10pt                      % margin note 和 body 的距離，預設為 10pt
-%\marginparwidth  = 35pt                      % margin note 的寬度，預設為 35pt
-%\footskip        = 30pt                      % footer 高度 + footer 和 body 的距離，預設為 30pt
-
-%% === itemize,enumerate 設定 ===
-%  使用 enumitem 套件
-\setlist[itemize]{itemsep=0pt,parsep=0pt}
-\setlist[enumerate]{itemsep=0pt,parsep=0pt}
+\input{../config/preamble}
 
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
 
-%% === 常用的指令，替換成中文 ===
-\renewcommand{\figurename}{圖}
-\renewcommand{\tablename}{表}
-\renewcommand{\contentsname}{目~錄~}
-\renewcommand{\listfigurename}{插~圖~目~錄}
-\renewcommand{\listtablename}{表~格~目~錄}
-\renewcommand{\appendixname}{附~錄}
-%\renewcommand{\refname}{參~考~資~料}    % article
-\renewcommand{\bibname}{參~考~文~獻}     % book
-\renewcommand{\indexname}{索~引}
-\renewcommand{\today}{\number\year~年~\number\month~月~\number\day~日}
-%\newcommand{\zhtoday}{\CJKdigits{\the\year}年\CJKnumber{\the\month}月\CJKnumber{\the\day}日}
-
-%% === 
-\floatname{algorithm}{演算法}
-
-%% === 定義 ===
-\newtheorem{myrule}{\begin{CJK}{UTF8}{bkai}原理\end{CJK}}[section]
-\newtheorem{mythm}{\begin{CJK}{UTF8}{bkai}定理\end{CJK}}[section]
-\newtheorem{mydef}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}[section]
-\newtheorem*{mydef*}{\begin{CJK}{UTF8}{bkai}定義\end{CJK}}
-\newtheorem{mypropo}{\begin{CJK}{UTF8}{bkai}性質\end{CJK}}[section]
-\newtheorem{myquest}{\begin{CJK}{UTF8}{bkai}例題\end{CJK}}[section]
-\newtheorem{myexe}{\begin{CJK}{UTF8}{bkai}練習題\end{CJK}}[subsection]
-\numberwithin{equation}{section}
-\renewenvironment{proof}{\begin{CJK}{UTF8}{bkai}\textbf{證明}\end{CJK}}{\qed}
-\newenvironment{mysol}{\begin{CJK}{UTF8}{bkai}\textbf{解答}\end{CJK}}{\qed}
+\subimport{../config/}{document-config.tex}
 
 \fi
 
@@ -821,9 +752,6 @@ UVa 11706
 
 \begin{algorithm}
 \caption{最大匹配演算法}
-\begin{algorithmic}
-
-\end{algorithmic}
 \end{algorithm}
 
 UVa 663: Sorting Slides
