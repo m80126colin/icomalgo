@@ -1,0 +1,281 @@
+"04-linear-list":
+  title: "線性結構"
+  section:
+  - file: "bigint-add-and-sub"
+    title: "大數加法與減法"
+    exercises:
+    - UVa: 424
+      ZJ: "c034"
+      title: "Integer Inquiry"
+      discription: "求很多大數之和。"
+    others:
+    - UVa: 495
+      ZJ: "c121"
+      title: "Fibonacci Freeze"
+    - UVa: 10579
+      title: "Fibonacci Numbers"
+  - file: "bigint-multi"
+    title: "大數乘法"
+    exercises:
+    - UVa: 10106
+      title: "Product"
+      discription: "給你 $X$、$Y$ ($0\leq{X,Y}\leq{10^{250}}$)，輸出 $X\times{Y}$。"
+    - UVa: 10220
+      ZJ: "c119"
+      title: "I Love Big Numbers"
+      discription: "求 $n!$ 每個位數之和。"
+    others:
+    - UVa: 623
+      ZJ: "c120"
+      title: "500!"
+    - UVa: 324
+      title: "Factorial Frequencies"
+  - file: "bigint-div"
+    title: "大數除法"
+    exercises:
+    - ZJ: "a021"
+      title: "大數運算"
+      discription: "計算 $a,b$ 的加減乘除。"
+    - ZJ: "b115"
+      title: "TOI2008 2. 大數運算"
+  - file: "bigint-more-efficient"
+    title: "更有效率的大數"
+    exercises:
+    - UVa: 619
+      ZJ: "c132"
+      title: "Numerically Speaking"
+      discription: "$26$ 進制數字轉 $10$ 進制數字。"
+    - UVa: 288
+      title: "Arithmetic Operations With Large Integers"
+      discription: "給定一運算式，包含加法、減法、乘法、指數次方，無括號，但是運算先後順序依然存在，請問運算結果？"
+    - UVa: 10023
+      title: "Square root"
+      discription: "給你一個數字 $Y$ ($1\leq{Y}\leq{10^{1000}}$)，問 $Y$ 的開根號為多少？"
+    - UVa: 748
+      title: "Exponentiation"
+      discription: "給一浮點數 $R$ ($0.0<R<99.999$) 和整數 $n$ ($0<n\leq{25}$)，求 $R^n$。"
+    others:
+    - ZJ: "d283"
+      title: "大數加法"
+    - UVa: 10013
+      ZJ: "d056"
+      title: "Super long sums"
+    - ZJ: "d202"
+      title: "a+b??"
+    - UVa: 485
+      title: "Pascal's Triangle of Death"
+    - UVa: 10083
+      title: "Division"
+    - UVa: 465
+      ZJ: "d873"
+      title: "Overflow"
+    - ZJ: "d218"
+      title: "加法與次方的奧妙"
+    - UVa: 10523
+      title: "Very Easy !!!"
+  - file: "matrix-def"
+    title: "定義"
+    exercises:
+    - ZJ: "a015"
+      title: "矩陣的翻轉"
+      discription: "將元素 $a[i,j]$ 翻轉至 $a[j,i]$。"
+  - file: "matrix-multi"
+    title: "矩陣乘法"
+    exercises:
+    - ZJ: "d481"
+      title: "矩陣乘法"
+      discription: "給兩個矩陣 $A$、$B$，若能相乘，請輸出 $A\times{B}$ 的結果。"
+  - file: "matrix-identity-inverse-element"
+    title: "單位元素與反元素"
+    exercises:
+    - UVa: 11149
+      ZJ: "d766"
+      discription: "給一個 $n\times{n}$ 矩陣 $A$，計算 $A+A^2+A^3+\cdots{}+A^k$。"
+  - file: "matrix-inverse-matrix"
+    title: "反矩陣"
+    exercises:
+    - ZJ: "d623"
+      title: "反方陣"
+      discription: "求二階反矩陣。"
+  - file: "matrix-gauss"
+    title: "高斯消去法"
+    exercises:
+    - ZJ: "b016"
+      title: "D. Mitlab"
+      discription: "矩陣加減乘除運算。"
+  - file: "matrix-01-matrix"
+    title: "01 矩陣與運算"
+    exercises:
+    - ZJ: "b002"
+      title: "關燈"
+      discription: "求最少按多少次開關，燈會全暗。"
+    - ZJ: "a243"
+      title: "第四題：點燈遊戲"
+      discription: "求是否能夠經由有限次開關操作，燈會全暗。"
+"09-graph-theory":
+  title: "圖論"
+  section:
+  - file: "topological-sort"
+    title: "拓樸排序法"
+    exercises:
+    - UVa: 10305
+      title: "Ordering Tasks"
+      discription: ""
+  - file: "minimum-spanning-tree"
+    title: "最小生成樹"
+    exercises:
+    - UVa: 11631
+      title: "Dark roads"
+      discription: ""
+    - UVa: 10034
+      title: "Freckles"
+      discription: ""
+    others:
+    - UVa: 908
+      title: "Re-connecting Computer Sites"
+  - file: "second-minimum-spanning-tree"
+    title: "次小生成樹"
+    exercises:
+    - UVa: 10600
+      title: ""
+      discription: ""
+  - file: "bellman-ford-algorithm"
+    title: "Bellman-Ford 演算法"
+    exercises:
+    - UVa: 558
+      title: ""
+      discription: ""
+    - UVa: 10449
+      title: ""
+      discription: ""
+    - UVa: 10557
+      title: ""
+      discription: ""
+    - UVa: 11280
+      title: ""
+      discription: ""
+  - file: "spfa"
+    title: "SPFA 演算法"
+    exercises:
+    - UVa: 10986
+      title: ""
+      discription: ""
+  - file: "dijkstra-algorithm"
+    title: "Dijkstra's 演算法"
+    exercises:
+    - UVa: 929
+      title: ""
+      discription: ""
+    - UVa: 10801
+      title: ""
+      discription: ""
+  - file: "floyd-warshall-algorithm"
+    title: "Floyd-Warshall 演算法"
+    exercises:
+    - UVa: 821
+      title: ""
+      discription: ""
+    - UVa: 11015
+      title: ""
+      discription: ""
+  - file: "articulation"
+    title: "關節點"
+    exercises:
+    - UVa: 315
+      title: "Network"
+      discription: ""
+    - UVa: 10199
+      title: "Tourist Guide"
+      discription: ""
+  - file: "bridge"
+    title: "橋"
+    exercises:
+    - UVa: 610
+      title: ""
+      discription: ""
+  - file: "strong-connected-component"
+    title: "強連通分量"
+    exercises:
+    - UVa: 11770
+      title: "Lighting Away"
+      discription: ""
+    - UVa: 11504
+      title: "Dominos"
+      discription: ""
+    others:
+    - UVa: 11709
+      title: "Trust groups"
+    - ZJ: "b201"
+      title: "F. 國家"
+  - file: "biconnected-component"
+    title: "雙連通分量"
+    exercises:
+    - Ural: 1557
+      title: "Network Attack"
+      discription: ""
+  - file: "matching"
+    title: "匹配問題"
+    exercises:
+    - UVa: 10004
+      title: ""
+      discription: ""
+    - UVa: 11706
+      title: ""
+      discription: ""
+  - file: "maximum-bipartite-matching"
+    title: "最大二分匹配"
+    exercises:
+    - UVa: 663
+      title: "Sorting Slides"
+      discription: ""
+    - UVa: 670
+      title: "The dog task"
+      discription: ""
+    - UVa: 10080
+      title: "Gopher II"
+      discription: ""
+    - UVa: 10092
+      title: "The Problem with the Problem Setter"
+      discription: ""
+    - UVa: 10349
+      title: ""
+      discription: ""
+    - UVa: 11138
+      title: "Nuts 'n' Bolts"
+      discription: ""
+    - UVa: 11418
+      title: "Clever Naming Patterns"
+      discription: ""
+    - UVa: 10122
+      title: ""
+      discription: ""
+    - UVa: 10804
+      title: "Gopher Strategy"
+      discription: ""
+    - UVa: 11262
+      title: "Weird Fence"
+      discription: ""
+    - UVa: 10615
+      title: ""
+      discription: ""
+    - UVa: 11159
+      title: "Factors and Multiples"
+      discription: ""
+    - UVa: 11419
+      title: ""
+      discription: ""
+  - file: "edmond-karp-algorithm"
+    title: "Edmond-Karp 演算法"
+    exercises:
+    - UVa: 820
+      title: ""
+      discription: ""
+  - file: "network-flow"
+    title: "網路流建模"
+    exercises:
+    - UVa: 10330
+      title: "Power Transmission"
+      discription: ""
+    - UVa: 11045
+      title: "My T-shirt suits me"
+      discription: ""
