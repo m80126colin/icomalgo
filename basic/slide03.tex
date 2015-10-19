@@ -625,6 +625,24 @@
   \end{exampleblock}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{字串練習}
+  \begin{block}{練習四}<+->
+    \begin{lstlisting}
+  char str7[110] = "cat\0bird";
+  char str8[110];
+    \end{lstlisting}
+  試比較下列兩者的不同
+    \begin{itemize}
+    \item \lstinline{strcpy(str8, str7);}{}
+    \item \lstinline{memcpy(str8, str7, sizeof(str7));}{}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{提示}<+->
+  比較「記憶體」和「字串」的差異。
+  \end{exampleblock}
+\end{frame}
+
 \section{格式字串}
 \begin{frame}
   \frametitle{大綱}
