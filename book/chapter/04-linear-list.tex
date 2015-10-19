@@ -62,9 +62,19 @@
 
 \paragraph{}以下為大數加法的虛擬碼：
 
+\subimport{../problem/}{04-linear-list-bigint-add-and-sub.tex}
+
 \subsection{大數乘法}
+
+\subimport{../problem/}{04-linear-list-bigint-multi.tex}
+
 \subsection{大數除法}
+
+\subimport{../problem/}{04-linear-list-bigint-div.tex}
+
 \subsection{更有效率的大數}
+
+\subimport{../problem/}{04-linear-list-bigint-more-efficient.tex}
 
 \section{矩陣 (Matrix)}
 \subsection{定義}
@@ -75,6 +85,8 @@
 \paragraph{}如果要描述一個矩陣的大小，我們就看他有幾列幾行，一個有 $m$ 列 $n$ 行的矩陣被稱為一個 $m\times{n}$ 矩陣，記為 \textbf{$\Mat$}。如果 $m=n$ 的話，我們稱為\textbf{方陣}，或是 $n$ 階矩陣，例如一個 $3\times{3}$ 的矩陣我們可以稱他為 $3$ 階矩陣。
 
 \paragraph{}矩陣其他的性質眾多，以下只介紹高中才會接觸到的範圍，其他的東西，有興趣的讀者可以參考大學的一門課程「\textbf{線性代數}」。
+
+\subimport{../problem/}{04-linear-list-matrix-def.tex}
 
 \subsection{矩陣加法與減法}
 
@@ -113,11 +125,25 @@ c[i,j] &= a[i,1]\times{b[1,j]}+a[i,2]\times{b[2,j]}+\cdots{}+a[i,k]\times{b[k,j]
 
 \paragraph{}因為 $A$ 矩陣有 $m$ 列，$C$ 矩陣也會有 $m$ 列；同理，因為 $B$ 矩陣有 $n$ 行，所以 $C$ 矩陣也依然會有 $n$ 行，總而言之，$C$ 矩陣就是個 $m\times{n}$ 的矩陣。
 
+\subimport{../problem/}{04-linear-list-matrix-multi.tex}
+
 \subsection{單位元素與反元素}
+
+\subimport{../problem/}{04-linear-list-matrix-identity-inverse-element.tex}
+
 \subsection{行列式}
 \subsection{反矩陣}
+
+\subimport{../problem/}{04-linear-list-matrix-inverse-matrix.tex}
+
 \subsection{高斯消去法}
+
+\subimport{../problem/}{04-linear-list-matrix-gauss.tex}
+
 \subsection{01 矩陣與運算}
+
+\subimport{../problem/}{04-linear-list-matrix-01-matrix.tex}
+
 \section{鏈結串列 (Linked-List)}
 \subsection{鏈結串列實作 (Implementation)}
 \subsection{更多變形}

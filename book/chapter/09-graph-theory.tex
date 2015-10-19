@@ -7,6 +7,7 @@
 \begin{CJK}{UTF8}{bkai}
 
 \subimport{../config/}{document-config.tex}
+\setcounter{chapter}{8}
 
 \fi
 
@@ -533,6 +534,8 @@ C_3&=K_3
 \subsection{有向無環圖 (Directed Acyclic Graph, DAG)}
 \subsection{拓樸排序法 (Topological Sort)}
 
+\subimport{../problem/}{09-graph-theory-topological-sort.tex}
+
 \section{最小生成樹 (Minimum Spanning Trees)}
 
 \subsection{問題定義}
@@ -571,15 +574,11 @@ C_3&=K_3
 
 \subsection{Prim's 演算法}
 
-UVa 11631 / Ruby 11631: Dark roads
-UVa 10034 / Luckycat 10034: Freckles
-
-更多練習題：
-
-UVa 908 / Luckycat 908: Re-connecting Computer Sites
+\subimport{../problem/}{09-graph-theory-minimum-spanning-tree.tex}
 
 \subsection{次小生成樹}
-\paragraph{}10600
+
+\subimport{../problem/}{09-graph-theory-second-minimum-spanning-tree.tex}
 
 \section{最短路徑問題}
 \subsection{問題定義}
@@ -612,8 +611,9 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \end{algorithmic}
 \end{algorithm}
 
+\subimport{../problem/}{09-graph-theory-bellman-ford-algorithm.tex}
+
 \subsection{SPFA}
-\paragraph{}UVa 10986
 \begin{algorithm}
 \caption{Shortest Path Faster Algorithm (SPFA)}
 \label{algo:shortest_path_spfa}
@@ -642,10 +642,13 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \end{algorithmic}
 \end{algorithm}
 
+\subimport{../problem/}{09-graph-theory-spfa.tex}
+
 \subsection{Dijkstra's 演算法}
 
+\subimport{../problem/}{09-graph-theory-dijkstra-algorithm.tex}
+
 \subsection{Floyd-Warshall 演算法}
-\paragraph{}bla bla bla
 \begin{algorithm}
 \caption{Floyd Warshall 演算法}
 \label{algo:shortest_path_floyd_warshall}
@@ -678,10 +681,17 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \end{algorithmic}
 \end{algorithm}
 
+\subimport{../problem/}{09-graph-theory-floyd-warshall-algorithm.tex}
+
 \section{圖的連通性 (Connectivity)}
 \subsection{問題定義}
 \subsection{關節點 (Articulation Point)}
+
+\subimport{../problem/}{09-graph-theory-articulation.tex}
+
 \subsection{橋 (Bridge)}
+
+\subimport{../problem/}{09-graph-theory-bridge.tex}
 
 \subsection{強連通分量 (Strong Connected Component, SCC)}
 \paragraph{}在有向圖 $G$ 中，我們定義：對於任意的頂點 $u$、$v$，如果有一條路徑從 $u$ 到 $v$，且也有一條路徑可以從 $v$ 到 $u$，我們就稱 $G$ 為\textbf{\index[noun]{強連通圖}{強連通圖 (Strong Connected Graph)}}。
@@ -689,58 +699,62 @@ UVa 908 / Luckycat 908: Re-connecting Computer Sites
 \paragraph{}從圖可以看出，連通圖的定義在有向圖中並不夠好，因此我們需要一個更強、但類似的定義使得我們可以說明「在有向圖連通」這件事------只因我們認為「無向圖連通」可以到處走來走去，那麼在有向圖應該也會有類似的性質。
 \paragraph{}定義強連通後，它和無向圖連通有類似的概念：我們有強連通子圖，代表一張子圖是強連通的。當然，我們並不在乎一個子圖是否強連通，更多時候我們更想知道它極大的強連通子圖------也就是\textbf{\index[noun]{強連通分量}{強連通分量 (Strong Connected Component, SCC)}}。
 \paragraph{}SCC 其實可以看做有向圖中的環，如上圖，我們會重視 SCC 主要的一個原因是，當我們在解決有向圖上的問題時，這些問題往往在無環有向圖 (也就是 DAG 圖) 中會有很好的解決方法，因此一張有向圖，我們只要針對有向環做處理，我們就可以把一張圖轉化為一棵樹。
+
 \begin{algorithm}
-\caption{Tarjan's 演算法}
-\label{algo:scc_tarjan}
-\begin{algorithmic}[1]
-\Procedure{SCC-Tarjan}{$G$}
-  \State $Stamp\gets{0}$\Comment{用變數 $Stamp$ 計算進入節點的次數}
-  \State $S\gets{\emptyset}$\Comment{$S$ 是 stack}
-  \For {$u\in{V(G)}$}\Comment{$A_{SCC}$ 記錄縮點後的結果}
-    \State $A_{SCC}[u]\gets{u}$\Comment{初始化}
-    \State $dfn[u]\gets{0}$\Comment{記錄節點 $u$ 被 DFS 的時間}
-    \State $low[u]\gets{0}$\Comment{記錄到目前為止 $u$ 可抵達最小的 $dfn$}
-  \EndFor
-  \For {$u\in{V(G)}$}
-    \If {$dfn[u]=0$}
-      \State \Call{DfsVisit}{$u$}
+  \caption{Tarjan's 演算法}
+  \label{algo:scc_tarjan}
+  \begin{algorithmic}[1]
+  \Procedure{SCC-Tarjan}{$G$}
+    \State $Stamp\gets{0}$\Comment{用變數 $Stamp$ 計算進入節點的次數}
+    \State $S\gets{\emptyset}$\Comment{$S$ 是 stack}
+    \For {$u\in{V(G)}$}\Comment{$A_{SCC}$ 記錄縮點後的結果}
+      \State $A_{SCC}[u]\gets{u}$\Comment{初始化}
+      \State $dfn[u]\gets{0}$\Comment{記錄節點 $u$ 被 DFS 的時間}
+      \State $low[u]\gets{0}$\Comment{記錄到目前為止 $u$ 可抵達最小的 $dfn$}
+    \EndFor
+    \For {$u\in{V(G)}$}
+      \If {$dfn[u]=0$}
+        \State \Call{DfsVisit}{$u$}
+      \EndIf
+    \EndFor
+    \State \Return $A_{SCC}$
+  \EndProcedure
+  \State \Comment{每個節點用 DFS 遍歷}
+  \Procedure{DfsVisit}{$u$}
+    \State $Stamp\gets{Stamp+1}$
+    \State $dfn[u]\gets{Stamp}$
+    \State $low[u]\gets{Stamp}$
+    \State $S.push(u)$
+    \For {$v\in{Adj(u)}$}\Comment{遍歷所有與 $u$ 相鄰的點}
+      \If {$dfn[v]=0$}\Comment{沒有遍歷過的節點，就沒有 $dfn$ 和 $low$}
+        \State \Call{DfsVisit}{$v$}
+      \EndIf
+      \If {$v\in{S}$}
+        \State $low[u]\gets{\Call{Min}{low[u],low[v]}}$
+      \EndIf
+    \EndFor
+    \If {$dfn[u]=low[u]$}\Comment{此節點不能再抵達編號更小的節點}
+      \Repeat
+        \State $u^{'}=S.top()$
+        \State $S.pop()$
+        \State $A_{SCC}[u^{'}]\gets{u}$
+      \Until {$u^{'}=u$}
     \EndIf
-  \EndFor
-  \State \Return $A_{SCC}$
-\EndProcedure
-\State \Comment{每個節點用 DFS 遍歷}
-\Procedure{DfsVisit}{$u$}
-  \State $Stamp\gets{Stamp+1}$
-  \State $dfn[u]\gets{Stamp}$
-  \State $low[u]\gets{Stamp}$
-  \State $S.push(u)$
-  \For {$v\in{Adj(u)}$}\Comment{遍歷所有與 $u$ 相鄰的點}
-    \If {$dfn[v]=0$}\Comment{沒有遍歷過的節點，就沒有 $dfn$ 和 $low$}
-      \State \Call{DfsVisit}{$v$}
-    \EndIf
-    \If {$v\in{S}$}
-      \State $low[u]\gets{\Call{Min}{low[u],low[v]}}$
-    \EndIf
-  \EndFor
-  \If {$dfn[u]=low[u]$}\Comment{此節點不能再抵達編號更小的節點}
-    \Repeat
-      \State $u^{'}=S.top()$
-      \State $S.pop()$
-      \State $A_{SCC}[u^{'}]\gets{u}$
-    \Until {$u^{'}=u$}
-  \EndIf
-\EndProcedure
-\end{algorithmic}
+  \EndProcedure
+  \end{algorithmic}
 \end{algorithm}
 
+\subimport{../problem/}{09-graph-theory-strong-connected-component.tex}
+
 \subsection{雙連通分量 (Bi-Connected Component, BCC)}
+
+\subimport{../problem/}{09-graph-theory-biconnected-component.tex}
 
 \section{匹配問題 (Matching)}
 
 \subsection{問題定義}
 
-UVa 10004
-UVa 11706
+\subimport{../problem/}{09-graph-theory-matching.tex}
 
 \subsection{交錯軌道 (Alternating Path) 和增廣路徑 (Augmenting Path)}
 
@@ -754,22 +768,7 @@ UVa 11706
 \caption{最大匹配演算法}
 \end{algorithm}
 
-UVa 663: Sorting Slides
-UVa 670: The dog task
-UVa 10080 / LuckyCat 10080: Gopher II
-UVa 10092: The Problem with the Problem Setter
-UVa 10349
-UVa 11138 / LuckyCat 11138: Nuts 'n' Bolts
-UVa 11418 / Unfortunate 11418: Clever Naming Patterns
-
-UVa 10122
-UVa 10804: Gopher Strategy
-UVa 11262: Weird Fence
-
-UVa 10615
-
-UVa 11159: Factors and Multiples
-UVa 11419
+\subimport{../problem/}{09-graph-theory-maximum-bipartite-matching.tex}
 
 \subsection{最大權二分匹配－－匈牙利演算法 (Hungary Algorithm)}
 
@@ -778,10 +777,12 @@ UVa 11419
 \subsection{最大流量問題 (Maximum Flow)}
 \subsection{Ford-Fulkerson 演算法}
 \subsection{Edmond-Karp 演算法}
+
+\subimport{../problem/}{09-graph-theory-edmond-karp-algorithm.tex}
+
 \subsection{網路流建模}
 
-UVa 10330 / Luckycat 10330: Power Transmission
-UVa 11045 / Luckycat 11045: My T-shirt suits me
+\subimport{../problem/}{09-graph-theory-network-flow.tex}
 
 \subsection{最小切割 (Minimum Cut)}
 \subsection{最大流最小切割 (Max-flow Min-cut)}
