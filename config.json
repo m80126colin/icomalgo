@@ -1,0 +1,42 @@
+[
+	{
+    "name": "基礎",
+    "type": "chapter",
+    "block": [
+      {
+        "name": "程式與計算",
+        "slide": "basic/slide01.pdf",
+        "prob": {
+          "basic": {
+            "uva": [10071, 10300, 10055, 11172, 11942, 10469]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "第一部分",
+    "type": "divider"
+  },
+  {
+    "name": "第二章、基礎演算法",
+    "type": "chapter",
+    "section": [
+      {
+        "name": "遞迴與分治",
+        "type": "section",
+        "block": [
+          {
+            "name": "河內塔",
+            "prob": {
+              "basic": {
+                "uva": [254, 10017],
+                "zj": ["a227", "b190"]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
