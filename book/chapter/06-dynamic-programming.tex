@@ -1,0 +1,132 @@
+\ifx \allfiles \undefined
+\documentclass[12pt,a4paper,oneside]{report}
+
+\input{../config/preamble}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\subimport{../config/}{document-config.tex}
+\setcounter{chapter}{5}
+
+\fi
+
+\chapter{動態規劃 (Dynamic Programming, DP)}
+
+\section{概論 (Introduction)}
+
+\paragraph{}動態規劃 (常稱 DP) 是一種解題常用的手段，它的想法與遞迴與分治法相近，將大問題分割成小問題來解決，但是在切割小問題的過程中，常常會遭遇到重複切割小問題的情形，使得程式執行速度變得緩慢而沒效率 (例：費氏數列)，因此使用一種技巧，將做過的小問題的答案儲存起來，以便下次再使用這個小問題時，能夠直接回傳答案而不浪費執行時間 (記憶化求解)，這種技巧我們稱為動態規劃。
+\paragraph{}以下將會介紹更多動態規劃的方法以及幾個經典的 DP 問題，至於能夠以 DP 解決的題目眾多，族繁不及被宰，更多的問題請自行在 Online Judge 中尋找並思考，這種題型是高中乃至大學競賽最愛考的題型，幾乎每場比賽都會出的必考題，請各位讀者好好把握。
+
+\subsection{特性 (Property)}
+
+\paragraph{}使用動態規劃的時機，取決於有沒有以下特性：
+\begin{itemize}
+\item 重疊子問題 (Overlapping Subproblems)
+\item 最佳子結構 (Optimal Substructure)
+\item 無後效性
+\end{itemize}
+
+\subsection{名詞定義 (Terminology)}
+
+\begin{itemize}
+\item 狀態
+\item 決策
+\item 狀態轉移方程 (State Transferring Formula)
+  \begin{itemize}
+  \item 向前遞推法
+  \item 向後遞推法
+  \end{itemize}
+\end{itemize}
+
+\subsection{動態規劃標記 (Dynamic Programming Notation)}
+
+\paragraph{}目前最方便分析 DP 的方法即是 xD/yD 標記法，x 和 y 皆為非負整數，兩者均表示多少維度的概念，例如：1D 代表一個維度、2D 代表兩個維度等等。
+\paragraph{}xD 代表 DP 時狀態的維度，簡單來說就像是你 DP 時的陣列開了幾維，而 yD 代表每次狀態可能的轉移維度，通常都是這些轉移的可能中取極值或者求和。
+\paragraph{}例如費氏數列的狀態數就是一個一維陣列，因此費氏數列的 $x=1$；而費氏數列的狀態轉移方程中 $F[i]=F[i-1]+F[i-2]$，決定 $F[i]$ 的轉移數只有一種 $O(1)$，因此維度為 $y=0$。總和而言，費氏數列為 1D/0D 的 DP。
+\paragraph{}又例如 LIS (之後會介紹) 的狀態是一維陣列，$x=1$；轉移方程式為
+\begin{align*}
+LIS[i] = \max_{j<i}{\{LIS[j]+1\}}\text{ \textbf{if} }a[j]<a[i]
+\end{align*}
+，它是取第 $i$ 個元素前，所有符合條件的最小值，此時轉移數有 $O(n)$，因此維度為 $y=1$。總和而言，LIS 為 1D/1D 的 DP。
+\paragraph{}這樣子的表示法使我們可以容易算出時間複雜度以及空間複雜度。根據剛剛的推論，時間複雜度為 $O(n^{x+y})$，空間複雜度為 $O(n^{x})$，不難。
+
+\subsection{與遞迴的關係}
+
+\section{線型動態規劃 (Linear DP)}
+
+\subsection{費氏數列 (Fibonacci Numbers)}
+
+\paragraph{}目前大家最熟知的動態規劃，即是費氏數列。以下是一道例題：
+\paragraph{}有些讀者應該可以不難發現其中的關係，那麼沒發現的讀者也不要灰心，讓我們用上面的思路來解決此道問題。
+\paragraph{}第一、決策，首先我們要找出爬樓梯所能做的決策，找出決策有兩派做法，這兩派就是我們上面所述的向前遞推法和向後遞推法。
+\paragraph{}如果我們從向前遞推法的觀點來看，當你在第 i 階的時候，你可以做兩件事：
+
+\begin{itemize}
+\item 走到第 $i+1$ 階 (一次爬一階)
+\item 走到第 $i+2$ 階 (一次爬兩階)
+\end{itemize}
+
+\paragraph{}找到決策之後，等於是我們也找到了狀態轉移方程，而向前遞推法，必須從已知的狀態類推到未知的狀態，因此我們還要找到第一個已知的狀態 (也就是遞迴中的中止條件)。
+\paragraph{}第一個初始條件我們通常找你所設「狀態」的極值，此時的狀態該設為什麼呢？其實，你在不知不覺間已經設定好了狀態－－你在第幾階就是你的狀態，因為他狀態只有一個，所以你所需要記錄的陣列只要開一維，也代表說動態規劃的方向是一維的。
+
+\paragraph{}此時階數的範圍介於 $0<n<100$ 之間，我們可以找 $n=1$ 或是 $n=99$ 階的情況，明顯地我們找 $n=1$ 階可以很容易知道方法數只有 1 種，於是我們就找到第一個已知狀態。於是我們可以產生一段虛擬碼如下：
+
+\begin{algorithm}
+  \centering
+  \begin{algorithmic}[1]
+  \Procedure{$DP$}{}
+    \State $stair[1]\gets{1}$
+    \For{$i=1$ to $n-2$}
+      \State $stair[i+1]\gets{stair[i+1]+stair[i]}$
+      \State $stair[i+2]\gets{stair[i+2]+stair[i]}$
+    \EndFor
+    \State $stair[n]\gets{stair[n]+stair[n-1]}$
+  \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{最長遞增子序列 (Longest Increasing Subsequence, LIS)}
+\subsection{最長共同子序列 (Longest Common Subsequence, LCS)}
+\subsection{LCS、LIS 相互轉換}
+
+\section{背包問題 (Knapsack Problems)}
+
+\subsection{01 背包問題 (01-knapsack)}
+\subsection{子集合求和問題 (Subset Sum Problem)}
+\subsection{完全背包問題－－找零問題 (Coin Change)}
+\subsection{多重背包問題 (Bounded Knapsack Problem)}
+\subsection{分組背包問題}
+
+\section{其他動態規劃}
+
+\subsection{區間動態規劃}
+\subsection{環形動態規劃}
+\subsection{集合動態規劃 (狀態壓縮)}
+\subsection{最大值最小化問題 (Min-max Problem)}
+\subsection{區間最大和問題 (maximum consecutive subsequence)}
+\subsection{最大矩形面積 (Largest Rectangle Area)}
+
+\section{動態規劃優化 (Dynamic Programming Optimizations)}
+
+\subsection{預處理}
+\subsection{改變狀態}
+\subsection{滾動數組}
+\subsection{決策單調性}
+\subsection{單調佇列優化}
+\subsection{四邊形不等式優化}
+\subsection{斜率優化}
+
+\section{樹型動態規劃}
+
+\subsection{樹形依賴背包}
+
+\ifx \allfiles \undefined
+
+\printindex[noun]
+\clearpage
+
+\end{CJK}
+\end{document}
+
+\fi
