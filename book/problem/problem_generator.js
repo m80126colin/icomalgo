@@ -53,7 +53,7 @@ for (var chap in probFile) {
       for (var j = 0; j < sect.exercises.length; j++) {
         var prob = sect.exercises[j];
         content.push('\\item ' + makeProbInfo(prob) + '\\\\');
-        content.push(prob.discription);
+        content.push(prob.description);
       }
       content.push('\\end{itemize}');
     }
