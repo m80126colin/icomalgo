@@ -26,7 +26,7 @@
       title: "NOIP2010 1.数字统计"
       description: "給一個範圍 $[L,R]$ ($1\\leq{L}\\leq{R}\\leq{10000}$)，統計數字 $2$ 在這區間的出現次數。"
     - zj: "a064"
-      Spku: 4580
+      spoj: "ABCDEF"
       title: "ABCDEF"
       description: "一個集合 $S$ 內有 $N$ ($1\\leq{N}\\leq{100}$) 個整數，給你這 $N$ 個相異整數 (範圍介於 $-30000$ 和 $30000$)，請求出所有滿足 $(a\\times{b}+c)/d-e=f$ 的組數，$a,b,c,d,e,f\\in{S}$。"
     others:
@@ -139,6 +139,7 @@
     exercises:
     - uva: 11149
       zj: "d766"
+      title: "Power of Matrix"
       description: "給一個 $n\\times{n}$ 矩陣 $A$，計算 $A+A^2+A^3+\\cdots{}+A^k$。"
   - file: "matrix-inverse-matrix"
     title: "反矩陣"

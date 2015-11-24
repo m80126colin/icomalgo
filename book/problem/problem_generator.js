@@ -97,6 +97,10 @@ JUDGE
   name: 'HDOJ',
   href: function(id) { return 'http://acm.hdu.edu.cn/showproblem.php?pid=' + id }
 })
+.register('spoj', {
+  name: 'SPOJ',
+  href: function(id) { return 'http://www.spoj.com/problems/' + id }
+})
 
 var probFile = YAML.load('problem.yml');
 
