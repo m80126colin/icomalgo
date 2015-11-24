@@ -4,7 +4,7 @@
   - file: "string-manipulation"
     title: "字串處理"
     others:
-    - UVa: 10304
+    - uva: 10304
       title: "All in All"
 "02-basic-algorithms":
   title: "基礎演算法"
@@ -12,39 +12,39 @@
   - file: "complete-search"
     title: "窮舉法"
     exercises:
-    - ZJ: "d809"
+    - zj: "d809"
       title: "黑暗土地"
       description: "給你 $n$ ($n\\leq{200}$) 個點，求出最大的三角形的面積。"
-    - UVa: 11461
-      ZJ: "d186"
+    - uva: 11461
+      zj: "d186"
       title: "Square Numbers"
       description: "給你兩個整數 $a$、$b$ ($1\\leq{a}\\leq{b}\\leq{100000}$)，求出在 $a$ 和 $b$ 之間完全平方數的個數。"
-    - UVa: 11059
+    - uva: 11059
       title: "Maximum Product"
       description: "給 $N$ 個整數 ($1\\leq{N}\\leq{18}$)，每個數字 $-10\\leq{S_i}\\leq{10}$ ($1\\leq{i}\\leq{N}$)，請求出其中一段數字相乘的最大乘積。"
-    - ZJ: "d899"
+    - zj: "d899"
       title: "NOIP2010 1.数字统计"
       description: "給一個範圍 $[L,R]$ ($1\\leq{L}\\leq{R}\\leq{10000}$)，統計數字 $2$ 在這區間的出現次數。"
-    - ZJ: "a064"
-      SPOJ: 4580
+    - zj: "a064"
+      Spku: 4580
       title: "ABCDEF"
       description: "一個集合 $S$ 內有 $N$ ($1\\leq{N}\\leq{100}$) 個整數，給你這 $N$ 個相異整數 (範圍介於 $-30000$ 和 $30000$)，請求出所有滿足 $(a\\times{b}+c)/d-e=f$ 的組數，$a,b,c,d,e,f\\in{S}$。"
     others:
-    - UVa: 729
-      ZJ: "d790"
+    - uva: 729
+      zj: "d790"
       title: "The Hamming Distance Problem"
-    - UVa: 10976
-      ZJ: "d417"
+    - uva: 10976
+      zj: "d417"
       title: "Fractions Again?!"
-    - UVa: 626
+    - uva: 626
       title: "Ecosystem"
   - file: "recursion-divide-and-conquer"
     title: "遞迴與分治法"
     exercises:
-    - ZJ: "d487"
+    - zj: "d487"
       title: "Order's computation process"
       description: "用遞迴求出 n!。"
-    - ZJ: "d923"
+    - zj: "d923"
       title: "規律"
       description: "觀察圖的規律，問第 $i$ 橫行第 $j$ 直列 ($1\\leq{i,j}\\leq{2^{30}}$) 的數字為何？"
 "04-linear-list":
@@ -53,112 +53,112 @@
   - file: "bigint-add-and-sub"
     title: "大數加法與減法"
     exercises:
-    - UVa: 424
-      ZJ: "c034"
+    - uva: 424
+      zj: "c034"
       title: "Integer Inquiry"
       description: "求很多大數之和。"
     others:
-    - UVa: 495
-      ZJ: "c121"
+    - uva: 495
+      zj: "c121"
       title: "Fibonacci Freeze"
-    - UVa: 10579
+    - uva: 10579
       title: "Fibonacci Numbers"
   - file: "bigint-multi"
     title: "大數乘法"
     exercises:
-    - UVa: 10106
+    - uva: 10106
       title: "Product"
       description: "給你 $X$、$Y$ ($0\\leq{X,Y}\\leq{10^{250}}$)，輸出 $X\\times{Y}$。"
-    - UVa: 10220
-      ZJ: "c119"
+    - uva: 10220
+      zj: "c119"
       title: "I Love Big Numbers"
       description: "求 $n!$ 每個位數之和。"
     others:
-    - UVa: 623
-      ZJ: "c120"
+    - uva: 623
+      zj: "c120"
       title: "500!"
-    - UVa: 324
+    - uva: 324
       title: "Factorial Frequencies"
   - file: "bigint-div"
     title: "大數除法"
     exercises:
-    - ZJ: "a021"
+    - zj: "a021"
       title: "大數運算"
       description: "計算 $a,b$ 的加減乘除。"
-    - ZJ: "b115"
+    - zj: "b115"
       title: "TOI2008 2. 大數運算"
   - file: "bigint-more-efficient"
     title: "更有效率的大數"
     exercises:
-    - UVa: 619
-      ZJ: "c132"
+    - uva: 619
+      zj: "c132"
       title: "Numerically Speaking"
       description: "$26$ 進制數字轉 $10$ 進制數字。"
-    - UVa: 288
+    - uva: 288
       title: "Arithmetic Operations With Large Integers"
       description: "給定一運算式，包含加法、減法、乘法、指數次方，無括號，但是運算先後順序依然存在，請問運算結果？"
-    - UVa: 10023
+    - uva: 10023
       title: "Square root"
       description: "給你一個數字 $Y$ ($1\\leq{Y}\\leq{10^{1000}}$)，問 $Y$ 的開根號為多少？"
-    - UVa: 748
+    - uva: 748
       title: "Exponentiation"
       description: "給一浮點數 $R$ ($0.0<R<99.999$) 和整數 $n$ ($0<n\\leq{25}$)，求 $R^n$。"
     others:
-    - ZJ: "d283"
+    - zj: "d283"
       title: "大數加法"
-    - UVa: 10013
-      ZJ: "d056"
+    - uva: 10013
+      zj: "d056"
       title: "Super long sums"
-    - ZJ: "d202"
+    - zj: "d202"
       title: "a+b??"
-    - UVa: 485
+    - uva: 485
       title: "Pascal's Triangle of Death"
-    - UVa: 10083
+    - uva: 10083
       title: "Division"
-    - UVa: 465
-      ZJ: "d873"
+    - uva: 465
+      zj: "d873"
       title: "Overflow"
-    - ZJ: "d218"
+    - zj: "d218"
       title: "加法與次方的奧妙"
-    - UVa: 10523
+    - uva: 10523
       title: "Very Easy !!!"
   - file: "matrix-def"
     title: "定義"
     exercises:
-    - ZJ: "a015"
+    - zj: "a015"
       title: "矩陣的翻轉"
       description: "將元素 $a[i,j]$ 翻轉至 $a[j,i]$。"
   - file: "matrix-multi"
     title: "矩陣乘法"
     exercises:
-    - ZJ: "d481"
+    - zj: "d481"
       title: "矩陣乘法"
       description: "給兩個矩陣 $A$、$B$，若能相乘，請輸出 $A\\times{B}$ 的結果。"
   - file: "matrix-identity-inverse-element"
     title: "單位元素與反元素"
     exercises:
-    - UVa: 11149
-      ZJ: "d766"
+    - uva: 11149
+      zj: "d766"
       description: "給一個 $n\\times{n}$ 矩陣 $A$，計算 $A+A^2+A^3+\\cdots{}+A^k$。"
   - file: "matrix-inverse-matrix"
     title: "反矩陣"
     exercises:
-    - ZJ: "d623"
+    - zj: "d623"
       title: "反方陣"
       description: "求二階反矩陣。"
   - file: "matrix-gauss"
     title: "高斯消去法"
     exercises:
-    - ZJ: "b016"
+    - zj: "b016"
       title: "D. Mitlab"
       description: "矩陣加減乘除運算。"
   - file: "matrix-01-matrix"
     title: "01 矩陣與運算"
     exercises:
-    - ZJ: "b002"
+    - zj: "b002"
       title: "關燈"
       description: "求最少按多少次開關，燈會全暗。"
-    - ZJ: "a243"
+    - zj: "a243"
       title: "第四題：點燈遊戲"
       description: "求是否能夠經由有限次開關操作，燈會全暗。"
 "06-dynamic-programming":
@@ -167,186 +167,186 @@
   - file: "fibonacci"
     title: "費氏數列"
     exercises:
-    - ZJ: "d212"
+    - zj: "d212"
       title: "東東爬階梯"
       description: "東東爬階梯，一次爬一階，或是一次爬兩階，問爬 $n$ 階有多少種爬法。"
-    - UVa: 900
-      ZJ: "d038"
+    - uva: 900
+      zj: "d038"
       title: "Brick Wall Patterns"
       description: "用 $1\\times{2}$ 的磚塊去砌 $2\\times{n}$ 的牆，問有幾種方法？"
-    - UVa: 11069
-      ZJ: "d389"
+    - uva: 11069
+      zj: "d389"
       title: "A Graph Problem"
-      description: "數字 1 \\~ n 中挑出幾個數當作一個集合，這個集合要滿足兩個條件：一、連續數字不在同個集合；二、集合中再加任何一個不重複的數一定會有連續的兩個數。問 $n$ 個數會有幾種選法？"
-    - UVa: 11310
-      ZJ: "d054"
+      description: "數字 1 到 n 中挑出幾個數當作一個集合，這個集合要滿足兩個條件：一、連續數字不在同個集合；二、集合中再加任何一個不重複的數一定會有連續的兩個數。問 $n$ 個數會有幾種選法？"
+    - uva: 11310
+      zj: "d054"
       title: "DELIVERY DEBACLE"
       description: "有兩種蛋糕，一種是 $1\\times{1}$ 的蛋糕，一種是佔 $3$ 單位的 $L$ 型蛋糕，問用這兩種蛋糕塞滿 $2\\times{N}$ 的盒子，有幾種方法？"
     others:
-    - UVa: 11000
-      ZJ: "d261"
+    - uva: 11000
+      zj: "d261"
       title: "Bee"
-    - UVa: 12459
-      ZJ: "a519"
+    - uva: 12459
+      zj: "a519"
       title: "Bees' ancestors"
-    - ZJ: "b127"
+    - zj: "b127"
       title: "會議中心（Room）"
-    - ZJ: "d810"
+    - zj: "d810"
       title: "大朋友下樓梯"
-    - UVa: 10334
+    - uva: 10334
       title: "Ray Through Glasses"
-    - UVa: 10918
+    - uva: 10918
       title: "Tri Tiling"
   - file: "lis"
     title: "最長遞增子序列"
     exercises:
-    - UVa: 231
+    - uva: 231
       title: "Testing the CATCHER"
       description: "依序給你飛彈高度，每次只能攔截相等或更低高度的飛彈，問最多可攔截幾顆飛彈？"
-    - UVa: 11456
-      ZJ: "d052"
+    - uva: 11456
+      zj: "d052"
       title: "Trainsorting"
       description: "給你 $n$ 節車廂，要依照重量由小到大接成列車。每節車廂可以接在目前列車的前方、後方、或是根本不接，問最長的列車長？"
-    - UVa: 10534
+    - uva: 10534
       title: "Wavio Sequence"
       description: "給你一串數列，要你找出最長的 Wavio 數列。Wavio 數列滿足以下特性：一、長度為奇數－－$2n+1$ 個；二、前 $n+1$ 個為嚴格遞增數列；三、後 $n+1$ 個為嚴格遞減數列。"
-    - UVa: 111
-      ZJ: "a676"
+    - uva: 111
+      zj: "a676"
       title: "History Grading"
-      description: "給你 $1$ \\~ $n$ 這 $n$ 個數字的正確順序，檢查每組數字 $1$ \\~ $n$ 的順序最多有多少個是正確的？"
-    - UVa: 10131
+      description: "給你 $1$ 到 $n$ 這 $n$ 個數字的正確順序，檢查每組數字 $1$ 到 $n$ 的順序最多有多少個是正確的？"
+    - uva: 10131
       title: "Is Bigger Smarter?"
       description: "給你數個數對 $W_i$ 和 $S_i$，問取出最多 $n$ 個數對 $(W_{a_1}, S_{a_1})\\cdots{(W_{a_j}, S_{a_j})}\\cdots{(W_{a_n}, S_{a_n})}$，使得 $W_{a_1}<\\cdots{}<W_{a_j}<\\cdots{}<W_{a_n}$ 而且 $S_{a_1}>\\cdots{}>S_{a_j}>\\cdots{}>S_{a_n}$。"
-    - UVa: 10154
+    - uva: 10154
       title: "Weights and Measures"
       description: "給你每隻烏龜的重量和力量，力量可以承受包含他和他上面所有烏龜的總重量，請問最多可以疊幾隻烏龜？"
-    - UVa: 481
-      ZJ: "d242"
+    - uva: 481
+      zj: "d242"
       title: "What Goes Up"
       description: "一串數列，找出 LIS 的長度以及 LIS 序列。"
-    - HDOJ: 5087
+    - hdu: 5087
       title: "Revenge of LIS II"
       description: "給你 $n$ 個數字，問第二長 LIS 的長度是多少？"
-    - UVa: 12002
+    - uva: 12002
       title: "Happy Birthday"
       description: "給 $n$ 個盤子 ($1\\leq{n}\\leq{500}$)，每個盤子有大小 $k_i$ ($1\\leq{i}\\leq{n}$、$1\\leq{k_i}\\leq{1000}$)，盤子要依序收拾成一疊，且下面盤子要大於等於上面盤子，每個盤子可以疊到當前收拾盤子的上方或下方，問最長可以疊幾個盤子。"
     others:
-    - UVa: 103
+    - uva: 103
       title: "Stacking Boxes"
-    - UVa: 11003
+    - uva: 11003
       title: "Boxes"
-    - UVa: 437
-      ZJ: "c115"
+    - uva: 437
+      zj: "c115"
       title: "The Tower of Babylon"
-    - UVa: 497
+    - uva: 497
       title: "Strategic Defense Initiative"
-    - UVa: 11790
+    - uva: 11790
       title: "Murcia's Skyline"
   - file: "lcs"
     title: "最長共同子序列"
     exercises:
-    - UVa: 10405
-      ZJ: "c001"
+    - uva: 10405
+      zj: "c001"
       title: "Longest Common Subsequence"
-    - ZJ: "d963"
+    - zj: "d963"
       title: "C. 小丹尼與英文單字"
       description: "找出最長迴文的長度。"
-    - ZJ: "a252"
+    - zj: "a252"
       title: "Another LCS"
       description: "給你三個字串，求三字串 LCS 長度。"
-    - UVa: 531
+    - uva: 531
       title: "Compromise"
       description: "給你兩組單字的序列，問最長共同單字子序列。"
-    - UVa: 10635
+    - uva: 10635
       title: "Prince and Princess"
       description: "給你 $n$、$p$、$q$ ($2\\leq{n}\\leq{250}$、$1\\leq{p,q}<{n\\times{n}}$)，接著給 $p+1$ 個相異整數和 $q+1$ 個相異整數，各自代表王子的路徑和公主的路徑，問兩個人最長共同路徑的長度。"
-    - UVa: 164
+    - uva: 164
       title: "String Computer"
     others:
-    - ZJ: "d249"
+    - zj: "d249"
       title: "94北縣賽-1-心意相通的指數(Match)"
-    - UVa: 10066
-      ZJ: "a133"
+    - uva: 10066
+      zj: "a133"
       title: "The Twin Towers"
-    - UVa: 10192
-      ZJ: "d674"
+    - uva: 10192
+      zj: "d674"
       title: "Vacation"
-    - UVa: 11151
+    - uva: 11151
       title: "Longest Palindrome"
-    - UVa: 10340
+    - uva: 10340
       title: "All in All"
-    - UVa: 10739
+    - uva: 10739
       title: "String to Palindrome"
   - file: "01-knapsack"
     title: "01 背包問題"
     exercises:
-    - UVa: 624
+    - uva: 624
       title: "CD"
       description: "給你 CD 錄音的長度 $N$、$T$ 首歌、以及每首歌的長度，問放哪些歌在 CD 上，使得 CD 空白的空間最小？"
-    - UVa: 10130
+    - uva: 10130
       title: "SuperSale"
       description: "有 $N$ 種商品 ($1\\leq{N}\\leq{1000}$)，$G$ ($1\\leq{G}\leq{100}$) 個人，每個商品有他的重量和價值，每個人有重量限制，且每種商品每個人最多只能拿一件，問這 $G$ 個人能夠拿到的最高總價值。"
     others:
-    - ZJ: "b184"
+    - zj: "b184"
       title: "5. 裝貨櫃問題"
-    - UVa: 990
+    - uva: 990
       title: "Diving for Gold"
-    - UVa: 12455
+    - uva: 12455
       title: "Bars"
-    - ZJ: "d862"
+    - zj: "d862"
       title: "NOIP2001 4.装箱问题"
   - file: "subset-sum"
     title: "子集合求和問題"
     exercises:
-    - UVa: 10036
+    - uva: 10036
       title: "Divisibility"
       description: "給妳 $N$ 個整數和一個數字 $K$，請問這 $N$ 個數字做 $+$ 和 $-$ 的運算能否被 $K$ 整除。"
-    - UVa: 10032
-      POJ: 2576
+    - uva: 10032
+      pku: 2576
       title: "Tug of War"
       description: "給 $n$ 個人的體重，分成兩隊，兩隊人數相差不能超過 $1$，且總體重要越接近越好。"
     others:
-    - UVa: 562
+    - uva: 562
       title: "Dividing coins"
-    - UVa: 10664
+    - uva: 10664
       title: "Luggage"
-    - ZJ: "d890"
+    - zj: "d890"
       title: "3.禮物分配(gift)"
-    - UVa: 711
+    - uva: 711
       title: "Dividing up"
   - file: "coin-change"
     title: "完全背包問題－－找零問題"
     exercises:
-    - UVa: 674
-      ZJ: "d253"
+    - uva: 674
+      zj: "d253"
       title: "Coin Change"
-    - UVa: 11517
+    - uva: 11517
       title: "Exact Change"
-    - UVa: 166
-      ZJ: "a675"
+    - uva: 166
+      zj: "a675"
       title: "Making Change"
-    - UVa: 10313
+    - uva: 10313
       title: "Pay the Price"
-    - UVa: 10898
+    - uva: 10898
       title: "Combo Deal"
-    - ZJ: "d655"
+    - zj: "d655"
       title: "許胖公仔"
     others:
-    - UVa: 147
-      ZJ: "d397"
+    - uva: 147
+      zj: "d397"
       title: "Dollars"
-    - UVa: 357
-      ZJ: "d133"
+    - uva: 357
+      zj: "d133"
       title: "Let Me Count The Ways"
-    - UVa: 10306
+    - uva: 10306
       title: "e-Coins"
-    - UVa: 10465
+    - uva: 10465
       title: "Homer Simpson"
-    - UVa: 11137
+    - uva: 11137
       title: "Ingenuous Cubrency"
-    - ZJ: "d119"
+    - zj: "d119"
       title: "有獎徵答：換零錢"
-    - ZJ: "d954"
+    - zj: "d954"
       title: "E. 得分"
 "09-graph-theory":
   title: "圖論"
@@ -354,164 +354,164 @@
   - file: "topological-sort"
     title: "拓樸排序法"
     exercises:
-    - UVa: 10305
+    - uva: 10305
       title: "Ordering Tasks"
       description: ""
   - file: "minimum-spanning-tree"
     title: "最小生成樹"
     exercises:
-    - UVa: 11631
+    - uva: 11631
       title: "Dark roads"
       description: ""
-    - UVa: 10034
+    - uva: 10034
       title: "Freckles"
       description: ""
     others:
-    - UVa: 908
+    - uva: 908
       title: "Re-connecting Computer Sites"
   - file: "second-minimum-spanning-tree"
     title: "次小生成樹"
     exercises:
-    - UVa: 10600
+    - uva: 10600
       title: ""
       description: ""
   - file: "bellman-ford-algorithm"
     title: "Bellman-Ford 演算法"
     exercises:
-    - UVa: 558
+    - uva: 558
       title: ""
       description: ""
-    - UVa: 10449
+    - uva: 10449
       title: ""
       description: ""
-    - UVa: 10557
+    - uva: 10557
       title: ""
       description: ""
-    - UVa: 11280
+    - uva: 11280
       title: ""
       description: ""
   - file: "spfa"
     title: "SPFA 演算法"
     exercises:
-    - UVa: 10986
+    - uva: 10986
       title: ""
       description: ""
   - file: "dijkstra-algorithm"
     title: "Dijkstra's 演算法"
     exercises:
-    - UVa: 929
+    - uva: 929
       title: ""
       description: ""
-    - UVa: 10801
+    - uva: 10801
       title: ""
       description: ""
   - file: "floyd-warshall-algorithm"
     title: "Floyd-Warshall 演算法"
     exercises:
-    - UVa: 821
+    - uva: 821
       title: ""
       description: ""
-    - UVa: 11015
+    - uva: 11015
       title: ""
       description: ""
   - file: "articulation"
     title: "關節點"
     exercises:
-    - UVa: 315
+    - uva: 315
       title: "Network"
       description: ""
-    - UVa: 10199
+    - uva: 10199
       title: "Tourist Guide"
       description: ""
   - file: "bridge"
     title: "橋"
     exercises:
-    - UVa: 610
+    - uva: 610
       title: ""
       description: ""
   - file: "strong-connected-component"
     title: "強連通分量"
     exercises:
-    - UVa: 11770
+    - uva: 11770
       title: "Lighting Away"
       description: ""
-    - UVa: 11504
+    - uva: 11504
       title: "Dominos"
       description: ""
     others:
-    - UVa: 11709
+    - uva: 11709
       title: "Trust groups"
-    - ZJ: "b201"
+    - zj: "b201"
       title: "F. 國家"
   - file: "biconnected-component"
     title: "雙連通分量"
     exercises:
-    - Ural: 1557
+    - ural: 1557
       title: "Network Attack"
       description: ""
   - file: "matching"
     title: "匹配問題"
     exercises:
-    - UVa: 10004
+    - uva: 10004
       title: ""
       description: ""
-    - UVa: 11706
+    - uva: 11706
       title: ""
       description: ""
   - file: "maximum-bipartite-matching"
     title: "最大二分匹配"
     exercises:
-    - UVa: 663
+    - uva: 663
       title: "Sorting Slides"
       description: ""
-    - UVa: 670
+    - uva: 670
       title: "The dog task"
       description: ""
-    - UVa: 10080
+    - uva: 10080
       title: "Gopher II"
       description: ""
-    - UVa: 10092
+    - uva: 10092
       title: "The Problem with the Problem Setter"
       description: ""
-    - UVa: 10349
+    - uva: 10349
       title: ""
       description: ""
-    - UVa: 11138
+    - uva: 11138
       title: "Nuts 'n' Bolts"
       description: ""
-    - UVa: 11418
+    - uva: 11418
       title: "Clever Naming Patterns"
       description: ""
-    - UVa: 10122
+    - uva: 10122
       title: ""
       description: ""
-    - UVa: 10804
+    - uva: 10804
       title: "Gopher Strategy"
       description: ""
-    - UVa: 11262
+    - uva: 11262
       title: "Weird Fence"
       description: ""
-    - UVa: 10615
+    - uva: 10615
       title: ""
       description: ""
-    - UVa: 11159
+    - uva: 11159
       title: "Factors and Multiples"
       description: ""
-    - UVa: 11419
+    - uva: 11419
       title: ""
       description: ""
   - file: "edmond-karp-algorithm"
     title: "Edmond-Karp 演算法"
     exercises:
-    - UVa: 820
+    - uva: 820
       title: ""
       description: ""
   - file: "network-flow"
     title: "網路流建模"
     exercises:
-    - UVa: 10330
+    - uva: 10330
       title: "Power Transmission"
       description: ""
-    - UVa: 11045
+    - uva: 11045
       title: "My T-shirt suits me"
       description: ""
