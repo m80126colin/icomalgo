@@ -1,0 +1,59 @@
+\ifx \allfiles \undefined
+\documentclass[12pt,a4paper,oneside]{report}
+
+\input{../config/preamble}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\subimport{../config/}{document-config.tex}
+\setcounter{chapter}{1}
+
+\fi
+
+\chapter{基礎演算法}
+
+\paragraph{}首先我們要介紹的第一個演算法是窮舉法。
+
+\paragraph{}顧名思義，窮舉法將\textbf{所有可能的答案}都列舉出來，然後驗證這些答案的正確性。窮舉法有時又被稱為暴力搜尋法 (暴搜, Brute force)，當測試\textbf{資料很小}時，窮舉法通常是一個很好的選項。
+
+\paragraph{}因為這題的點數少，因此我們採用窮舉法：找出任意三個點，用行列式算出三角形的 2 倍面積，取出最大值後再除以 2，得到最大的三角形面積。
+
+\paragraph{}讀者可能會有疑問，為什麼我們不直接算出三角形的面積來比大小呢？這是因為在電腦的世界中，浮點數存在\textbf{浮點數誤差}，當我們的行列式算出面積時，有可能讓 7.5 誤差變成 7.499999999，因此有時候為了減少這種誤差擴大，我們會去減少浮點數的運算，避免誤差。
+
+\paragraph{}當然，從此題的運算來看，我們沒有避免浮點數誤差的必要 (因為不管怎樣算最後都要除以 2，因此先除後除是沒有差別)，只是習慣上當我們遇到浮點數運算時，會去注意到此類問題。 (詳見冼（ㄕㄣˇ，音省）鏡光〈使用浮點數最最基本的觀念〉)
+
+\section{窮舉法 (Complete Search)}
+
+\section{遞迴 (Recursion) 與分治法 (Divide \& Conquer)}
+
+\subsection{簡介}
+
+\subsection{河內塔 (Hanoi Tower)}
+\subsection{約瑟夫問題 (Josephus Problem)}
+\subsection{回溯法 (Backtracking)}
+\subsection{八皇后 (8 queens)}
+\subsection{數獨 (Sudoku)}
+\subsection{快速乘方法 (Fast Exponential Algorithm)}
+\subsection{排列組合問題}
+
+\section{貪婪法 (Greedy)}
+
+%\subsection{常見做法}
+%\subsection{找零問題 (Coin Changing Problem)}
+%\subsection{工作排程 (Activity Selection Problem)}
+%\subsection{誰先晚餐}
+%\subsection{分數背包 (Fractional Knapsack Problem)}
+%\subsection{過橋問題 (Bridge and Torch Problem)}
+%\subsection{看動畫}
+%\subsection{其他應用}
+
+\ifx \allfiles \undefined
+
+\printindex[noun]
+\clearpage
+
+\end{CJK}
+\end{document}
+
+\fi
