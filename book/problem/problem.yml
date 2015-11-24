@@ -1,3 +1,52 @@
+"00-easy":
+  title: "簡單題"
+  section:
+  - file: "string-manipulation"
+    title: "字串處理"
+    others:
+    - UVa: 10304
+      title: "All in All"
+"02-basic-algorithms":
+  title: "基礎演算法"
+  section:
+  - file: "complete-search"
+    title: "窮舉法"
+    exercises:
+    - ZJ: "d809"
+      title: "黑暗土地"
+      description: "給你 $n$ ($n\\leq{200}$) 個點，求出最大的三角形的面積。"
+    - UVa: 11461
+      ZJ: "d186"
+      title: "Square Numbers"
+      description: "給你兩個整數 $a$、$b$ ($1\\leq{a}\\leq{b}\\leq{100000}$)，求出在 $a$ 和 $b$ 之間完全平方數的個數。"
+    - UVa: 11059
+      title: "Maximum Product"
+      description: "給 $N$ 個整數 ($1\\leq{N}\\leq{18}$)，每個數字 $-10\\leq{S_i}\\leq{10}$ ($1\\leq{i}\\leq{N}$)，請求出其中一段數字相乘的最大乘積。"
+    - ZJ: "d899"
+      title: "NOIP2010 1.数字统计"
+      description: "給一個範圍 $[L,R]$ ($1\\leq{L}\\leq{R}\\leq{10000}$)，統計數字 $2$ 在這區間的出現次數。"
+    - ZJ: "a064"
+      SPOJ: 4580
+      title: "ABCDEF"
+      description: "一個集合 $S$ 內有 $N$ ($1\\leq{N}\\leq{100}$) 個整數，給你這 $N$ 個相異整數 (範圍介於 $-30000$ 和 $30000$)，請求出所有滿足 $(a\\times{b}+c)/d-e=f$ 的組數，$a,b,c,d,e,f\\in{S}$。"
+    others:
+    - UVa: 729
+      ZJ: "d790"
+      title: "The Hamming Distance Problem"
+    - UVa: 10976
+      ZJ: "d417"
+      title: "Fractions Again?!"
+    - UVa: 626
+      title: "Ecosystem"
+  - file: "recursion-divide-and-conquer"
+    title: "遞迴與分治法"
+    exercises:
+    - ZJ: "d487"
+      title: "Order's computation process"
+      description: "用遞迴求出 n!。"
+    - ZJ: "d923"
+      title: "規律"
+      description: "觀察圖的規律，問第 $i$ 橫行第 $j$ 直列 ($1\\leq{i,j}\\leq{2^{30}}$) 的數字為何？"
 "04-linear-list":
   title: "線性結構"
   section:
