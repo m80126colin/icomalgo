@@ -102,51 +102,54 @@ JUDGE
   href: function(id) { return 'http://www.spoj.com/problems/' + id }
 })
 
-var probFile = YAML.load('problem.yml');
+var generateFile = function(file) {
+  Object.keys(file).map(function (chap) {
+    var sections = file[chap].section;
+    sections.map(function (sect) {
+      var eMsg, fileName;
+      if (is.undef(sect.title)) {
+        sect.title = '';
+        eMsg = sprintf('Error: no section title. Chapter: %s', chap);
+        console.error(eMsg);
+      }
+      if (is.undef(sect.file)) {
+        eMsg = sprintf('Error: no file name. Chapter: %s, section: %s', chap, sect.title);
+        console.error(eMsg);
+      }
+      fileName = sprintf('%s-%s.tex', chap, sect.file);
 
-Object.keys(probFile).map(function (chap) {
-  var sections = probFile[chap].section;
-  sections.map(function (sect) {
-    var eMsg, fileName;
-    if (is.undef(sect.title)) {
-      sect.title = '';
-      eMsg = sprintf('Error: no section title. Chapter: %s', chap);
-      console.error(eMsg);
-    }
-    if (is.undef(sect.file)) {
-      eMsg = sprintf('Error: no file name. Chapter: %s, section: %s', chap, sect.title);
-      console.error(eMsg);
-    }
-    fileName = sprintf('%s-%s.tex', chap, sect.file);
+      var content = [];
+      // exercises
+      if ( !is.undef(sect.exercises) ) {
+        content.push('\\subsubsection*{練習題}');
+        content.push('\\begin{itemize}[label={\\Checkmark}]');
+        sect.exercises.map(function (prob) {
+          content.push( sprintf('\\item %s\\\\', JUDGE.makeProblemTitle(prob)) );
+          if ( is.undef(prob.description) ) {
+            prob.description = '';
+            console.warn('No problem description: ' + JSON.stringify(prob));
+          }
+          content.push(prob.description);
+        });
+        content.push('\\end{itemize}');
+      }
+      // others
+      if ( !is.undef(sect.others) ) {
+        content.push('\\subsubsection*{更多練習題}');
+        content.push('\\begin{itemize}[label={\\PencilLeftDown}]');
+        sect.others.map(function (prob) {
+          content.push('\\item ' + JUDGE.makeProblemTitle(prob));
+        });
+        content.push('\\end{itemize}');
+      }
 
-    var content = [];
-    // exercises
-    if ( !is.undef(sect.exercises) ) {
-      content.push('\\subsubsection*{練習題}');
-      content.push('\\begin{itemize}[label={\\Checkmark}]');
-      sect.exercises.map(function (prob) {
-        content.push( sprintf('\\item %s\\\\', JUDGE.makeProblemTitle(prob)) );
-        if ( is.undef(prob.description) ) {
-          prob.description = '';
-          console.warn('No problem description: ' + JSON.stringify(prob));
-        }
-        content.push(prob.description);
+      fs.writeFile(fileName, content.join('\n'), function (e) {
+        if (e) { console.error(e); }
+        else {   console.log('File saved!'); }
       });
-      content.push('\\end{itemize}');
-    }
-    // others
-    if ( !is.undef(sect.others) ) {
-      content.push('\\subsubsection*{更多練習題}');
-      content.push('\\begin{itemize}[label={\\PencilLeftDown}]');
-      sect.others.map(function (prob) {
-        content.push('\\item ' + JUDGE.makeProblemTitle(prob));
-      });
-      content.push('\\end{itemize}');
-    }
-
-    fs.writeFile(fileName, content.join('\n'), function (e) {
-      if (e) { console.error(e); }
-      else {   console.log('File saved!'); }
-    });
+    })
   })
-})
+}
+
+generateFile( YAML.load('problem.yml') );
+generateFile( YAML.load('basic_problem.yml') );
