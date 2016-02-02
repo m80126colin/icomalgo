@@ -1,11 +1,10 @@
 \ifx \allfiles \undefined
+
 \documentclass[12pt,a4paper,oneside]{report}
-
+\providecommand*\path{../config/preamble/}
 \input{../config/preamble}
-
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
-
 \subimport{../config/}{document-config.tex}
 \setcounter{chapter}{3}
 
@@ -160,7 +159,6 @@ c[i,j] &= a[i,1]\times{b[1,j]}+a[i,2]\times{b[2,j]}+\cdots{}+a[i,k]\times{b[k,j]
 
 \printindex[noun]
 \clearpage
-
 \end{CJK}
 \end{document}
 

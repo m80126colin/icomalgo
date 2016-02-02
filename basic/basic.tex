@@ -1,0 +1,26 @@
+\documentclass[12pt,a4paper,oneside]{article}
+\def \allfiles {}
+
+\input{./preamble}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\subimport{./}{docsetting.tex}
+
+\title{基礎程式設計技巧}
+\author{許胖}
+
+\begin{multicols}{2}
+\tableofcontents
+\end{multicols}
+
+\subimport{./}{basic00.tex}
+\subimport{./}{basic01.tex}
+\subimport{./}{basic02.tex}
+
+\printindex
+
+\clearpage
+\end{CJK}
+\end{document}

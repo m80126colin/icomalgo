@@ -1,0 +1,21 @@
+% ===============================================
+%
+%  - algorithm: 演算法環境套件
+%  - algpseudicode: pseudocode 套件
+%
+% ===============================================
+\usepackage[chapter]{algorithm} % 以 chapter 為 counter
+\usepackage{algpseudocode}
+
+% ===============================================
+%
+%  設定演算法格式
+%
+% ===============================================
+\algrenewcommand\algorithmicif{\textbf{If}}
+\algrenewcommand\algorithmicwhile{\textbf{While}}
+\algrenewcommand\algorithmicfor{\textbf{For}}
+\algrenewcommand\algorithmicfunction{\textbf{Function}}
+\algrenewcommand\algorithmicend{\textbf{End}}
+
+\algrenewtext{Function}[2]{\algorithmicfunction\ \textsc{#1}(#2)}

@@ -1,0 +1,83 @@
+%% === CJK 套件 ===
+\usepackage{CJKutf8,CJKnumb}                 % 中文套件
+%% === AMS 標準套件 ===
+\usepackage{amsmath,amsfonts,amssymb,amsthm} % 數學符號
+%% === ===
+\usepackage{algorithm}
+\usepackage{listings}                        % 程式碼
+%% === TikZ 套件 ===
+\usepackage{tikz,tkz-graph,tkz-berge}        % 繪圖
+\usepackage{multicol}
+%% == ==
+\usepackage[unicode]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!100!black},
+    citecolor={blue!75!black},
+    urlcolor={blue!50!black}
+}
+%% == 調整設定 ==
+\usepackage{enumitem}                           % 修改 enumerate, item
+\usepackage{bbding}
+\usepackage{titletoc,titlesec,imakeidx}
+%% == ==
+\usepackage{newfloat}
+\usepackage{caption,subcaption}
+\usepackage{xkeyval,xargs}
+\usepackage{ulem}
+\usepackage{import}
+
+%% === 設定 C++ 格式 ===
+\lstset{%
+  language=C++,             % 設定語言
+  %% === 空白, tab 相關 ===
+  tabsize=2,                % 設定 tab = 多少空白
+  %showspaces=true,          % 設定是否標示空白
+  %showtabs=true,            % 設定是否標示 tab
+  %tab=\rightarrowfill,      % 設定 tab 樣式
+  %% === 行數相關 ===
+  numbers=left,             % 行數標示位置
+  stepnumber=1,             % 每隔幾行標示行數
+  numberstyle=\tiny,
+  %breaklines=true,          % 設定斷行
+  %% === 顏色設定 ===
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue}\ttfamily,
+  stringstyle=\color{red!50!brown}\ttfamily,
+  commentstyle=\color{green!50!black}\ttfamily,
+  %identifierstyle=\color{black}\ttfamily,
+  emphstyle=\color{purple}\ttfamily,
+  extendedchars=false,
+  texcl=true,
+  moredelim=[l][\color{magenta}]{\#},
+  captionpos=b,
+  %% === 其他 ===
+  %frame=single
+}
+
+% ===============================================
+%
+%  設定頁面格式
+%
+% ===============================================
+%% === 設定頁面格式 ===
+%\hoffset         = 10pt                      % 水平位移，預設為 0pt
+\voffset         = -15pt                     % 垂直位移，預設為 0pt
+\oddsidemargin   = 0pt                       % 預設為 31pt
+%\topmargin       = 20pt                      % 預設為 20pt
+%\headheight      = 12pt                      % header 的高度，預設為 12pt
+%\headsep         = 25pt                      % header 和 body 的距離，預設為 25pt
+\textheight      = 620pt                     % body 內文部分的高度，預設為 592pt
+\textwidth       = 450pt                     % body 內文部分的寬度，預設為 390pt
+%\marginparsep    = 10pt                      % margin note 和 body 的距離，預設為 10pt
+%\marginparwidth  = 35pt                      % margin note 的寬度，預設為 35pt
+%\footskip        = 30pt                      % footer 高度 + footer 和 body 的距離，預設為 30pt
+
+%% ==  ==
+\DeclareFloatingEnvironment[fileext=frm,placement={!ht},name=Frame]{code}
+\captionsetup[code]{labelfont=bf}
+
+\makeindex
+
+\linespread{1.14}

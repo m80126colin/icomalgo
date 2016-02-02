@@ -1,0 +1,48 @@
+\ifx \allfiles \undefined
+
+\documentclass[12pt,a4paper,oneside]{report}
+\providecommand*\path{../config/preamble/}
+\input{../config/preamble}
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+\subimport{../config/}{document-config.tex}
+\setcounter{chapter}{4}
+
+\fi
+
+\chapter{搜尋 (Search)}
+
+\section{基礎搜尋法}
+
+\paragraph{}第二章我們曾提到過窮舉法，窮舉法不外乎是列舉所有可能的答案，然後一一檢驗是否為正解，窮舉法的好處是：容易想出和寫出程式碼，幾乎沒有錯誤率等等，但同時也是因為它把所有可能的答案下去考量，因此它的時間複雜度及空間複雜度通常很高。
+\paragraph{}循序搜尋法與窮舉法沒有差很多，在概念上，循序搜尋法強調「搜尋」的概念，換句話說，如果現在有 $n$ 筆資料，在這之中要找出特定一筆資料時，我們從第一筆開始比對到最後，這種做法即是循序搜尋，時間複雜度為 $O(n)$。
+
+\subsection{循序搜尋法 (Linear Search)}
+\subsection{二分搜尋法 (Binary Search)}
+\section{狀態空間搜尋 (State Space Search)}
+\subsection{狀態空間 (State Space)}
+\subsection{深度優先搜尋 (Depth First Search, DFS)}
+\subsection{廣度優先搜尋 (Breadth First Search, BFS)}
+\subsection{綜合比較}
+\subsection{迭代加深搜尋 (Iterative Deepening DFS, IDDFS)}
+\subsection{雙向BFS搜尋 (Bidirected BFS, BiBFS)}
+\section{分支定界 (Branch and Bound)}
+\subsection{預處理 (Pre-process)}
+\subsection{記憶化搜尋 (Memorizaion)}
+\subsection{搜尋順序 (Searching Order)}
+\subsection{剪枝 (Cut)}
+\section{啟發式搜尋 (Heuristic Search)}
+\subsection{估價函數 (Heuristic Function)}
+\subsection{貪婪搜尋 (Greedy Search)}
+%\subsection{A* 演算法 (A* Algorithm)}
+%\subsection{IDA* 演算法 (Iterative Deepening A* Algorithm)}
+
+\ifx \allfiles \undefined
+
+\printindex[noun]
+\clearpage
+
+\end{CJK}
+\end{document}
+
+\fi

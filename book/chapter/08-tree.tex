@@ -1,6 +1,7 @@
 \ifx \allfiles \undefined
 \documentclass[12pt,a4paper,oneside]{report}
 
+\providecommand*\path{../config/preamble/}
 \input{../config/preamble}
 
 \begin{document}
@@ -10,8 +11,6 @@
 \setcounter{chapter}{7}
 
 \fi
-
-\newcounter{ind}
 
 \tikzset{plain/.style={
 	draw=none,
@@ -46,7 +45,11 @@
 \subsection{二元搜尋樹 (Binary Search Tree)}
 \subsection{一般樹轉二元樹}
 
-\section{基礎樹形結構}
+\section{基礎樹論 (Basic Tree Theory)}
+
+\subsection{最長路徑問題 (Longest Path Problem)}
+
+\section{常用樹形結構}
 
 \subsection{并查集 (Disjoint Sets, Union-find Sets)}
 
@@ -75,18 +78,19 @@
 \paragraph{}最直觀的想法，就是把每個人都實際分組，人和組別都以編號表示，如表 8.24，我們看到第 9 人被分在第 1 團，第 1、3、4、8 人被分在第 2 團，第 2、5 人被分在第 3 團，...... 以此類推。
 
 
-\subsection{Disjoint-set Forest}
+\subsubsection{Disjoint-set Forest}
+
 \subsection{堆積 (Heap)}
 \subsubsection{二元堆積 (Binary Heap)}
 \subsubsection{堆積排序法 (Heap Sort)}
 
-\section{平衡二元樹 (Balancing Binary Tree)}
+\subsection{平衡二元樹 (Balancing Binary Tree)}
 
-\paragraph{}\index[noun]{平衡樹}{\textbf{平衡樹} (Balacing Tree)} 是一種的樹，他所有子樹的高度相差\textbf{不會超過} 1，在此我們會特別討論\textbf{平衡二元樹}，又稱為\textbf{\index[noun]{自平衡二元樹}{自平衡二元樹}} (Self-Balancing Binary Tree)，也就是高度相差不超過 1 的二元樹，目的是為了避免極端測資。以二元搜尋樹作為例子，若我們插入的數字恰好是遞增或遞減排序時，因為二員搜尋樹插入的特性，會使得整棵樹退化成\textbf{鏈狀}，此時查詢操作就會由原本的 $O(\lg{n})$ 退化為 $O(n)$，下圖是依序插入 1、2、3、4、5 的二元搜尋樹。
+\paragraph{}\index[noun]{平衡樹}{\textbf{平衡樹} (Balacing Tree)} 是一種的樹，他所有子樹的高度相差\textbf{不會超過} 1，在此我們會特別討論\textbf{平衡二元樹}，又稱為\textbf{\index[noun]{自平衡二元樹}{自平衡二元樹}} (Self-Balancing Binary Tree)，也就是高度相差不超過 1 的二元樹，目的是為了避免極端測資。以二元搜尋樹作為例子，若我們插入的數字恰好是遞增或遞減排序時，因為二員搜尋樹插入的特性，會使得整棵樹退化成\textbf{鏈狀}，此時查詢操作就會由原本的 $\bigo{(\lg{n})}$ 退化為 $\bigo{(n)}$，下圖是依序插入 1、2、3、4、5 的二元搜尋樹。
 
 \paragraph{}常見的平衡樹有：\index[noun]{線段樹}{\textbf{線段樹}}、\index[noun]{AVL 樹}{AVL 樹}、\index[noun]{2-3-4 樹}{2-3-4 樹}、\index[noun]{B 樹}{B 樹}、\index[noun]{紅黑樹}{紅黑樹}、\index[noun]{伸展樹}{\textbf{伸展樹}}、\index[noun]{樹堆}{\textbf{樹堆}}、\index[noun]{節點大小平衡樹}{\textbf{節點大小平衡樹}}等等。其中以線段樹、伸展樹、樹堆、節點大小平衡樹等最為常用在競賽中，因為他們在編寫時\textbf{難度較低}，又有不錯的\textbf{應用彈性}，常常成為比賽時強大的利器。
 
-\subsection{淺談區間查詢問題 (Range Query Problem)}
+\subsection{淺談區間查詢問題 (Range Query Problem)}\label{tree:subsec:rqp}
 
 \paragraph{}\index[noun]{區間查詢問題}{\textbf{區間查詢問題} (Range Query Problem)} 是一類問題，通常有兩個特性：
 \begin{itemize}
@@ -95,15 +99,15 @@
 \end{itemize}
 \paragraph{}基於以上兩點特性，解決這類型的演算法必須要能夠針對大量的查詢去做優化。而區間查找問題需要搜尋的資料形式有很多種，我們會針對以下兩種作探討：
 \begin{itemize}
-\item \index[noun]{區間求和查詢}{\textbf{區間求和查詢} (Range Sum Query)}：此類型問題會詢問一個區間內數值總和
-\item \index[noun]{區間極值查詢}{\textbf{區間極值查詢} (Range Minimum Query)}：又稱為 \textbf{RMQ 問題}，會詢問一段區間內的最大值或最小值，在本章第 \ref{tree:sec:rmq} 節會有更深入的探討
+\item \index[noun]{區間求和查詢問題}{\textbf{區間求和查詢} (Range Sum Query)}：此類型問題會詢問一個區間內數值總和
+\item \index[noun]{區間極值查詢問題}{\textbf{區間極值查詢} (Range Minimum Query)}：又稱為 \textbf{RMQ 問題}，會詢問一段區間內的最大值或最小值，在本章第 \ref{tree:sec:rmq} 節會有更深入的探討
 \end{itemize}
 
 \subsubsection{靜態查詢}
 
 \paragraph{}以一維的區間求和查詢為例：給你 $n$ 個整數 $a_1,a_2,\cdots{},a_n$，以及 $q$ 筆詢問，每次詢問都是求介於 $a_i$ 到 $a_j$ 所有數字的和。
 
-\paragraph{}最直觀的做法就是每次直接對 $a_i$ 到 $a_j$ 求和，假設現在有 9 個數字 $(1,5,4,8,7,2,6,4,3)$，我們要查詢 $a_3$ 到 $a_7$ 的數字和，我們知道用直觀法將它求和可以得到 $4+8+7+2+6=27$，如圖 \ref{tree:fig:rsq:naive}，總查詢時間複雜度為 $O(qn)$。
+\paragraph{}最直觀的做法就是每次直接對 $a_i$ 到 $a_j$ 求和，假設現在有 9 個數字 $(1,5,4,8,7,2,6,4,3)$，我們要查詢 $a_3$ 到 $a_7$ 的數字和，我們知道用直觀法將它求和可以得到 $4+8+7+2+6=27$，如圖 \ref{tree:fig:rsq:naive}，總查詢時間複雜度為 $\bigo{(qn)}$。
 
 \begin{figure}[h]
 \centering
@@ -126,7 +130,7 @@
 \label{tree:fig:rsq:naive}
 \end{figure}
 
-\paragraph{}然而這個時間複雜度是\textbf{不夠理想}的，我們在第 \ref{dp:chap} 章動態規劃時有學過一個較快的作法：利用 DP 我們先求出前綴和 $b_k=\displaystyle\sum_{i=1}^{k}{a_i}$ 的和，當我們要求 $a_i$ 到 $a_j$ 時，就直接計算 $b_j-b_{i-1}=\displaystyle\sum_{k=i}^{j}{a_k}$，如此做法，我們需要 $O(n)$ 預處理的時間，每次查詢複雜度為 $O(1)$，總查詢的時間複雜度為 $O(q)$，如圖 \ref{tree:fig:rsq:dp}。
+\paragraph{}然而這個時間複雜度是\textbf{不夠理想}的，我們在第 \ref{dp:chap} 章動態規劃時有學過一個較快的作法：利用 DP 我們先求出前綴和 $b_k=\displaystyle\sum_{i=1}^{k}{a_i}$ 的和，當我們要求 $a_i$ 到 $a_j$ 時，就直接計算 $b_j-b_{i-1}=\displaystyle\sum_{k=i}^{j}{a_k}$，如此做法，我們需要 $\bigo{(n)}$ 預處理的時間，每次查詢複雜度為 $\bigo{(1)}$，總查詢的時間複雜度為 $\bigo{(q)}$，如圖 \ref{tree:fig:rsq:dp}。
 
 \begin{figure}[h]
 \centering
@@ -145,7 +149,6 @@
 	\node[plain] at (\i*\sz,0.8*\sz) { $a_\i$ };
 }
 \edef\myres{0}
-\setcounter{ind}{0};
 \foreach \item [count=\i] in \arr
 {
 	\pgfmathparse{int(\myres+\item)}
@@ -162,7 +165,7 @@
 
 \paragraph{}上述的問題我們稱為「靜態」的區間查詢問題，若我們在詢問中多了一些操作，使得我們可以去隨時隨地\textbf{修改}某些數字的值，此時會發生什麼事呢？
 
-\paragraph{}我們發現上面的直觀法時間複雜度依然不變，總查詢的複雜度依然是 $O(qn)$，但是動態規劃的精隨在於前綴和，若是以上述的例子而言，如果我們在詢問中修改了 $a_1$ 的值，那麼勢必會影響到 $b_1$ 到 $b_9$，這將使得 DP 方法的總時間會退化成 $O(qn)$。
+\paragraph{}我們發現上面的直觀法時間複雜度依然不變，總查詢的複雜度依然是 $\bigo{(qn)}$，但是動態規劃的精隨在於前綴和，若是以上述的例子而言，如果我們在詢問中修改了 $a_1$ 的值，那麼勢必會影響到 $b_1$ 到 $b_9$，這將使得 DP 方法的總時間會退化成 $\bigo{(qn)}$。
 
 \begin{figure}[h]
 \centering
@@ -200,14 +203,14 @@
 & 建表 & 單次修改 & 單次查詢\\
 \hline
 \hline
-直觀法 & (不須建表) & $O(1)$ & $O(n)$\\
-動態規劃 & $O(n)$ & $O(n)$ & O(1)
+直觀法 & (不須建表) & $\bigo{(1)}$ & $\bigo{(n)}$\\
+動態規劃 & $\bigo{(n)}$ & $\bigo{(n)}$ & $\bigo{(1)}$
 \end{tabular}
 \caption{直觀法、動態規劃的時間複雜度}
 \label{tree:tab:rsq:time}
 \end{table}
 
-\paragraph{}從表 \ref{tree:tab:rsq:time} 可以看出，儘管兩種演算法耗費時間的部分不同，但是在動態查詢問題中，兩者均要消耗 $O(qn)$ 的時間，於是我們想知道，能不能有一套新的策略，使得查詢的速度不比 DP 快，修改的速度也不比直觀法快，但同時整體的時間可以降到可接受的範圍呢？
+\paragraph{}從表 \ref{tree:tab:rsq:time} 可以看出，儘管兩種演算法耗費時間的部分不同，但是在動態查詢問題中，兩者均要消耗 $\bigo{(qn)}$ 的時間，於是我們想知道，能不能有一套新的策略，使得查詢的速度不比 DP 快，修改的速度也不比直觀法快，但同時整體的時間可以降到可接受的範圍呢？
 
 \subsubsection{分治策略}
 
@@ -253,7 +256,7 @@
 \label{tree:fig:rsq:dnc}
 \end{figure}
 
-\paragraph{}但是這樣還不夠，儘管我們減少被修改的數量，但是在最糟的情形下，每次修改的時間複雜度依然是 $O(n)$ ($\displaystyle{n\over{2}}$，比剛才少了一半)，如果我們繼續分割 \texttt{b} 陣列，直到它只剩下最多兩個數字的前綴和，我們發現每個部份的第一個元素 $b_i$ 都會恰好是 $a_i$ 的值，如圖 \ref{tree:fig:rsq:dnc3} 中 $b_1,b_3,b_5,b_7,b_9$。
+\paragraph{}但是這樣還不夠，儘管我們減少被修改的數量，但是在最糟的情形下，每次修改的時間複雜度依然是 $\bigo{(n)}$ ($\displaystyle{n\over{2}}$，比剛才少了一半)，如果我們繼續分割 \texttt{b} 陣列，直到它只剩下最多兩個數字的前綴和，我們發現每個部份的第一個元素 $b_i$ 都會恰好是 $a_i$ 的值，如圖 \ref{tree:fig:rsq:dnc3} 中 $b_1,b_3,b_5,b_7,b_9$。
 
 \begin{figure}[h]
 \centering
@@ -274,7 +277,7 @@
 \edef\myres{0}
 \foreach \item [count=\i] in \arr
 {
-	\pgfmathparse{Mod(\i,2)==0?0:1}
+	\pgfmathparse{int(Mod(\i,2))}
 	\xdef\modi{\pgfmathresult}
 	\ifnum\modi>0
 		\edef\myres{0}
@@ -296,28 +299,179 @@
 \label{tree:fig:rsq:dnc3}
 \end{figure}
 
-\paragraph{}此時不難發現前綴和在過度分治下，會留下許多重複的資訊，但是這也是一個很好的轉折點，如果我們把這些重複的資訊拿掉，此時分治的方向就變成\textbf{陣列的長度}，我們引入分治的精隨－－\index{遞迴}{\textbf{遞迴}}，每一次遞迴就是求兩數的和，而每一次遞迴後新陣列的長度是原陣列的\textbf{一半}，如此反覆下去，會得到一種嶄新的樹形資料結構－－\textbf{線段樹}。
+\paragraph{}此時不難發現前綴和在過度分治下，會留下許多重複的資訊，但是這也是一個很好的轉折點，如果我們把這些重複的資訊拿掉，此時分治的方向就變成\textbf{陣列的長度}，我們引入分治的精隨－－\index{遞迴}{\textbf{遞迴}}，每一次遞迴就是求兩數的和，而每一次遞迴後新陣列的長度是原陣列的\textbf{一半}，如此反覆下去，會得到一種嶄新的樹形資料結構－－\textbf{線段樹}，稍後會介紹。
 
+\paragraph{}另外一種分治的想法是，我們用「\textbf{分塊}」的思想下去實作，每一塊去求所有數字的\textbf{區間和}。一種分塊的方法是我們把 $n$ 個數字分成 $\sqrt{n}$ 塊，每一塊都有 $\bigo{(\sqrt{n})}$ 個數字，如圖 \ref{tree:fig:rsq:block}，第一塊的區間是 $a_1$ 到 $a_3$、第二塊是 $a_4$ 到 $a_6$、以此類推，此時稱為\index[noun]{塊狀表}{\textbf{塊狀表}}。
 
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+% array element definition
+\def\arr{1,5,4,8,7,2,6,4,3};
+%\def\x{0}; % x pos of arr
+%\def\y{0}; % y pos of arr
+% size of each node
+\def\sz{10mm}
+% a 陣列
+\foreach \item [count=\i] in \arr
+{
+	\node[array block] at (\i*\sz,0) {\item};
+	\node[plain] at (\i*\sz,-0.9*\sz) {$a_\i$};
+}
+% b 陣列
+\edef\myres{0}
+\foreach \item [count=\i] in \arr
+{
+	\pgfmathparse{int(Mod(\i,3))}
+	\xdef\modi{\pgfmathresult}
+	\ifnum\modi=1
+		\edef\myres{0}
+	\fi
+	\pgfmathparse{int(\myres+\item)}
+	\xdef\myres{\pgfmathresult}
+
+	\ifnum\modi=0
+		\node[array block,minimum width=3*\sz] at (\i*\sz-\sz,\sz) {\myres};
+	\fi
+}
+\end{tikzpicture}
+\caption{塊狀表}
+\label{tree:fig:rsq:block}
+\end{figure}
+
+\paragraph{}我們可以觀察一下這種資料結構，當我們修改 ...。
+
+\paragraph{}我們發現：第一塊的區間有涵蓋到 $a_3$ 到 $a_7$，但是只有「部分」涵蓋到，因此我們就直接把對 $a_3$ 取值；接著第二塊的區間完全在 $a_3$ 到 $a_7$ 內，這時我們就不必往下取 $a_4$、$a_5$、$a_6$ 的值，直接將原本已經求和的 ($a_4$ 到 $a_6$) 取出來；第三塊如同第一塊的方法，將 $a_7$ 取值。最後將所有取到的值加起來 $4+17+6=27$。
+
+\paragraph{}塊狀表類似直觀法和動態規劃之間的折衷方案：我們一方面保留暴搜的優勢，也就是每次擁有快速改值的特性 (在暴搜中是 $\bigo{(1)}$ 改值)；另一方面，我們也希望擁有動態規劃中，快速求和的性質 (在 DP 中是 $\bigo{(1)}$ 求和)。於是折衷就形成了「塊狀表」的構造。
+
+\paragraph{}塊狀表的時間複雜度為 $\bigo{(n)}$ 預處理，每次查詢的時間複雜度為 $\bigo{(\sqrt{n})}$，總查詢時間複雜度為 $ \bigo{(q\sqrt{n})}$，較直觀法和動態規劃相比都還要平均。
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|cccc}
+& 建表 & 單次修改 & 單次查詢 & 額外空間\\
+\hline
+\hline
+直觀法 & (不須建表) & $\bigo{(1)}$ & $\bigo{(n)}$ & $\bigo{(1)}$\\
+動態規劃 & $\bigo{(n)}$ & $\bigo{(n)}$ & $\bigo{(1)}$ & $\bigo{(n)}$\\
+塊狀表 & $\bigo{(n)}$ & $\bigo{(1)}$ & $\bigo{(\sqrt{n})}$ & $\bigo{(\sqrt{n})}$
+\end{tabular}
+\caption{加上塊狀表的時間複雜度比較}
+\label{tree:tab:rsq:block:time}
+\end{table}
 
 \subsection{線段樹與樹狀數組}
 
 \subsubsection{線段樹 (Range Query Tree)}
 
-\paragraph{}這時我們從「分塊」循序搜尋區間，第一塊的區間是 a1 ~ a3，和為 10；第二塊的區間是 a4 ~ a6，和為 17；第三塊的區間是 a7 ~ a9，和為 13。
+\paragraph{}\index[noun]{線段樹}{\textbf{線段樹}}首次在 2001 年出現，是競賽中一種被廣泛活用的資料結構，但在這之前早就有線段樹 (Segment Tree) 此一資料結構，因此為了顧及習慣以及避免混淆，在此中文依然稱之為線段樹，而英文暫定為 Range Query Tree。
 
-\paragraph{}我們發現：第一塊的區間有涵蓋到 a3 ~ a7，但是只有「部分」涵蓋到，因此我們就直接把對 a3 取值；接著第二塊的區間完全在 a3 ~ a7 內，這時我們就不必往下取 a4、a5、a6 的值，直接將原本已經求和的 (a4 ~ a6) 取出來；第三塊如同第一塊的方法，將 a7 取值。最後將取到的值加起來 4 + 17 + 6 = 27。
+\paragraph{}就如第 \ref{tree:subsec:rqp} 小節所說，線段樹是可以用來解決查詢問題，接下來我們繼續用\index[noun]{區間求和查詢問題}{動態區間求和問題}來舉例。
 
-\paragraph{}這類分塊的表格我們稱為「塊狀表」，它類似直觀法和動態規劃之間的折衷方案：我們一方面保留暴搜的優勢，也就是每次擁有快速改值的特性 (在暴搜中是 O(1) 改值)；另一方面，我們也希望擁有動態規劃中，快速求和的性質 (在 DP 中是 O(1) 求和)。於是折衷就形成了「塊狀表」的構造。
+\begin{algorithm}[h]
+\begin{algorithmic}[1]
+\Function{Initialize}{}
+\Statex
+\EndFunction
+\end{algorithmic}
+\caption{初始化線段樹}
+\label{tree:alg:seg:init}
+\end{algorithm}
 
-\paragraph{}塊狀表的時間複雜度為 O(n) 預處理，每次查詢的時間複雜度為 O(sqrt(n))，總查詢時間複雜度為 O(q * sqrt(n))，較直觀法和動態規劃相比都還要平均。
+\begin{algorithm}[h]
+\begin{algorithmic}[1]
+\Function{Query}{}
+\Statex
+\EndFunction
+\end{algorithmic}
+\caption{查詢範圍}
+\label{tree:alg:seg:query}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\begin{algorithmic}[1]
+\Function{Modify}{}
+\Statex
+\EndFunction
+\end{algorithmic}
+\caption{修改線段樹}
+\label{tree:alg:seg:modify}
+\end{algorithm}
 
 \subsubsection{樹狀數組 (Binary Indexed Tree, BIT)}
 
-\paragraph{}樹狀數組，又稱二元索引樹 (Binary Indexed Tree)、Fenwick 樹 (Fenwick Tree)，可以看作是變形的線段樹
+\paragraph{}\index[noun]{樹狀數組}{\textbf{樹狀數組}}，又稱二元索引樹 (Binary Indexed Tree)、Fenwick 樹 (Fenwick Tree)，可以看作是變形的線段樹。
 
-\subsubsection{zkw 線段樹}
+\begin{algorithm}[h]
+\begin{algorithmic}[1]
+\Function{LowBit}{$t$}
+  \State \Return{$t\textsc{ And }(-t)$}
+\EndFunction
+\end{algorithmic}
+\caption{樹狀數組的核心概念－－最低位元}
+\label{tree:alg:bit:lowbit}
+\end{algorithm}
 
+\begin{algorithm}[h]
+\begin{algorithmic}[1]
+\Function{Query}{$t$}
+  \State $result\gets{0}$
+  \While{$t>0$}
+    \State $result\gets{result+Tree_{bit}[t]}$
+    \State $t\gets{t-\Call{LowBit}{t}}$
+  \EndWhile
+  \State \Return{$result$}
+\EndFunction
+\end{algorithmic}
+\caption{查詢樹狀數組}
+\label{tree:alg:bit:query}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\begin{algorithmic}[1]
+\Function{Modify}{$t,\Delta$}
+  \While{$t\leq{Tree_{bit}.\Call{Size}{}}$}
+    \State $Tree_{bit}[t]\gets{Tree_{bit}[t]+\Delta}$
+    \State $t\gets{t+\Call{LowBit}{t}}$
+  \EndWhile
+\EndFunction
+\end{algorithmic}
+\caption{修改樹狀數組}
+\label{tree:alg:bit:modify}
+\end{algorithm}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|ccccc}
+& 建表 & 單次修改 & 單次查詢 & 額外空間 & 編寫難度\\
+\hline
+\hline
+直觀法 & (不須建表) & $\bigo{(1)}$ & $\bigo{(n)}$ & $\bigo{(1)}$ & 易\\
+動態規劃 & $\bigo{(n)}$ & $\bigo{(n)}$ & $\bigo{(1)}$ & $\bigo{(n)}$ & 易\\
+塊狀表 & $\bigo{(n)}$ & $\bigo{(1)}$ & $\bigo{(\sqrt{n})}$ & $\bigo{(\sqrt{n})}$ & 中\\
+線段樹 & $\bigo{(n)}$ & $\bigo{(\lg{n})}$ & $\bigo{(\lg{n})}$ & $\bigo{(n)}$ & 中\\
+樹狀數組 & $\bigo{(n\lg{n})}$ & $\bigo{(\lg{n})}$ & $\bigo{(\lg{n})}$ & $\bigo{(1)}$ & 易\\
+\end{tabular}
+\caption{綜合比較}
+\label{tree:tab:rsq:total:time}
+\end{table}
+
+\subsubsection{區間修改與延遲標記 (Lazy)}
+
+\subsection{高維樹}
+
+\subsubsection{四分樹與八分樹}
+
+\subsubsection{K-d 樹}
+
+\subsubsection{樹套樹}
+
+\section{更多平衡二元樹}
+
+\subsection{AVL 樹}
+
+\subsection{紅黑樹 (Red-black Tree)}
 
 \subsection{伸展樹 (Splay Tree)}
 
@@ -325,17 +479,25 @@
 
 \subsection{樹堆 (Treap, Tree + Heap)}
 
-\subsection{高維樹}
+\subsection{ZKW 線段樹}
 
-\section{LCA 問題 (Least Common Ancestor)}
-\subsection{樸素算法}
-\subsection{線上 LCA 算法}
-\subsection{離線 LCA 算法－－Tarjan 演算法}
+\paragraph{}約在 2010 年 8 月，張昆瑋《統計的力量－－線段樹全接觸》。
 
-\section{RMQ 問題 (Range Maximum/Minimum Query)}\label{tree:sec:rmq}
+\section{LCA 和 RMQ 問題}
 
-\subsection{樸素與遞推算法}
-\subsection{線段樹與樹狀數組}
+\subsection{LCA 問題 (Least Common Ancestor)}
+
+\subsubsection{樸素算法}
+
+\subsubsection{線上 LCA 演算法}
+
+\subsubsection{離線 LCA 演算法－－Tarjan 演算法}
+
+\subsection{RMQ 問題 (Range Maximum/Minimum Query)}\label{tree:sec:rmq}
+
+\subsubsection{樸素與遞推算法}
+\subsubsection{線段樹與樹狀數組}
+
 \subsection{ST 算法 (Sparse Table)}
 \subsection{±1 RMQ}
 \subsection{LCA 轉化為 RMQ}

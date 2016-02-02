@@ -1,0 +1,141 @@
+\ifx \allfiles \undefined
+\documentclass[12pt,a4paper,oneside]{article}
+
+\input{./preamble}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\subimport{./}{docsetting.tex}
+\setcounter{section}{1}
+
+\fi
+
+\section{程式架構解析}
+
+\paragraph{}這一節主要延續上一節的思維，但著重在了解程式如何執行，利用這些知識順利寫出\textbf{架構簡潔}、\textbf{容易除錯}程式。因此在這一節練習題較少，但大多是重要的觀念。
+
+\subsection{溢位現象}
+
+\paragraph{}以下程式碼會發生什麼現象？
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+int x = 2147483647;
+cout << x + 1 << endl;
+\end{lstlisting}
+\end{tabular}
+\caption{產生溢位的程式碼}
+\label{program:struct:code:overflow}
+\end{code}
+
+\paragraph{}若讀者的 \lstinline!int! 也是 4 個位元組的話，那麼就會得到 \lstinline!-2147483648!！這種現象我們稱為\index{溢位}{\textbf{溢位現象 (Overflow)}}。我們從二進位下看這段程式，會比較了解：
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+$01111111$ & $11111111$ & $11111111$ & $11111111$\\
+\hline
+\end{tabular}
+\caption{\lstinline!2147483647!}
+\label{program:struct:table:binary:2147483647}
+\end{table}
+
+\paragraph{}表 \ref{program:struct:table:binary:2147483647} 表示 \lstinline!2147483647! 在 \texttt{C++} 當中如何儲存，讀者可以驗證 $2147483647=2^{31}-1$。若我們此時對 \lstinline!2147483647! 加 \lstinline!1!，就會得到下面的結果：
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+${\color{red}1}0000000$ & $00000000$ & $00000000$ & $00000000$\\
+\hline
+\end{tabular}
+\caption{\lstinline!2147483647 + 1!}
+\end{table}
+
+\paragraph{}我們用 \lstinline!int! 的儲存方法驗證，這個數字就是 \lstinline!-2147483648!，也就是 $-2^{32}$！為什麼會這樣子呢？
+\paragraph{}我們可以建立一個有點抽象的概念，只要表示資料的\textbf{方法}，記憶體大小是\textbf{有限}的，那麼就只能表示\textbf{有限多種}資料。例如：\lstinline!int! 通常是 4 個位元組，也就是 $4\times{8}=32$ 個位元，每個位元只能表示 \lstinline!0! 和 \lstinline!1! 兩種可能性，則最多只能表示 $2^{32}$ 種整數。
+\paragraph{}這 $2^{32}$ 種整數表示法當中，我們切一半，$2^{31}$ 個表示負數，$2^{31}$ 表示非負整數，其中有一個 $0$，剩下 $2^{31}-1$ 個是正整數，因此 \lstinline!int! 的範圍就是介於 $-2^{31}$ 到 $2^{31}-1$。
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{資料型態} & \textbf{位元組} & \textbf{通常下界} & \textbf{通常上界}\\
+\hline\hline
+\lstinline!char!      & 1 & $-128$        & $127$       \\
+\hline
+\lstinline!short!     & 2 & $-32768$      & $32767$     \\
+\hline
+\lstinline!int!       & 4 & $-2147483648$ & $2147483647$\\
+\hline
+\lstinline!long long! & 8 & $-9223372036854775808$ & $9223372036854775807$\\
+\hline
+\lstinline!float!     & 4 & $-3.40282\times{10^{38}}$ & $3.40282\times{10^{38}}$\\
+\hline
+\lstinline!double!    & 8 & $-1.79769\times{10^{308}}$ & $1.79769\times{10^{308}}$\\
+\hline
+\lstinline!unsigned char!      & 1 & $0$ & $255$\\
+\hline
+\lstinline!unsigned short!     & 2 & $0$ & $65535$\\
+\hline
+\lstinline!unsigned int!       & 4 & $0$ & $4294967295$\\
+\hline
+\lstinline!unsigned long long! & 8 & $0$ & $18446744073709551615$\\
+\hline
+\end{tabular}
+\caption{資料型態上下界}
+\label{program:struct:table:datatype:limit}
+\end{table}
+
+\paragraph{}表 \ref{program:struct:table:datatype:limit} 表示每一種資料型態常見的上下界範圍，其中 \lstinline!unsigned! 類型代表「\textbf{不帶負號}」，也就是說 \lstinline!unsigned! 系列會把所有符號拿去表示非負整數。
+\paragraph{}此外，需要注意的有幾點：
+\begin{itemize}
+\item \lstinline!int! 的上限是 \lstinline!2147483647!
+\item \lstinline!long long! 範圍大概是 $-9\times{10^{18}}$ 到 $9\times{10^{18}}$ 之間
+\item \lstinline!double! 的範圍介於 $-{10}^{308}$ 至 ${10}^{308}$
+\end{itemize}
+\paragraph{}這些範圍可以在標頭檔 \lstinline!<climits>! 和 \lstinline!<cfloat>! 當中查詢到，實際範圍會依據不同計算機而有差異，使用方法自行 google，這裡不贅述。
+
+\subsection{程式的執行}
+
+\subsubsection{記憶體}
+
+\paragraph{}之前我們提到\index{位元}{位元}和\index{位元組}{位元組}的概念，接下來要進入\index{記憶體}{\textbf{記憶體}}的觀念，首先要講述我們常常提到的記憶體有分廣義和狹義的分別。
+
+\subsubsection{位址與指標}
+\subsubsection{執行時期架構}
+
+\subsection{程式控制}
+
+\subsubsection{分支結構}
+\subsubsection{迴圈結構}
+\subsubsection{陣列}
+
+\subsection{函數}
+\subsubsection{傳值呼叫}
+\subsubsection{傳址呼叫}
+\subsubsection{傳參考呼叫}
+\subsubsection{函數多載}
+\subsubsection{程式區塊}
+
+\subsection{程式技巧}
+\subsubsection{函式化}
+\subsubsection{\lstinline!\#define! 與 \lstinline!inline!}
+
+\subsection{\texttt{C++} 物件導向}
+\subsubsection{物件與類別}
+\subsubsection{建構子與解構子}
+\subsubsection{運算子多載}
+
+\ifx \allfiles \undefined
+
+\printindex
+
+\clearpage
+\end{CJK}
+\end{document}
+
+\fi
