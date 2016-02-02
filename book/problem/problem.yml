@@ -1,32 +1,3 @@
-"00-basic":
-  title: "基礎題"
-  section:
-  - file: "calculate"
-    title: "程式與計算"
-    exercises:
-    - uva: 10071
-      title: "Back to High School Physics"
-      description: "這題只要能夠讀懂題意就不難寫。如果不知道怎樣讀取多筆測資請先參考迴圈部分 (EOF 版)。"
-    - uva: 10300
-      title: "Ecological Premium"
-      description: "一樣能讀懂題意就不難寫。"
-    - uva: 10055
-      title: "Hashmat the brave warrior"
-      description: "取絕對值有兩種做法，一種是用 if 判斷；另一種是呼叫函數 abs() 就好了。abs() 函數被定義在 <cstdlib> 中，雖然沒有 include 在Visual C++ 依然能編譯過，但是上傳時因為編譯器的原因會導致編譯錯誤 (Compilation Error, CE)。"
-    - uva: 11172
-      title: "Relational Operators"
-      description: "能夠理解題意就不難解決此道問題。"
-    - uva: 11942
-      title: "Lumberjack Sequencing"
-      description: "依序給你一些木頭的長度，問你這些木頭是不是由長到短，或是由短到長排列。"
-    - uva: 10469
-      title: "To Carry or not to Carry"
-      description: "這題算是位元運算的基本應用。"
-  - file: "string-manipulation"
-    title: "字串處理"
-    others:
-    - uva: 10304
-      title: "All in All"
 "02-basic-algorithms":
   title: "基礎演算法"
   section:
@@ -68,6 +39,28 @@
     - zj: "d923"
       title: "規律"
       description: "觀察圖的規律，問第 $i$ 橫行第 $j$ 直列 ($1\\leq{i,j}\\leq{2^{30}}$) 的數字為何？"
+  - file: "permutation"
+    title: "排列"
+    exercises:
+    - uva: 725
+      zj: "d183"
+      title: "Division"
+      description: "\\texttt{abcde / fghij = N}，a 到 j 個別為 0 到 9 的其中一個數字，$2\\leq{N}\\leq{79}$，輸入 N，問所有 a 到 j 的解。"
+    - uva: 146
+      title: "ID Codes"
+      description: "印出下一個排列。"
+    others:
+    - uva: 524
+      zj: "d396"
+      title: "Prime Ring Problem"
+    - uva: 195
+      zj: "d781"
+      title: "Anagram"
+    - uva: 10098
+      zj: "d436"
+      title: "Generating Fast, Sorted Permutation"
+  - file: "combination"
+    title: "組合"
 "04-linear-list":
   title: "線性結構"
   section:
