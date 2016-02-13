@@ -11,6 +11,8 @@
 
 \fi
 
+\providecommand*\probpath{../uva.data/problem/store/}
+
 \section{基礎 \texttt{C++} 技巧}
 
 \paragraph{}本章目標：
@@ -263,7 +265,7 @@ cin >> x >> y;
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
-關鍵字 & 意義 & 備註\\
+\textbf{關鍵字} & \textbf{意義} & \textbf{備註}\\
 \hline
 \hline
 \index{資料型態!布林值}{\lstinline!bool!} & 布林值 & 只有 \lstinline!true! 和 \lstinline!false!\\
@@ -357,7 +359,32 @@ cout << b << endl;
 \paragraph{布林值的重要觀念}\texttt{C++} 中，「\textbf{非零整數}」會被當做「\lstinline!true!」，印出時也會印出一個非零整數 (\textbf{通常是 1})。「0」會被當做「\lstinline!false!」，印出時會印出「\textbf{0}」。
 \paragraph{}這個特性在之後會\textbf{非常}常用！大家要注意！
 
-\paragraph{浮點數}先跳過 \lstinline!long long!，先知道 \lstinline!long long! 也是存整數就好。(謎之音：「那幹嘛現在說= =」)這裡先來講一下浮點數，浮點數也就是存\textbf{小數點}的資料型態，宣告方法如下：
+\paragraph{整數}\lstinline!int! 和 \lstinline!long long! 都是存整數的資料型態，這裡先跳過 \lstinline!long long! 和 \lstinline!int! 的差別，先知道 \lstinline!long long! 也是存整數就好。(謎之音：「那幹嘛現在說= =」)
+\paragraph{}整數常數有一些比較特別的賦值方法，可以試著執行程式碼 \ref{basic:cpp:code:int:11}，看看和預期的有什麼不同。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+cout << 012 + 1 << endl;
+\end{lstlisting}
+\end{tabular}
+\caption{會印出多少？}
+\label{basic:cpp:code:int:11}
+\end{code}
+
+\paragraph{}整數賦值可以用八進位和十六進位等用法，可以看以下範例：
+\begin{itemize}
+\item \lstinline!012! 是八進位，開頭是 \lstinline!0!
+\item \lstinline!0xFF! 是十六進位，開頭是 \lstinline!0x!
+\item 有時候宣告常數也可以指定型態
+  \begin{itemize}
+  \item \lstinline!1234567U! 在尾巴加上 \lstinline!U! 代表 \lstinline!unsigned! (之後說明)
+  \item \lstinline!1234567LL! 尾巴加上 \lstinline!LL! 代表 \lstinline!long long!
+  \end{itemize}
+\end{itemize}
+
+\paragraph{浮點數}接著來講一下浮點數，浮點數也就是存\textbf{小數點}的資料型態，宣告方法如下：
 
 \begin{code}[h!]
 \centering
@@ -372,7 +399,7 @@ double d;
 
 \paragraph{}賦值和前面都一樣，不同的是浮點數有一些特別的表示法：
 \begin{itemize}
-\item 如果要把 \lstinline!1.0! \lstinline!d! $\Rightarrow$ \lstinline!d = 1.0;!，這是最基本的賦值
+\item 如果要把 \lstinline!1.0! 賦值給 \lstinline!d! $\Rightarrow$ \lstinline!d = 1.0;!，這是最基本的賦值
 \item 稍微有變化一點，如果是 \lstinline!0.5! 的話，可以簡化為 \lstinline!.5! $\Rightarrow$ \lstinline!d = .5;!
 \item 接著是\index{科學記號}{\textbf{科學記號}}
   \begin{itemize}
@@ -508,11 +535,8 @@ double d;
   \end{itemize}
 \end{enumerate}
 
-\subsubsection*{練習題}
-\begin{itemize}
-\item \label{basic:cpp:problem:uva:10071}\href{http://pcshic.github.io/uniDog/problem/p10071/}{UVa 10071 - Back to High School Physics}\\這題只要能夠讀懂題意就不難寫。如果不知道怎樣讀取多筆測資請先參考迴圈部分 (EOF 版)。
-\item \label{basic:cpp:problem:uva:10300}\href{http://pcshic.github.io/uniDog/problem/p10300/}{UVa 10300 - Ecological Premium}\\一樣能讀懂題意就不難寫。
-\end{itemize}
+\label{basic:cpp:problem:arithmetic}
+\subimport{\probpath}{basic-01-basic-cpp-arithmetic.tex}
 
 \subsection{比較和邏輯運算子}
 \subsubsection{比較運算子}
@@ -648,16 +672,8 @@ cout << i << " " << j << endl; // i 為 1，j 為 0
 
 \end{itemize}
 
-\subsubsection*{練習題}
-\begin{itemize}
-\item \label{basic:cpp:problem:uva:10055}\href{http://pcshic.github.io/uniDog/problem/p10055/}{UVa 10055 - Hashmat the brave warrior}\\%
-取絕對值有兩種做法，一種是用 \lstinline!if! 判斷；另一種是呼叫函數 \lstinline!abs()! 就好了。\lstinline!abs()! 函數被定義在 \lstinline!<cstdlib>! 中，雖然沒有 \lstinline!include! 在 Visual C++ 依然能編譯過，但是上傳時因為編譯器的原因會導致\index{編譯錯誤}{\textbf{編譯錯誤}} (Compilation Error, CE)。\\%
-另外要注意這一題的整數型態需用 \lstinline!long long!，用 \lstinline!int! 會造成「\index{溢位現象}{溢位現象}」，這個原因會在後面說明。
-\item \label{basic:cpp:problem:uva:11172}\href{http://pcshic.github.io/uniDog/problem/p11172/}{UVa 11172 - Relational Operators}\\%
-能夠理解題意就不難解決此道問題。
-\item \label{basic:cpp:problem:uva:11942}\href{http://pcshic.github.io/uniDog/problem/p11942/}{UVa 11942 - Lumberjack Sequencing}\\%
-依序給你一些鬍子的長度，問你這些鬍子是不是由長到短，或是由短到長排列。
-\end{itemize}
+\label{basic:cpp:problem:comparison}
+\subimport{\probpath}{basic-01-basic-cpp-comparison-and-logical.tex}
 
 \subsection{位元運算子}
 \subsubsection{\lstinline!int! 和 \lstinline!long long! 的儲存形式}
@@ -1361,8 +1377,6 @@ swap(x, y);
 
 \paragraph{}不用 \texttt{swap} 的話，我們可以再加開一個變數，先把一個變數裝起來，再把另外一個變數的值丟過去，如程式碼 \ref{basic:cpp:code:swap:variable}：
 
-\newpage
-
 \begin{code}[h!]
 \centering
 \begin{tabular}{c}
@@ -1410,12 +1424,8 @@ x ^= y;
 \label{basic:cpp:table:swap:bitwise}
 \end{table}
 
-\subsubsection*{練習題}
-\begin{itemize}
-\item \label{basic:cpp:problem:uva:10469} \href{http://pcshic.github.io/uniDog/problem/p10469/}{UVa 10469 - To Carry or not to Carry}\\這題算是位元運算的基本應用。
-\end{itemize}
-
-\newpage
+\label{basic:cpp:problem:bitwise}
+\subimport{\probpath}{basic-01-basic-cpp-bitwise.tex}
 
 \subsection{指定運算子}
 \subsubsection{運算性質}
