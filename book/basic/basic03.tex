@@ -1,0 +1,825 @@
+\ifx \allfiles \undefined
+\documentclass[12pt,a4paper,oneside]{article}
+
+\input{./config/preamble}
+
+\begin{document}
+\begin{CJK}{UTF8}{bkai}
+
+\subimport{./config/}{docsetting.tex}
+\setcounter{section}{2}
+
+\fi
+
+\section{字串處理}
+
+\subsection{字元與字串}
+
+\subsubsection{字元與 \texttt{ASCII}}
+
+\paragraph{}\texttt{C++} 中的\index{字元}{\textbf{{\color{red}字元} (Character)}} \lstinline!char! 其實是儲存一個 0 到 255 的整數，在電腦中有一個\textbf{符號表}，每個符號都有他各自的編號。輸出字元時，計算機就會自動將 \lstinline!char! 裡面的整數去查符號表，印出對應符號，這個表格我們稱為 \index{ASCII}{\color{red}\textbf{ASCII 碼}}。雖然 \lstinline!char! 印出來是符號，但實際上儲存的是整數。
+\paragraph{}ASCII 碼網路上都能查到，在這邊只提到幾個重要的觀念就好，各位讀者可以邊看網路上查到的 ASCII 碼邊看接下來的內容。
+\paragraph{}字元表示方法是用單引號包上一個符號，如：\lstinline!'0'!。每個符號都有一個編號，例如 \lstinline!'0'! 的編號是 48，其他常用的字元編號如表 \ref{string:mani:table:char:ascii}。
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c||c|c|c|c|c|}
+  \hline
+  \textbf{字元} & \lstinline!'0'! & \lstinline!'A'! & \lstinline!'a'! & \lstinline!' '! & \lstinline!'\n'!\\
+  \hline
+  \textbf{編號} & 48 & 65 & 97 & 32 & 10\\
+  \hline
+  \textbf{備註} & & & & 空白 & 換行字元\\
+  \hline
+  \end{tabular}
+  \caption{常用字元編號}
+  \label{string:mani:table:char:ascii}
+\end{table}
+
+\paragraph{特殊字元}有些字元因為沒辦法直接用單引號包住符號的方式表示，就會用「倒斜線+字元」來代表，表 \ref{string:mani:table:char:special} 是一些常見的特殊字元。
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{字元} & \textbf{意義} & \textbf{備註}\\
+  \hline\hline
+  \lstinline!'\n'! & 換行字元 &\\
+  \hline
+  \lstinline!'\t'! & Tab &\\
+  \hline
+  \lstinline!'\r'! & 迴車鍵 & Windows 系統中以 \lstinline!\r\n! 代表換行\\
+  \hline
+  \lstinline!'\''! & 單引號 &\\
+  \hline
+  \lstinline!'\"'! & 雙引號 &\\
+  \hline
+  \lstinline!'\0'! & 空字元 & 用來代表字串的結束\\
+  \hline
+  \lstinline!'\\'! & 倒斜線 & 倒斜線被用做跳脫字元，因此要用兩個倒斜線表示\\
+  \hline
+  \end{tabular}
+  \caption{常用特殊字元}
+  \label{string:mani:table:char:special}
+\end{table}
+
+\paragraph{常用技巧：字元判斷}在 ASCII 碼中，有三個區塊是連續的：
+\begin{itemize}
+\item 數字區塊：\lstinline!'0'! 到 \lstinline!'9'!
+\item 大寫字母區塊：\lstinline!'A'! 到 \lstinline!'Z'!
+\item 小寫字母區塊：\lstinline!'a'! 到 \lstinline!'z'!
+\end{itemize}
+
+\paragraph{}因為 \lstinline!char! 實際上是存整數，所以可以用大於小於來判斷，程式碼 \ref{string:mani:code:is:digit} 可以判斷一個字元是否是數字字元。
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+bool myIsDigit(char ch) {
+  return '0' <= ch && ch <= '9';
+}
+  \end{lstlisting}
+  \end{tabular}
+  \caption{判斷數字字元}
+  \label{string:mani:code:is:digit}
+\end{code}
+
+\paragraph{}在 \index{標頭檔!cctype}{\texttt{<cctype>}} 中有一些可以判斷字元類型的函式，常用的如表 \ref{string:mani:table:cctype}，留意這些函式傳進去的參數型態就直接是 \lstinline!int!。
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{函式} & \textbf{範圍} & \textbf{意義}\\
+  \hline\hline
+  \lstinline!int isalnum(int)! & A 到 Z、a 到 z、0 到 9 & 判斷是否為英文字母或數字字元\\
+  \hline
+  \lstinline!int isalpha(int)! & A 到 Z、a 到 z & 判斷是否為英文字母\\
+  \hline
+  \lstinline!int isdigit(int)! & 0 到 9 & 判斷是否為數字字元\\
+  \hline
+  \lstinline!int islower(int)! & a 到 z & 判斷是否為小寫字母\\
+  \hline
+  \lstinline!int isupper(int)! & A 到 Z & 判斷是否為大寫字母\\
+  \hline
+  \end{tabular}
+  \caption{\lstinline!<cctype>! 常用函式}
+  \label{string:mani:table:cctype}
+\end{table}
+
+\paragraph{}不過臨時記不得這些函式，筆者建議自己寫一個，不難寫。
+
+\paragraph{常用技巧：計算數字}用同樣的概念，可以把一個數字字元「轉換」成 \lstinline!int! 的 0。字元 \lstinline!'0'! 的編號為 48，因此我們將 \lstinline!'0' - 48! 就可以取得實際的 \lstinline!int! 值，但這個方法稍嫌笨重，因為我們必須記得 \lstinline!'0'! 的編號，在 \texttt{C++} 中有提供字元相減的方法，於是我們可以寫為程式碼 \ref{string:mani:code:char:to:number}，將一個數字字元減去 \lstinline!'0'!。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+int charToNumber(char ch) {
+  return ch - '0';
+}
+  \end{lstlisting}
+  \end{tabular}
+  \caption{數字字元轉換為 \lstinline!int!}
+  \label{string:mani:code:char:to:number}
+\end{code}
+
+\paragraph{}同樣的方法也可以用在具有連續區間的大寫字母、小寫字母。
+
+\subsubsection{\texttt{C++} 字串與 \texttt{C} 字串}
+
+
+\subsubsection{\texttt{C} 字串函數}
+
+\paragraph{}以下會講解幾個常用的 \texttt{C} 字串函數，如程式碼 \ref{string:mani:code:string:function}。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+size_t strlen(const char *str);
+int    strcmp(const char *str1, const char *str2);
+char*  strcpy(char* dest, const char* src);
+char* strncpy(char* dest, const char* src, size_t num);
+char*  strcat(char* dest, const char* src);
+char* strncat(char* dest, const char* src, size_t num);
+  \end{lstlisting}
+  \end{tabular}
+  \caption{常用的字串函數}
+  \label{string:mani:code:string:function}
+\end{code}
+
+\paragraph{\lstinline!strlen! 函數}\lstinline!strlen! 函數可以知道一個 \texttt{C} 字串的長度，參數就是傳一個字串指標，這個函數就是從一開始的位址往後掃，直到碰到 \lstinline!'\0'! 為止，並回傳長度值。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+strlen("bird");
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!strlen! 範例}
+  \label{string:mani:code:strlen:example}
+\end{code}
+
+\paragraph{}程式碼 \ref{string:mani:code:strlen:example} 回傳的長度值為 4。當然我們也可以對字串變數做 \lstinline!strlen!，程式碼 \ref{string:mani:code:strlen:example:variable} 中 \lstinline!num! 字串的長度為 \lstinline!10!。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+char num[110] = "0123456789";
+strlen(num);
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!strlen! 範例}
+  \label{string:mani:code:strlen:example:variable}
+\end{code}
+
+\paragraph{}此外，\lstinline!strlen! 是{\color{blue}\textbf{函式}}，它和 \texttt{C++} 字串的 \lstinline!str.size()! 不同的地方在於：每次呼叫 \lstinline!strlen! 就會重新計算一次字串長度，像程式碼 \ref{string:mani:code:strlen:for:naive} 的寫法非常浪費時間，每次迴圈都會重新呼叫一次 \lstinline!strlen!。
+
+\begin{code}[h!]
+  \centering
+  \begin{subcode}{.58\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+for (i = 0; i < strlen(str); i++)
+{
+  // do something
+}
+    \end{lstlisting}
+    \end{tabular}
+    \caption{直觀寫法}
+    \label{string:mani:code:strlen:for:naive}
+  \end{subcode}
+  ~
+  \begin{subcode}{.38\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+int len = strlen(str);
+for (i = 0; i < len; i++)
+{
+  // do something
+}
+    \end{lstlisting}
+    \end{tabular}
+    \caption{較好的寫法}
+    \label{string:mani:code:strlen:for:better}
+  \end{subcode}
+  \caption{注意 \lstinline!strlen! 的用法}
+  \label{string:mani:code:strlen:for}
+\end{code}
+
+\paragraph{}但很多時候字串的長度沒有改變，因此會浪費很多時間，比較好的做法是用一個變數儲存長度，再下去執行迴圈，如程式碼 \ref{string:mani:code:strlen:for:better}。
+\paragraph{}補充，雖然現代的編譯器大多會去辨別這一情況加以優化，但盡量不要依賴編譯器，最好從一開始養成好習慣，才不會被坑。
+
+\paragraph{\lstinline!strcmp! 函數}\lstinline!strcmp! 函數用來比較兩個 \texttt{C} 字串，參數為兩個字串指標。它會從兩個字串一開始的字元逐個比較，比較到\textbf{其中一個}為 \lstinline!'\0'! 為止，\lstinline!strcmp! 的功能和 \texttt{C++} 字串之間用 \lstinline!==!、\lstinline!>!、\lstinline!<! 來比較的功能類似。回傳值分成三類：
+
+\begin{itemize}
+\item 等於 \lstinline!0!：代表兩個字串相等。
+\item 大於 \lstinline!0!：代表 \lstinline!str1! 的字典順序大於 \lstinline!str2!，通常是回傳 \lstinline!1!。
+\item 小於 \lstinline!0!：代表 \lstinline!str1! 的字典順序小於 \lstinline!str2!，通常是回傳 \lstinline!-1!。
+\end{itemize}
+
+\paragraph{\lstinline!strcpy! 函數}\lstinline!strcpy! 函數就是把 \lstinline!src! 字串複製到 \lstinline!dest! 字串，複製的原理和上述函式類似：就是從第一個字元開始複製，直到遇到 \lstinline!'\0'! 為止。接著對 \lstinline!dest! 最尾端補 \lstinline!'\0'!。\lstinline!strcpy! 相當於在 \texttt{C++} 中 \lstinline!dest = src!。
+\paragraph{}使用 \lstinline!strcpy! 時需要特別{\color{blue}\textbf{注意}}，\lstinline!strcpy! 函數{\color{red}\textbf{不會檢查}} \lstinline!dest! 的長度，換句話說，如果 \lstinline!src! 比 \lstinline!dest! 長，\lstinline!strcpy! 會持續複製直到複製完為止，這對程式而言是非常危險的，因為寫出字串的範圍很有可能會寫到很重要的記憶體，然後{\color{red}\textbf{電腦就炸了}}。
+\paragraph{}其他較為安全的替代方案，就是使用 \lstinline!strncpy! 函數，\lstinline!strncpy! 的第三個參數代表\textbf{最多}複製幾個字元，不過要注意 \lstinline!strncpy! 只負責複製字元，複製完後{\color{blue}\textbf{不會補 \lstinline!'\0'!}}。
+
+\paragraph{\lstinline!strcat! 函數}\lstinline!strcat! 函數主要是把 \lstinline!src! 字串接到 \lstinline!dest! 字串後面，它是從 \lstinline!dest! 字串的\textbf{第一個} \lstinline!'\0'! 開始串接，因此也和 \lstinline!strcpy! 一樣可能會造成寫出記憶體的問題，對應的函數是 \lstinline!strncat!。\lstinline!strcat! 函數相當於 \texttt{C++} 字串中，直接做 \lstinline!dest += src!。
+
+\paragraph{}其它有關字串的函數還有：\lstinline!strstr!、\lstinline!strchr!、\lstinline!strrchr!、\lstinline!strtok!、\lstinline!strspn! 等，這些函數在此不贅述，有興趣的讀者可以上網查詢。表 \ref{string:mani:table:string:c:cpp} 總結 \texttt{C} 字串和 \texttt{C++} 字串的對應關係。
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{操作} & \texttt{C} 字串 & \texttt{C++} 字串\\
+  \hline\hline
+  計算長度 & \lstinline!strlen(str)! & \lstinline!str.size()!\\
+  \hline
+  比較 & \lstinline!strcmp(str1, str2)! & \lstinline!str1 == str2!\\
+  \hline
+  複製 & \lstinline!strcpy(dest, src)! & \lstinline!dest = src!\\
+  \hline
+  串接 & \lstinline!strcat(dest, src)! & \lstinline!dest += src!\\
+  \hline
+  \end{tabular}
+  \caption{\texttt{C} 字串與 \texttt{C++} 字串比較}
+  \label{string:mani:table:string:c:cpp}
+\end{table}
+
+\subsubsection{字串轉換}
+
+\paragraph{}實作上，\texttt{C++} 字串操作上來得 \texttt{C} 字串\textbf{容易}，但因為 \texttt{C++} 字串是物件，因此操作 \texttt{C} 字串會比 \texttt{C++} 字串來得快。我們可以選擇混合使用這兩種字串，在不難處理又快速時我們選擇 \texttt{C} 字串；而在 \texttt{C} 字串比較難解決的事情時，我們可以利用方便的 \texttt{C++} 字串來處理。
+
+\paragraph{\texttt{C++} 字串轉 \texttt{C} 字串}如果要將一個 \texttt{C++} 字串轉成 \texttt{C} 字串，我們利用 \index{標頭檔!string}{\lstinline!<string>!} 中的一個成員函式 \lstinline!c_str()!。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+string str = "bird";
+cout << str.c_str() << endl;
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\texttt{C++} 字串轉 \texttt{C} 字串}
+  \label{string:mani:code:string:cpp:to:c}
+\end{code}
+
+\paragraph{}要注意的是，\lstinline!c_str()! 產生一個\textbf{唯讀}的 \texttt{C} 字串。
+\paragraph{\texttt{C} 字串轉 \texttt{C++} 字串}正確將 \texttt{C} 字串轉成 \texttt{C++} 字串的方法則是將 \texttt{C} 字串丟進 \texttt{C++} 字串中，如程式碼 \ref{string:mani:code:string:c:to:cpp}。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+char str1[110] = "bird";
+string str2 = str1;
+cout << str2.size() << endl;
+cout << str2 << endl;
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\texttt{C} 字串轉 \texttt{C++} 字串}
+  \label{string:mani:code:string:c:to:cpp}
+\end{code}
+
+\subsubsection{字串練習}
+
+\paragraph{}可能有些人看完上面的敘述後，可能還不是很理解這些函數的用途。要理解 \texttt{C} 字串的用法不難，但如果要完全掌握住這些函數，還需要配合指標的觀念，以下問題，筆者就不寫上解答，留給讀者思考、討論。
+
+\begin{enumerate}
+\item 假設現在有一個字串
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+char str1[110] = "abcdefghijklmnopqrstuvwxyz";
+  \end{lstlisting}
+  \end{tabular}
+\end{code}
+  \begin{enumerate}
+  \item 它的長度為何？
+  \item 用 \lstinline!sizeof! 和 \lstinline!strlen! 有何不同呢？
+  \item 請問下面的語句和上面又有什麼差異呢？
+  \begin{code}[h!]
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+strlen("abcdefghijklmnopqrstuvwxyz");
+sizeof("abcdefghijklmnopqrstuvwxyz");
+    \end{lstlisting}
+    \end{tabular}
+  \end{code}
+  \end{enumerate}
+\item 有一字串
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+char str2[110] = "bird";
+char str3[4];
+  \end{lstlisting}
+  \end{tabular}
+\end{code}
+  \begin{enumerate}
+  \item 我們可以用 \lstinline!strcpy(str3, str2)! 嘛？
+  \item 如果不行，我們使用 \lstinline!strncpy(str3, str2, 4);! 來避免超出記憶體呢？試著印出來觀察看看。
+  \end{enumerate}
+\item 有一字串
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+char str4[110] = "cat\0bird";
+  \end{lstlisting}
+  \end{tabular}
+\end{code}
+  \begin{enumerate}
+  \item 這個字串的長度為何？
+  \item \lstinline!strlen(str4 + 4)! 的回傳值為何？\lstinline!strlen(str4 + 8)! 呢？
+  \item 若我們使用 \lstinline!strcpy(str4, "dog")!，會得到什麼結果？此時
+  \begin{code}[h!]
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+cout << str4 << " " << str4 + 4 << endl;
+    \end{lstlisting}
+    \end{tabular}
+  \end{code}
+  \\會有什麼反應呢？
+  \item 若我們對原先的 \lstinline!str4! 執行 \lstinline!strcat(str4, "dog")!，有得到你預期的結果嘛？
+  \item 要是 \lstinline!strcat(str4 + 4, "dog")! 呢？
+  \end{enumerate}
+\item 假設有一 \texttt{C++} 字串和一 \texttt{C} 字串
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+string str5 = "bird";
+char str6[110];
+  \end{lstlisting}
+  \end{tabular}
+\end{code}
+\\要怎樣將 \lstinline!str5! 複製給 \lstinline!str6! 呢？
+\item 現有兩字串
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+char str7[110] = "cat\0bird";
+char str8[110];
+  \end{lstlisting}
+  \end{tabular}
+\end{code}
+\\試比較 \lstinline!strcpy(str8, str7);! 和 \lstinline!memcpy(str8, str7, sizeof(str7));! 的不同。
+\end{enumerate}
+
+\subsection{輸入與輸出}
+
+\subsubsection{\lstinline!scanf! 和 \lstinline!printf!}
+
+\paragraph{}\texttt{C++} 中常使用的輸入輸出是 \lstinline!cin! 和 \lstinline!cout!，有時候 \lstinline!cin! 和 \lstinline!cout! 的速度並不能滿足我們的需求，這時候就需要使用 \texttt{C} 語言本身的輸入輸出。
+\paragraph{}\texttt{C} 語言的輸入輸出在 \index{標頭檔!cstdio}{\lstinline!<cstdio>!} 內，輸入的函數為 \lstinline!scanf!，而輸出的函數為 \lstinline!printf!。
+\paragraph{}{\color{red}\textbf{注意}}！\texttt{C} 語言輸入輸出是\textbf{函式}，這兩個函式的用法和原本 \texttt{C++} 的相比較為繁瑣，但也有比較方便的地方。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+int  scanf(const char *format, ...);
+int printf(const char *format, ...);
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!scanf! 和 \lstinline!printf!}
+  \label{string:mani:code:scanf:and:printf}
+\end{code}
+
+\paragraph{}\lstinline!scanf! 和 \lstinline!printf! 的參數中，後面 \lstinline!...! 稱為\textbf{不定參數}，代表參數的數量是不固定的，決定參數的數量是靠前面的 \lstinline!format! 字串決定，這個字串我們稱為\index{格式字串}{\color{red}\textbf{格式字串}}。
+\paragraph{}格式字串可以像我們平常輸出字串一樣作法，如程式碼 \ref{string:mani:code:printf:string}。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+  printf("Hello world!\n");
+  \end{lstlisting}
+  \end{tabular}
+  \caption{輸出字串}
+  \label{string:mani:code:printf:string}
+\end{code}
+
+\paragraph{}記得 \lstinline!endl! 屬於 \texttt{C++} 當中的換行，在此須使用換行字元 \lstinline!'\n'! 來換行。輸出整數變數，在格式字串中我們用 \lstinline!"%d"! 來代表，每個 \lstinline!"%d"! 都代表著一個整數，如程式碼 \ref{string:mani:code:print:int}。
+
+\begin{code}[h!]
+  \centering
+  \begin{subcode}{.33\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+printf("%d\n", 3);
+    \end{lstlisting}
+    \end{tabular}
+    \caption{印出常數}
+    \label{string:mani:code:print:int:const}
+  \end{subcode}
+  ~
+  \begin{subcode}{.33\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+int x = 3;
+printf("%d\n", x);
+    \end{lstlisting}
+    \end{tabular}
+    \caption{印出 \lstinline!int! 變數}
+    \label{string:mani:code:print:int:variable}
+  \end{subcode}
+  \caption{印出整數}
+  \label{string:mani:code:print:int}
+\end{code}
+
+\paragraph{}程式碼 \ref{string:mani:code:print:int:const} 直接印出數字，也可以寫為 \lstinline!printf("3\n");!，程式碼 \ref{string:mani:code:print:int:variable} 會印出變數 \lstinline!x! 的值，印出的位置在 \lstinline!"%d"! 處。
+\paragraph{}輸入的話，因為我們是呼叫函數，若要改到變數值就需要使用傳址呼叫，因此輸入一個整數寫為程式碼 \ref{string:mani:code:scan:int}。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+int x;
+scanf("%d", &x);
+  \end{lstlisting}
+  \end{tabular}
+  \caption{輸入一個整數}
+  \label{string:mani:code:scan:int}
+\end{code}
+
+\paragraph{}同樣地，\lstinline!unsigned int!、\lstinline!long long!、\lstinline!unsigned long long!、\lstinline!float!、\lstinline!double! 都有對應的的格式，如表 \ref{string:mani:table:printf:scanf:format}。
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{型態} & \textbf{對應格式} & \textbf{備註}\\
+  \hline\hline
+  \lstinline!unsigned int! & \lstinline!"%u"! &\\
+  \hline
+  \lstinline!long long! & \lstinline!"%lld"! & windows 環境下可能會用 \lstinline!"%I64d"!\\
+  \hline
+  \lstinline!unsigned long long! & \lstinline!"%llu"! & windows 環境下可能會用 \lstinline!"%I64u"!\\
+  \hline
+  \lstinline!float! & \lstinline!"%f"! &\\
+  \hline
+  \lstinline!double! & \lstinline!"%lf"! & \lstinline!printf! 時須用 \lstinline!"%f"!\\
+  \hline
+  \lstinline!char! & \lstinline!"%c"! &\\
+  \hline
+  \lstinline!char[]! & \lstinline!"%s"! & \texttt{C++} 的字串 \lstinline!string! 沒辦法用 \lstinline!scanf!、\lstinline!printf!\\
+  \hline
+  \end{tabular}
+  \caption{\lstinline!scanf! 和 \lstinline!printf! 格式表}
+  \label{string:mani:table:printf:scanf:format}
+\end{table}
+
+\paragraph{}因為 \lstinline!%! 在 \lstinline!scanf! 和 \lstinline!printf! 當中作為跳脫字元，因此印出 \lstinline!%! 要使用 \lstinline!"%%"!。
+\paragraph{}和 \lstinline!cin! 類似，\lstinline!scanf! 中也不會用空白和換行，如程式碼 \ref{string:mani:code:scanf:example}。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+scanf("%d%d%d", &a, &b, &c);
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!scanf! 範例}
+  \label{string:mani:code:scanf:example}
+\end{code}
+
+\paragraph{\lstinline!scanf_s! 函數}\texttt{VC++} 在讀取字串時很多時候會被擋下，因為 \lstinline!scanf! 讀取字串不會檢查長度，會有安全問題。\lstinline!scanf_s! 函式在讀取字串時要多傳一個參數，作為最多讀取的長度，程式碼 \ref{string:mani:code:scanf:s:example} 為 \lstinline!scanf_s! 的一個範例。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+char str[5];
+scanf_s("%s", str, 4);
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!scanf_s! 的範例}
+  \label{string:mani:code:scanf:s:example}
+\end{code}
+
+\paragraph{}程式碼 \ref{string:mani:code:scanf:s:example} 中，因為 \lstinline!str! 字串最後要有 \lstinline!'\0'! 字元，因此最多只能讀 4 個字元。
+\paragraph{}到目前為止，可看出 \lstinline!scanf! 和 \lstinline!printf! 在用法上比 \lstinline!cin! 和 \lstinline!cout! 繁瑣，除了在效能上的優勢外，還有什麼其他優點呢？
+
+\subsubsection{格式字串}
+
+\paragraph{進制輸出}在 \texttt{C++} 中整數提供八進位、十進位、十六進位的輸出方法，分別是使用 \lstinline!std::oct!、\lstinline!std::dec!、\lstinline!std::hex! 這三種，如程式碼 \ref{string:mani:code:notation:cout}。
+
+\begin{code}[h!]
+  \centering
+  \begin{subcode}{.43\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+int a = 11;
+cout << oct << a << endl;
+cout << dec << a << endl;
+cout << hex << a << endl;
+    \end{lstlisting}
+    \end{tabular}
+    \caption{\lstinline!cout! 版本}
+    \label{string:mani:code:notation:cout}
+  \end{subcode}
+  ~
+  \begin{subcode}{.43\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+int a = 11;
+printf("%o\n", a); // 13
+printf("%d\n", a); // 11
+printf("%x\n", a); // b
+    \end{lstlisting}
+    \end{tabular}
+    \caption{\lstinline!printf! 版本}
+    \label{string:mani:code:notation:printf}
+  \end{subcode}
+  \caption{輸出進制比較}
+  \label{string:mani:code:notation}
+\end{code}
+
+\paragraph{}程式碼 \ref{string:mani:code:notation:printf} 是對應的版本，分別使用 \lstinline!"%o"!、\lstinline!"%d"!、\lstinline!"%x"!。如要將十六進位印為大寫，\lstinline!cout! 須加上 \lstinline!std::uppercase!，\lstinline!printf! 則使用 \lstinline!"%X"!。
+\paragraph{\texttt{iomanip} 格式}在 \texttt{C++} 中，標頭檔 \index{標頭檔!iomanip}{\lstinline!<iomanip>!}，專門做輸入輸出的處理。表 \ref{string:mani:table:iomanip} 列出 \lstinline!<iomanip>!
+中常用的\index{串流操縱符}{\textbf{串流操縱符 (Stream manipulator)}}，也就是用來串在 \lstinline!cin!、\lstinline!cout! 的東西。
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c|c|}
+  \hline
+  \textbf{操縱符} & \textbf{作用}\\
+  \hline\hline
+  \lstinline!std::setprecision! & 設定精準度\\
+  \hline
+  \lstinline!std::setw! & 設定輸出寬度\\
+  \hline
+  \lstinline!std::setfill! & 設定填充字元\\
+  \hline
+  \end{tabular}
+  \caption{\lstinline!<iomanip>! 常用操縱符}
+  \label{string:mani:table:iomanip}
+\end{table}
+
+\lstinline!std::setprecision! 通常是用來限定輸出數字的精準度，例如程式碼 \ref{string:mani:code:set:precision}，\lstinline!setprecision! 的參數為 \lstinline!5!，因此會保留 5 位有效位數。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+double f = 3.14159;
+cout << setprecision(5) << f << endl; // 3.1415
+cout << fixed << setprecision(5) << f << endl; // 3.14159
+  \end{lstlisting}
+  \end{tabular}
+  \caption{設定有效位數}
+  \label{string:mani:code:set:precision}
+\end{code}
+
+\paragraph{}當 \lstinline!setprecision! 加上 \lstinline!std::fixed! 的話，會變作印出小數點後 n 位，也就是\textbf{四捨五入}，如程式碼 \ref{string:mani:code:set:precision} 第 3 行。
+\paragraph{}\lstinline!std::setw! 代表輸出的寬度，例如程式碼 \ref{string:mani:code:setw:example}，輸出的結果為 \lstinline!"   16"!。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+int a = 16;
+cout << setw(5) << a << endl;
+  \end{lstlisting}
+  \end{tabular}
+  \caption{設定輸出寬度}
+  \label{string:mani:code:setw:example}
+\end{code}
+
+\paragraph{}\lstinline!std::setfill! 可以設定空白處的填充字元，傳入的參數是一個字元，通常和 \lstinline!std::setw! 混用，如程式碼 \ref{string:mani:code:setfill:example}。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+cout << setw(5) << setfill('x') << 16 << endl;
+  \end{lstlisting}
+  \end{tabular}
+  \caption{設定填充字元}
+  \label{string:mani:code:setfill:example}
+\end{code}
+
+\paragraph{}可以試試看以下程式碼，在此不贅述。
+\begin{itemize}
+\item \lstinline!cout << setw(3) << 55688 << endl;!
+\item \lstinline!cout << setfill('x') << setw(5) << left << 16 << endl;!
+\item \lstinline!cout << setfill('x') << setw(5) << right << 16 << endl;!
+\item \lstinline!cout << setfill('x') << setw(5) << internal << -16 << endl;!
+\end{itemize}
+
+\paragraph{\lstinline!printf! 格式}\lstinline!printf! 本身就有內建和 \index{標頭檔!iomanip}{\lstinline!<iomanip>!} 相似的功能，比如我們可以設定輸出寬度、印出小數點後 n 位、填充前導零等，如程式碼 \ref{string:mani:code:printf:format}。
+
+\begin{code}
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+printf("%5d\n", 16); // 設定寬度
+printf("%.3f", 3.14159); // 小數點後 3 位
+printf("%05d\n", 16); // 前導 0，結果為 00016
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!printf! 格式範例}
+  \label{string:mani:code:printf:format}
+\end{code}
+
+\paragraph{\lstinline!scanf! 格式}學習 \lstinline!scanf! 最有價值的是他可以對輸入的格式做設定，比如要讀入一個時間的格式「\lstinline!hh:mm!」，\lstinline!cin! 一般需要多使用一個變數來讀入 \lstinline!':'!，如程式碼 \ref{string:mani:code:time:format:cin}。
+
+\begin{code}[h!]
+  \centering
+  \begin{subcode}{.43\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+int hh, mm;
+char ch;
+cin >> hh >> ch >> mm;
+    \end{lstlisting}
+    \end{tabular}
+    \caption{用 \lstinline!cin! 輸入}
+    \label{string:mani:code:time:format:cin}
+  \end{subcode}
+  ~
+  \begin{subcode}{.33\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
+int hh, mm;
+scanf("%d:%d", &hh, &mm);
+    \end{lstlisting}
+    \end{tabular}
+    \caption{用 \lstinline!scanf! 輸入}
+    \label{string:mani:code:time:format:scanf}
+  \end{subcode}
+  \caption{比較 \lstinline!cin! 與 \lstinline!scanf! 差異}
+  \label{string:mani:code:time:format}
+\end{code}
+
+\paragraph{}\lstinline!scanf! 可以直接設定格式，省去多使用一個變數的麻煩，如程式碼 \ref{string:mani:code:time:format:scanf}。
+
+\paragraph{回傳值}\lstinline!scanf! 也可以使用在 0 尾版、n 行版等迴圈中，不難，在此集中講解 EOF 版。
+\paragraph{}當 \lstinline!scanf! 讀到檔尾時，會回傳一個常數 \lstinline!EOF! (數值通常是 -1)，因此 EOF 版就會寫為程式碼 \ref{string:mani:code:scanf:eof}。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+while (scanf("%d", &n) != EOF) {
+  // do something ...
+}
+  \end{lstlisting}
+  \end{tabular}
+  \caption{EOF 版}
+  \label{string:mani:code:scanf:eof}
+\end{code}
+
+\subsubsection{檔案 I/O}
+\paragraph{\lstinline!fscanf! 和 \lstinline!fprintf!}
+
+\subsubsection{字串 I/O}
+\paragraph{\lstinline!sscanf! 和 \lstinline!sprintf!}
+\paragraph{\lstinline!stringstream!}
+
+
+\subsection{字串技巧}
+\subsubsection{善用 index}
+\subsubsection{回文}
+\subsubsection{二維問題}
+\subsubsection{子字串}
+\subsubsection{其他}
+
+
+\subsection{字串應用}
+\subsubsection{羅馬數字}
+
+\paragraph{}對大多數的人而言，這並不是一個陌生的主題。羅馬數字用一些特別的字母來當做某個數字，如表 \ref{string:mani:table:roman:number}。
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c||c|c|c|c|c|c|c|}
+  \hline
+  \textbf{數字} & 1 & 5 & 10 & 50 & 100 & 500 & 1000\\
+  \hline
+  \textbf{符號} & I & V & X & L & C & D & M\\
+  \hline
+  \end{tabular}
+  \caption{羅馬數字}
+  \label{string:mani:table:roman:number}
+\end{table}
+
+\paragraph{}羅馬數字系統遵守兩個原則：
+
+\begin{itemize}
+\item \textbf{加法原則}：透過累加符號遞增數字。例如：數字 1 寫為「I」、數字 2 寫為「II」、3 表示為「III」，以此類推。
+\item \textbf{減法原則}：為簡化書寫，4 不寫作「IIII」，而是用「$5-1$」寫為「IV」。
+\end{itemize}
+
+\paragraph{}總結來說，兩種規則的區分如下：如果較小的數寫在較大的數的右邊，則為加法；反之則為減法。例如：11 為 $10+1$，表示為 XI；9 被當作 $10-1$，表示為 IX。
+\paragraph{}除此之外，還有兩個小細節：
+
+\begin{itemize}
+\item \textbf{統一書寫規則}：羅馬人規定個位數由個位數決定、十位數由十位數決定，以此類推。例如，99 雖然可以視為 $100-1$，但羅馬數字會統一看做 $90+9$，也就是 XC (90) 和 IX (9)，寫為 XCIX。
+\item 符號不超過\textbf{三個}：4 會寫為 IV 而非 IIII，9 被寫為 IX 而非 XIIII。因此，不管怎麼湊，羅馬數字會在 3999 以內 (在此不討論更大數的表示法)。
+\end{itemize}
+
+\paragraph{阿拉伯數字轉羅馬數字}羅馬數字之中，個位數的符號表示個位數、十位數用來表示十位數，這之間不會混用，因此我們用「{\color{red}\textbf{位數}}」來觀察較合適。在此我們可以用表 \ref{string:mani:table:roman:number:regular} 去觀察出個位、十位、百位的規律：
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c||c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{數字} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
+  \hline
+  \textbf{符號} & I & II & III & IV & V & VI & VII & VIII & IX\\
+  \hline
+  \hline
+  \textbf{數字} & 10 & 20 & 30 & 40 & 50 & 60 & 70 & 80 & 90\\
+  \hline
+  \textbf{符號} & X & XX & XXX & XL & L & LX & LXX & LXXX & XC\\
+  \hline
+  \hline
+  \textbf{數字} & 100 & 200 & 300 & 400 & 500 & 600 & 700 & 800 & 900\\
+  \hline
+  \textbf{符號} & C & CC & CCC & CD & D & DC & DCC & DCCC & CM\\
+  \hline
+  \end{tabular}
+  \caption{羅馬數字找規律}
+  \label{string:mani:table:roman:number:regular}
+\end{table}
+
+\paragraph{}可以得到以下結果：
+\begin{itemize}
+\item 個位、十位、百位之間符號不同，但「格式」相同，也就是只差在 IXC 用 VLD、XCM 來代換。既然格式相同，我們就可以試圖用迴圈簡化其結果。
+\item 若只觀察個位數，可發現 1、2、3 的符號恰好是重複符號。除此之外，1、2、3 和 6、7、8 之間只差一個「5」的符號。這代表我們可以用 \lstinline!if! 把「5」的符號判斷掉，扣掉後用 1、2、3 的方式處理。
+\item 4 和 9 如果要取巧可能會比較困難，平常練習可以思考如何修改，若思考時間不夠建議直接用特殊判斷處理掉。
+\end{itemize}
+
+\paragraph{}根據上面的討論，我們可以簡略寫成程式碼。
+
+\begin{code}[h!]
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+#define L 3
+void NumToRoman(int n)
+{
+  string Nine[L] = {"CM", "XC", "IX"};
+  string Four[L] = {"CD", "XL", "IV"};
+  string Five[L] = {"D", "L", "V"};
+  string One[L]  = {"C", "X", "I"};
+  int    Mod[L]  = {100, 10, 1};
+  int    Mod5[L] = {500, 50, 5};
+
+  for (;n >= 1000 && n; n -= 1000)
+    printf("M");
+  for (int i = 0; i < L; i++) {
+    if (n / Mod[i] == 9)
+      printf(Nine[i]), n -= 9 * Mod[i];
+    if (n / Mod[i] == 4)
+      printf(Four[i]), n -= 4 * Mod[i];
+    for (; n >= Mod5[i] && n; n -= Mod5[i])
+      printf(Five[i]);
+    for (; n >= Mod[i]  && n; n -= Mod[i])
+      printf(One[i]);
+  }
+  printf("\n");
+}
+  \end{lstlisting}
+  \end{tabular}
+  \caption{阿拉伯數字轉羅馬數字}
+  \label{string:mani:code:number:to:roman}
+\end{code}
+
+\paragraph{羅馬數字轉阿拉伯數字}
+\paragraph{習題}
+
+\subsubsection{字串和數字轉換}
+\paragraph{字串轉數字}
+\paragraph{數字轉字串}
+\subsubsection{進制變換}
+\subsubsection{再論輸入輸出}
+\subsubsection{習題}
+
+\ifx \allfiles \undefined
+
+\printindex
+
+\clearpage
+\end{CJK}
+\end{document}
+
+\fi

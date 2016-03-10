@@ -15,12 +15,12 @@
 
 \section{基礎 \texttt{C++} 技巧}
 
-\paragraph{}本章目標：
-\begin{enumerate}
-\item 知道 \texttt{C++} 的語法皆為「\textbf{運算}」。
-\item 各運算子的用法及特性。
+\paragraph{本章目標}
+\begin{itemize}
+\item 了解 \texttt{C++} 的語法皆為「\textbf{運算}」。
+\item 熟悉各運算子的用法及特性。
 \item 注意\index{未定義行為}{\textbf{未定義行為}}。
-\end{enumerate}
+\end{itemize}
 
 \subsection{程式架構}
 \subsubsection{基本 \texttt{C++} 架構}
@@ -63,13 +63,13 @@ int main() {
 \label{basic:cpp:code:cout}
 \end{code}
 
-\paragraph{}無論有沒有看到一閃即逝的畫面，那麼在更下一行加上「\lstinline!system("PAUSE");!」後觀察看看。在此，\lstinline!system("PAUSE");! 代表「暫停」的意思。程式 \ref{basic:cpp:code:cout} 因為沒加上這行，程式就會直接執行結束，加上這行，程式會在這裡「等你」。
-
+\paragraph{}若程式只有一閃即逝的畫面，那麼可以在更下一行加上「\lstinline!system("PAUSE");!」後觀察看看。在此，\lstinline!system("PAUSE");! 代表「暫停」的意思。程式 \ref{basic:cpp:code:cout} 因為沒加上這行，程式就會直接執行結束，加上這行，程式會在這裡「等你」。
 \paragraph{}接下來有一些 \texttt{C++} 的特性你必須知道：
+
 \begin{enumerate}
 \item 如果將 \ref{basic:cpp:code:cout} 中第 4 行改成「\lstinline!cout << 1!」(去掉分號) 會發生什麼結果？因為「分號」對 \texttt{C++} 而言代表「\textbf{一個句子的結束}」，因此當一行\textbf{指令結束就要加分號}。
 \item \lstinline!<<! 可以串很多東西一起輸出，試試看「\lstinline!cout << 1 << 2;!」，和你所想的有何不同？
-\item 那麼「\lstinline!cout << 1 << " " << 2;!」呢？\textbf{注意}！\lstinline!" "! 是雙引號中間夾著一個「空白」。
+\item 那麼「\lstinline!cout << 1 << " " << 2;!」呢？{\color{blue}\textbf{注意}}！\lstinline!" "! 是雙引號中間夾著一個「空白」。
 \end{enumerate}
 
 \paragraph{換行符號}\lstinline!cout! 中「\lstinline!endl!」代表\textbf{換行}符號，輸出時很好用，以下情況可以練習看看：
@@ -80,12 +80,12 @@ int main() {
 
 \subsubsection{變數}
 
-\paragraph{}\textbf{變數}和數學「變數」的概念不太一樣，程式的變數像是「\textbf{容器}」，可以裝資料。\texttt{C++} 裡，每個容器都要先講好兩件事：
+\paragraph{}\index{變數}{\color{red}\textbf{變數}}和數學「變數」的概念不太一樣，程式的變數像是「\textbf{容器}」，可以裝資料。\texttt{C++} 裡，每個容器都要先講好兩件事：
 \begin{itemize}
 \item 名稱
 \item 用途
 \end{itemize}
-此時這個步驟叫做「\textbf{宣告}」，宣告變數的語法如下：
+此時這個步驟叫做「\index{宣告}{\textbf{宣告}}」，宣告變數的語法如下：
 
 \begin{code}[h!]
 \centering
@@ -103,8 +103,10 @@ int x;
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
-\node[draw,rectangle,minimum width=10mm,minimum height=8mm] at (0,0) {};
-\node at (0,6mm) {\texttt{x}};
+\def\mywd{1.25}
+\def\myht{\mywd*4/5}
+\draw (0,0) rectangle (\mywd,\myht);
+\node at (\mywd/2,\myht+0.2) {\texttt{x}};
 \end{tikzpicture}
 \caption{容器}
 \label{basic:cpp:fig:variable}
@@ -130,7 +132,7 @@ int main() {
 
 \paragraph{}宣告變數的種類除了\lstinline!int! (即整數) 之外，還有其他不同的種類，以後會慢慢介紹。此外，程式碼 \ref{basic:cpp:code:use:variable} 中 \lstinline!x = 5;! 這行\textbf{不要}和數學中的「等於」搞混。
   
-\paragraph{}練習看看，若把上個投影片「\lstinline!x = 5;!」改成以下狀況，會出現什麼事？該怎麼解釋這些現象呢？
+\paragraph{}練習看看，若把程式碼 \ref{basic:cpp:code:use:variable} 的「\lstinline!x = 5;!」改成以下狀況，會出現什麼事？該怎麼解釋這些現象呢？
 \begin{itemize}
 \item \lstinline!x = 5.0;!
 \item \lstinline!x = 0.5;!
@@ -139,29 +141,34 @@ int main() {
 
 \paragraph{}這些練習目的是要讓你\textbf{真正了解}問題出現時的現象，了解出問題的原因才有辦法 debug，為什麼會出現這些現象我們繼續下去就知道了。
 
-\paragraph{多變數宣告}宣告兩個整數可以寫成這樣：
+\paragraph{多變數宣告}宣告兩個整數可以寫成像程式碼 \ref{basic:cpp:code:two:declare}，更可以簡化成如程式碼 \ref{basic:cpp:code:two:declare:abbr}。
+
 \begin{code}[h!]
-\centering
-\begin{tabular}{c}
-\begin{lstlisting}
+  \centering
+  \begin{subcode}{.33\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
 int a;
 int b;
-\end{lstlisting}
-\end{tabular}
-\caption{宣告兩個變數}
-\label{basic:cpp:code:two:declare}
-\end{code}
-
-\paragraph{}兩個變數更可以簡化成這樣：
-\begin{code}[h!]
-\centering
-\begin{tabular}{c}
-\begin{lstlisting}
+    \end{lstlisting}
+    \end{tabular}
+    \caption{兩個宣告}
+    \label{basic:cpp:code:two:declare}
+  \end{subcode}
+  ~
+  \begin{subcode}{.33\textwidth}
+    \centering
+    \begin{tabular}{c}
+    \begin{lstlisting}
 int a, b;
-\end{lstlisting}
-\end{tabular}
-\caption{宣告兩個變數，簡化版}
-\label{basic:cpp:code:two:declare:abbr}
+    \end{lstlisting}
+    \end{tabular}
+    \caption{簡化版}
+    \label{basic:cpp:code:two:declare:abbr}
+  \end{subcode}
+  \caption{宣告兩個變數}
+  \label{basic:cpp:code:two:declare:total}
 \end{code}
 
 \paragraph{}以此類推，宣告三個整數也是如法炮製，如程式碼 \ref{basic:cpp:code:three:declare:abbr}：
@@ -176,7 +183,7 @@ int a, b, c;
 \label{basic:cpp:code:three:declare:abbr}
 \end{code}
 
-\paragraph{變數初始化}剛剛我們說過變數個作用就是\textbf{裝東西}，那如果容器不塞東西會發生什麼事呢？比如程式碼 \ref{basic:cpp:code:non:init}。
+\paragraph{變數初始化}剛剛我們說明變數就像是容器，作用就是\textbf{裝東西}，那如果容器不塞東西會發生什麼事呢？比如程式碼 \ref{basic:cpp:code:non:init}。
 
 \begin{code}[h!]
 \centering
@@ -233,7 +240,7 @@ int main() {
 
 \paragraph{}大家可以試著執行看程式碼 \ref{basic:cpp:code:cin}，如果沒發生什麼事，試著輸入「\lstinline!1!」再按 enter 鍵，會發生什麼事呢？
 \paragraph{}和輸出相對，「\lstinline!cin!」代表輸入符號，可以輸入後面變數的資料。輸入的資料和我們宣告變數的\index{型態}{\textbf{型態}}有關，在此例中，\lstinline!x! 是整數，因此可以\textbf{輸入一個整數}。
-\paragraph{}\textbf{注意}！ \lstinline!cin! 的 \textbf{\lstinline!>>!} 不要和 \lstinline!cout! 的 \textbf{\lstinline!<<!} 搞混。以下練習讀者們可以試試看會發生什麼事，重點在\textbf{觀察產生的現象}：
+\paragraph{}{\color{red}\textbf{注意}}！ \lstinline!cin! 的 \textbf{\lstinline!>>!} 不要和 \lstinline!cout! 的 \textbf{\lstinline!<<!} 搞混。以下練習讀者們可以試試看會發生什麼事，重點在\textbf{觀察產生的現象}：
 
 \begin{itemize}
 \item 輸入「\texttt{5.0}」再按 enter 鍵呢？
@@ -682,7 +689,7 @@ cout << i << " " << j << endl; // i 為 1，j 為 0
 
 \begin{itemize}
 \item \index{位元}{\textbf{位元}} (bit, b)：計算機儲存資料的基本單位，只儲存 \textbf{0 和 1}
-\item \index{位元組}{\textbf{位元組}} (byte, B)：因為位元很多，所以我們習慣上把 8 個位元「打包起來」，變成一個位元組
+\item \index{位元組}{\textbf{位元組}} (byte, B)：因為位元很多，所以我們習慣上把 8 個位元「打包起來」，變成一個位元組。
 
 \begin{table}[h]
 \centering
@@ -753,7 +760,6 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
 \end{table}
 
 \paragraph{}因為 \lstinline!int! 的儲存方式很特別，要多花一些力氣說明。
-
 \paragraph{\lstinline!int! 存正數的情況}當 \lstinline!int! 儲存正數時，是依照一般二進位方式儲存。例如 \lstinline!int x = 1;!
 
 \begin{table}[h!]
@@ -903,8 +909,6 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
 
 \begin{table}[h!]
 \centering
-\caption{三種運算子}
-\label{basic:cpp:table:operator:bitwise:2}
 \begin{subtable}{.23\textwidth}
   \centering
   \begin{tabular}{|c||c|c|}
@@ -947,6 +951,8 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
   \caption{\texttt{or} 運算子}
   \label{basic:cpp:table:operator:or}
 \end{subtable}
+\caption{三種運算子}
+\label{basic:cpp:table:operator:bitwise:2}
 \end{table}
 
 \paragraph{}\texttt{and}、\texttt{or} 運算子類似之前的邏輯運算子，不同在於這是\textbf{位元}運算，是對每一個位元做運算。另外，\texttt{xor} 運算很特別，規則簡單來說就是不同數字為 1，相同為 0。

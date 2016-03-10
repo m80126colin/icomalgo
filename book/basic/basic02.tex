@@ -111,7 +111,7 @@ ${\color{red}1}0000000$ & $00000000$ & $00000000$ & $00000000$\\
 \item \lstinline!long long! 範圍大概是 $-9\times{10^{18}}$ 到 $9\times{10^{18}}$ 之間
 \item \lstinline!double! 的範圍介於 $-{10}^{308}$ 至 ${10}^{308}$ 左右
 \end{itemize}
-\paragraph{}這些範圍可以在標頭檔 \index{climits}{\lstinline!<climits>!} 和 \index{cfloat}{\lstinline!<cfloat>!} 當中查詢到，實際範圍會依據不同計算機而有差異，使用方法自行 google，這裡不贅述。
+\paragraph{}這些範圍可以在標頭檔 \index{標頭檔!climits}{\lstinline!<climits>!} 和 \index{標頭檔!cfloat}{\lstinline!<cfloat>!} 當中查詢到，實際範圍會依據不同計算機而有差異，使用方法自行 google，這裡不贅述。
 
 \subsubsection{記憶體}
 
@@ -423,9 +423,9 @@ cout << *ptr << endl;
 
 \paragraph{}此外，讀者可以觀察一下程式碼 \ref{program:struct:code:pointer:practice}，這一章節主要是讓大家能夠了解指標的概念，並非以熟練指標為主：
 \begin{code}[h!]
-\centering
-\begin{tabular}{c}
-\begin{lstlisting}
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
 int a = 16;
 int *ptr = &a;
 cout << "Value of a = "   <<  a << endl;
@@ -433,10 +433,10 @@ cout << "Address of a = " << &a << endl;
 cout << "Value of *ptr = "  << *ptr << endl;
 cout << "Value of ptr = "   <<  ptr << endl;
 cout << "Address of ptr = " << &ptr << endl;
-\end{lstlisting}
-\end{tabular}
-\caption{指標小練習}
-\label{program:struct:code:pointer:practice}
+  \end{lstlisting}
+  \end{tabular}
+  \caption{指標小練習}
+  \label{program:struct:code:pointer:practice}
 \end{code}
 
 \paragraph{}除此之外，我們也可對指標所指的對象\textbf{進行運算}，如程式碼 \ref{program:struct:code:pointer:operation}。
@@ -568,7 +568,7 @@ cout << (int)*ptr << endl;
 
 \subsubsection{記憶體操作}
 
-\paragraph{}這一段我們介紹 \texttt{C++} 除了指標之外，一些對記憶體常見的操作方法，以下兩個函式在 \lstinline!<cstring>! 中：
+\paragraph{}這一段我們介紹 \texttt{C++} 除了指標之外，一些對記憶體常見的操作方法，以下兩個函式在 \index{標頭檔!cstring}{\lstinline!<cstring>!} 中：
 
 \begin{code}[h!]
 \centering
@@ -944,6 +944,8 @@ for (int i = 0; i < 10; i++) {
 \subsubsection{物件與類別}
 \subsubsection{建構子與解構子}
 \subsubsection{運算子多載}
+
+\subsubsection{命名空間}
 
 \ifx \allfiles \undefined
 
