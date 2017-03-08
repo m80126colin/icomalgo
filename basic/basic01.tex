@@ -13,9 +13,9 @@
 
 \providecommand*\probpath{../uva.data/problem/store/}
 
-\section{基礎 \texttt{C++} 技巧}
+\section{程式與計算}
 
-\paragraph{本章目標}
+\paragraph{本節目標}
 \begin{itemize}
 \item 了解 \texttt{C++} 的語法皆為「\textbf{運算}」。
 \item 熟悉各運算子的用法及特性。
@@ -23,7 +23,7 @@
 \end{itemize}
 
 \subsection{程式架構}
-\subsubsection{基本 \texttt{C++} 架構}
+\subsubsection{\texttt{C++} 基本架構}
 
 \paragraph{}最基礎的 \texttt{C++} 架構如下：
 
@@ -41,7 +41,7 @@ int main() {
 \label{basic:cpp:code:main}
 \end{code}
 
-\paragraph{}怎麼理解呢？不需要理解，我們先\textbf{記}起來。基本上程式的內容都寫在\textbf{大括號}中。裡面每個符號都要\textbf{一樣} (分號也是)。
+\paragraph{}怎麼理解呢？先不要理解去\textbf{記}起來，之後會慢慢帶出這些字的意義。基本上，程式的內容都寫在\textbf{大括號}中。裡面每個符號都要\textbf{一樣} (分號也是)。
 \paragraph{}接下來要講一個程式最基本的兩個操作：\textbf{輸入}和\textbf{輸出}。
 
 \subsubsection{輸出}
@@ -67,8 +67,8 @@ int main() {
 \paragraph{}接下來有一些 \texttt{C++} 的特性你必須知道：
 
 \begin{enumerate}
-\item 如果將 \ref{basic:cpp:code:cout} 中第 4 行改成「\lstinline!cout << 1!」(去掉分號) 會發生什麼結果？因為「分號」對 \texttt{C++} 而言代表「\textbf{一個句子的結束}」，因此當一行\textbf{指令結束就要加分號}。
-\item \lstinline!<<! 可以串很多東西一起輸出，試試看「\lstinline!cout << 1 << 2;!」，和你所想的有何不同？
+\item 如果將程式碼 \ref{basic:cpp:code:cout} 中第 4 行改成「\lstinline!cout << 1!」(去掉分號) 會發生什麼結果？因為「分號」對 \texttt{C++} 而言代表「\textbf{一個句子的結束}」，因此當一行\textbf{指令結束就要加分號}。
+\item 「\lstinline!<<!」可以串很多東西一起輸出，試試看「\lstinline!cout << 1 << 2;!」，和你所想的有何不同？
 \item 那麼「\lstinline!cout << 1 << " " << 2;!」呢？{\color{blue}\textbf{注意}}！\lstinline!" "! 是雙引號中間夾著一個「空白」。
 \end{enumerate}
 

@@ -1,24 +1,26 @@
 \documentclass[12pt,a4paper,oneside]{article}
 \def \allfiles {}
 
-\input{./basic/config/preamble}
+\input{./config/preamble}
 
 \begin{document}
 \begin{CJK}{UTF8}{bkai}
 
-\subimport{./basic/config/}{docsetting.tex}
+\subimport{./config/}{docsetting.tex}
 
 \title{基礎程式設計技巧}
 \author{許胖}
+
+\maketitle
 
 \begin{multicols}{2}
 \tableofcontents
 \end{multicols}
 
-\subimport{./basic/}{basic00.tex}
-\subimport{./basic/}{basic01.tex}
-\subimport{./basic/}{basic02.tex}
-\subimport{./basic/}{basic03.tex}
+\subimport{./}{basic00.tex}
+\subimport{./}{basic01.tex}
+\subimport{./}{basic02.tex}
+\subimport{./}{basic03.tex}
 
 \printindex
 
