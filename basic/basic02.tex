@@ -206,7 +206,7 @@ cout << "Address of a = " << &a << endl;
 
 \paragraph{}這個結果會因為不同機器、每次程式執行分配的記憶體而不同 (總之就是\textbf{不一定}啦！(╯°□°）╯︵ ╧╧)，但概念是相同的。
 
-\paragraph{大字節序和小字節序}但是我們要怎麼知道變數 \lstinline!a! 實際怎麼儲存在記憶體中呢？很多人會以為像是圖 \ref{program:struct:fig:big:endian:16}：
+\paragraph{大字節序和小字節序}但是我們要怎麼知道變數 \lstinline!a! 實際怎麼儲存 \lstinline!16! 呢？很多人會以為像是圖 \ref{program:struct:fig:big:endian:16}：
 
 \begin{figure}[h!]
 \centering
@@ -230,8 +230,8 @@ cout << "Address of a = " << &a << endl;
 \label{program:struct:fig:big:endian:16}
 \end{figure}
 
-\paragraph{}但這個說法不完全對，圖 \ref{program:struct:fig:big:endian:16} 的儲存方法被稱為「\textbf{大字節序} (Big Endian)」，也就是 \lstinline!int! 的高位數會儲存在位址\textbf{比較小}的地方。
-\paragraph{}另一種跟他相對的稱為「\textbf{小字節序} (Little Endian)」，也就是數字的高位數儲存在位址比較大的地方。例如用整數 \texttt{0x12345678} 來表示這兩種儲存方法的差異如圖 \ref{program:struct:fig:big:endian} 和 \ref{program:struct:fig:little:endian}：
+\paragraph{}但這個說法不完全對，圖 \ref{program:struct:fig:big:endian:16} 的儲存方法被稱為「\index{大字節序}{\textbf{大字節序}} (Big Endian)」，也就是 \lstinline!int! 的高位數會儲存在位址\textbf{比較小}的地方。
+\paragraph{}另一種跟他相對的稱為「\index{小字節序}{\textbf{小字節序}} (Little Endian)」，也就是數字的高位數儲存在位址比較大的地方。用整數 \texttt{0x12345678} 來表示這兩種儲存方法，差異如圖 \ref{program:struct:fig:big:endian} 及 \ref{program:struct:fig:little:endian}：
 
 \begin{figure}[h!]
 \centering
@@ -280,12 +280,12 @@ cout << "Address of a = " << &a << endl;
 \label{program:struct:fig:big:little:endian}
 \end{figure}
 
-\paragraph{}除此之外，還有一類是「混合字節序 (Middle Endian)」，是大字節序和小字節序混用或者是其他的狀況，這裡不贅述。
+\paragraph{}之外，還有一類是「混合字節序 (Middle Endian)」，是大字節序和小字節序混用或者是其他的狀況，這裡不贅述。
 \paragraph{}無論是大字節序還是小字節序，在程式當中都是表示「\texttt{0x12345678}」這個數字，這些儲存方法只是表示計算機\textbf{實際儲存資料}的差異，程式配置一塊記憶體用來儲存 \texttt{0x12345678}，實際怎麼儲存在很多狀況下其實並不重要，但偶爾要做一些操作時，就會牽扯到這個概念。
 
 \subsubsection{指標}
 
-\paragraph{}\textbf{指標}是一個概念，他代表一個{\color{blue}\textbf{箭頭}}指向一塊記憶體。如圖 \ref{program:struct:fig:pointer}。
+\paragraph{}\index{指標}{\textbf{指標}}是一個概念，他代表一個{\color{blue}\textbf{箭頭}}指向一塊記憶體。如圖 \ref{program:struct:fig:pointer}。
 
 \begin{figure}[h!]
 \centering
@@ -322,7 +322,7 @@ int *ptr;
 \label{program:struct:code:pointer:variable}
 \end{code}
 
-\paragraph{}在此，宣告指標\textbf{變數}的規則和之前宣告變數都是相同的原則：\textbf{變數名稱}和\textbf{用途}，此時 \lstinline!ptr! 的資料型態為 \lstinline!int*!，代表這是一個指向 \lstinline!int! 的指標。因為資料型態是 \lstinline!int*!，所以也可用程式碼 \ref{program:struct:code:pointer:variable:another} 的方式來宣告。
+\paragraph{}宣告指標\textbf{變數}的規則，和之前宣告變數都是相同的原則：\textbf{變數名稱}和\textbf{用途}，此時 \lstinline!ptr! 的資料型態為 \lstinline!int*!，代表這是一個指向 \lstinline!int! 的指標。因為資料型態是 \lstinline!int*!，所以也可用程式碼 \ref{program:struct:code:pointer:variable:another} 的方式來宣告。
 
 \begin{code}[h!]
 \centering
@@ -335,7 +335,7 @@ int* ptr;
 \label{program:struct:code:pointer:variable:another}
 \end{code}
 
-\paragraph{}讀者要注意的一點是，當宣告多個指標變數時，不能寫成 \lstinline!int* ptr, ptr2!，在這個情形下，\texttt{C++} 會把 \lstinline!ptr2! 宣告成 \lstinline!int!，正確宣告多指標變數要像程式碼 \ref{program:struct:code:pointer:variable:multiple}。
+\paragraph{}值得注意的點是，當宣告多個指標變數時，不能寫成 \lstinline!int* ptr, ptr2!，在這個情形下，\texttt{C++} 會把 \lstinline!ptr2! 宣告成 \lstinline!int!，正確宣告多指標變數要像程式碼 \ref{program:struct:code:pointer:variable:multiple}。
 
 \begin{code}[h!]
 \centering
@@ -348,7 +348,7 @@ int *ptr, *ptr2;
 \label{program:struct:code:pointer:variable:multiple}
 \end{code}
 
-\paragraph{賦值}剛剛說過，\texttt{C++} 指標的運作是讓指標變數儲存\textbf{位址}，如果以之前變數 \lstinline!a! 的例子來說，我們知道變數 \lstinline!a! 的位址是 \texttt{0x003FF07C}，若我們要把 \lstinline!ptr! 指向變數 \lstinline!a! 所在的記憶體，我們可以用先前講過的\textbf{取址運算子}，得到 \lstinline!a! 的位址，如程式碼 \ref{program:struct:code:pointer:assignment}。
+\paragraph{賦值}剛剛說過，指標的運作是讓指標變數儲存\textbf{位址}，如果以之前變數 \lstinline!a! 的例子來講，我們知道變數 \lstinline!a! 的位址是 \texttt{0x003FF07C}，若我們要把 \lstinline!ptr! 指向變數 \lstinline!a! 所在的記憶體，我們可以用先前講過的\textbf{取址運算子}，得到 \lstinline!a! 的位址，如程式碼 \ref{program:struct:code:pointer:assignment}。
 
 \begin{code}[h!]
 \centering
@@ -392,8 +392,7 @@ int *ptr = &a;
 
 \paragraph{}由圖 \ref{program:struct:fig:pointer:assignment} 可以看出以下幾個重點：
 \begin{itemize}
-\item 雖然指標的概念是「箭頭」，但 \texttt{C++} 實際上還是要用變數來代表。
-\item 既然 \texttt{C++} 中指標也是一個變數，那麼就需要另外配置記憶體。
+\item 指標只是一個概念，實際上用變數來代表，既然 \texttt{C++} 的指標也是一個變數，那麼就需要另外配置記憶體。
 \item \texttt{C++} 實做指標，就是{\color{blue}\textbf{儲存位址}}。
 \end{itemize}
 
@@ -415,9 +414,8 @@ cout << *ptr << endl;
 \label{program:struct:code:pointer:value}
 \end{code}
 
-\paragraph{}程式碼 \ref{program:struct:code:pointer:value} 中，第 4 行的 \lstinline!*! 是取值運算子，回傳指向記憶體的值，因此會印出「\lstinline!16!」。
-
-\paragraph{}而在第 5 行中，因為 \texttt{C++} 的指標也是一變數，因此會將 \lstinline!b! 的位址儲存在 \lstinline!ptr! 裡面，也就是指向變數 \lstinline!b!，因此第 6 行會印出 \lstinline!b! 的值，也就是「\lstinline!4!」。
+\paragraph{}程式碼 \ref{program:struct:code:pointer:value} 中，第 4 行的 \lstinline!*! 是取值運算子 (這符號容易和指標宣告搞混)，回傳指向記憶體的值，因此會印出「\lstinline!16!」。
+\paragraph{}在第 5 行中，因為 \texttt{C++} 的指標也是一變數，因此會將 \lstinline!b! 的位址儲存在 \lstinline!ptr! 裡面，意義是指向變數 \lstinline!b!，因此第 6 行會印出 \lstinline!b! 的值，也就是「\lstinline!4!」。
 
 \paragraph{}不同的資料型態，都有對應的指標型態，例如指向 \lstinline!int! 的指標型態為 \lstinline!int*!、指向 \lstinline!double! 的指標型態為 \lstinline!double*!，以此類推。以下情況由讀者做觀察，想想為什麼會有這些現象，有和預想中的不一樣嗎？
 \begin{itemize}
@@ -427,6 +425,7 @@ cout << *ptr << endl;
 \end{itemize}
 
 \paragraph{}此外，讀者可以觀察一下程式碼 \ref{program:struct:code:pointer:practice}，這一章節主要是讓大家能夠了解指標的概念，並非以熟練指標為主：
+
 \begin{code}[h!]
   \centering
   \begin{tabular}{c}
@@ -460,9 +459,9 @@ cout << a << endl;
 \label{program:struct:code:pointer:operation}
 \end{code}
 
-\paragraph{}在程式碼 \ref{program:struct:code:pointer:operation} 中，第 4 行會印出「\lstinline!17!」，因為第 3 行的 \lstinline!*ptr! 是先對 \lstinline!ptr! 取值，得到變數 \lstinline!a! 的值，接著對 \lstinline!a! 做 \lstinline!++!。要注意的是我們是對「\lstinline!ptr! 所指的值做累加」，讀者可以比較 \lstinline!ptr++! 與 \lstinline!(*ptr)++! 的不同。
+\paragraph{}在程式碼 \ref{program:struct:code:pointer:operation} 中，第 4 行會印出「\lstinline!17!」，因為第 3 行的 \lstinline!*ptr! 是先對 \lstinline!ptr! 取值，得到變數 \lstinline!a! 的值，接著對 \lstinline!a! 做 \lstinline!++!。要注意的是我們是對「\lstinline!ptr! 所指的值做累加」，讀者可以比較 \lstinline!ptr++!、\lstinline!*ptr++! 與 \lstinline!(*ptr)++! 的不同。
 
-\paragraph{}有了基本的指標概念之後，我們接下來看「指標的指標」，一個 \lstinline!int! 指標的型態為 \lstinline!int*!，如果是指向 \lstinline!int*! 的指標，則型態為 \lstinline!int**!，用法和普通的指標相同，程式碼 \ref{program:struct:code:pointer:of:pointer} 展示了指標的指標的用法。
+\paragraph{}有了基本的指標概念之後，我們接下來看「指標的指標」，一個 \lstinline!int! 指標的型態為 \lstinline!int*!，如果是指向 \lstinline!int*! 的指標，則型態為 \lstinline!int**!，用法和普通的指標相似，程式碼 \ref{program:struct:code:pointer:of:pointer} 展示它的用法。
 
 \begin{code}[h!]
 \centering
@@ -568,12 +567,12 @@ cout << (int)*ptr << endl;
 \label{program:struct:fig:pointer:type}
 \end{figure}
 
-\paragraph{}為了簡化描述位址，我們將變數 \lstinline!x! 第一個位元組的位址稱為 \texttt{X}，依序為 \texttt{X+1}、\texttt{X+2}、\texttt{X+3}。當我們用 \lstinline!ptr! 指向位址 \lstinline!X! 時，因為 \lstinline!ptr! 會\textbf{認定}他指到的資料是 \lstinline!char!，因此輸出時只會輸出一個位元組的資料，也就是位址為 \lstinline!X! 所存的資料。
+\paragraph{}為了簡化描述，我們將變數 \lstinline!x! 第一個位元組的位址稱為 \texttt{X}，依序為 \texttt{X+1}、\texttt{X+2}、\texttt{X+3}。當我們用 \lstinline!ptr! 指向位址 \lstinline!X! 時，因為 \lstinline!ptr! 會\textbf{認定}他指到的資料是 \lstinline!char!，因此輸出時只會輸出一個位元組的資料，也就是位址為 \lstinline!X! 所存的資料。
 \paragraph{}然而最終答案會因為不同電腦而有差異，還記得大字節序和小字節序嗎？如果是大字節序的儲存方法，位址 \lstinline!X! 儲存的數字為 \texttt{0x01}，而小字節序會儲存 \texttt{0x04}。
 
 \subsubsection{記憶體操作}
 
-\paragraph{}這一段我們介紹 \texttt{C++} 除了指標之外，一些對記憶體常見的操作方法，以下兩個函式在 \index{標頭檔!cstring}{\lstinline!<cstring>!} 中：
+\paragraph{}這一段介紹 \texttt{C++} 除了指標之外，一些對記憶體常見的操作方法，以下兩個函式在 \index{標頭檔!cstring}{\lstinline!<cstring>!} 中：
 
 \begin{code}[h!]
 \centering
@@ -587,9 +586,14 @@ void* memcpy(void* destination, const void* source, size_t num);
 \label{program:struct:code:memory:function}
 \end{code}
 
-\paragraph{}這兩個函式的回傳值是 \index{void}{\lstinline!void*!}，什麼意思呢？\lstinline!void! 有兩層意義，當回傳值為 \lstinline!void! 時，代表這個函式「{\color{red}\textbf{沒有回傳值}}」，而當回傳值為一個 \lstinline!void*! 指標時，這個指標會指向某一塊記憶體，此塊記憶體的用途是「無型態」，也就是\textbf{單純}當作記憶體來使用，不把他看做 \lstinline!int!、\lstinline!double! 等型態。
+\paragraph{}這兩個函式的回傳值是 \index{void}{\lstinline!void*!}，什麼意思呢？\lstinline!void! 有兩層意義：
 
-\paragraph{\lstinline!memset! 函式}\lstinline!memset! 函式傳三個參數：\lstinline!ptr!、\lstinline!value! 和 \lstinline!num!，其中 \lstinline!ptr! 會指向一塊記憶體，\lstinline!memset! 函式的目的是將 \lstinline!ptr! 指向的記憶體中，把前 \lstinline!num! 個位元組的值改成 \lstinline!value!。
+\begin{itemize}
+\item 當回傳型態為 \lstinline!void! 時，代表這個函式「{\color{red}\textbf{沒有回傳值}}」；
+\item 當回傳型態為一個 \lstinline!void*! 指標型態時，這個指標會指向某一塊記憶體，此塊記憶體的用途是「無型態」，也就是\textbf{單純}當作記憶體來使用，不把他看做 \lstinline!int!、\lstinline!double! 等型態。
+\end{itemize}
+
+\paragraph{\lstinline!memset! 函式}\lstinline!memset! 函式傳三個參數：\lstinline!ptr!、\lstinline!value! 和 \lstinline!num!，其中 \lstinline!ptr! 會指向一塊記憶體，\lstinline!memset! 函式的目的是將 \lstinline!ptr! 指向的記憶體中，把前 \lstinline!num! 個{\color{blue}\textbf{位元組}}的值改成 \lstinline!value!。
 
 \begin{code}[h!]
 \centering
@@ -605,7 +609,7 @@ cout << x << endl;
 \end{code}
 
 \paragraph{}舉例來說，假設我們有一個 \lstinline!int! 變數 \lstinline!x!，如程式碼 \ref{program:struct:code:memset:basic}，猜猜變數 \lstinline!x! 會是多少呢？哈，答案並不是「\lstinline!1!」！
-\paragraph{}首先，就像剛剛提過，\lstinline!ptr! 只有單純指向記憶體，既然是視為記憶體。那它就是\textbf{一個位元組一個位元組}依序修改，因此程式碼 \ref{program:struct:code:memset:basic} 的結果會像圖 \ref{program:struct:fig:memset:basic}。
+\paragraph{}剛剛提到，\lstinline!ptr! 只有單純指向記憶體，既然是視為記憶體。那它就是\textbf{一個位元組一個位元組}依序修改，因此程式碼 \ref{program:struct:code:memset:basic} 的結果會像圖 \ref{program:struct:fig:memset:basic}。
 
 \begin{figure}[h!]
 \centering
@@ -624,7 +628,7 @@ cout << x << endl;
 
 \paragraph{}由此可知：
 \begin{itemize}
-\item 因為每次都是把每個位元組初始化，所以 \lstinline!value! 的值會介於 \lstinline!0! 到 \lstinline!255! 之間
+\item 因為每次都是把每個位元組初始化，所以 \lstinline!value! 的值會介於 \lstinline!0! 到 \lstinline!255! 之間。常用的值有兩個：\lstinline!0! 和 \lstinline!-1! (\lstinline!255!)，因為這兩個數字在二進位下代表全 \lstinline!0! 和全 \lstinline!1!，因此可以把數字都設為 \lstinline!0! 和 \lstinline!-1!，讀者不妨驗證一下。
 \item 第三個參數是代表要初始化多少個位元組，往往我們都是初始化\textbf{所有}位元組，與其親自計算初始化的變數有多少位元組，不如取巧使用 \lstinline!sizeof! 運算子
 \end{itemize}
 
@@ -651,7 +655,7 @@ cout << x << endl;
 
 \subsubsection{執行時期配置}
 
-\paragraph{}前面有提到程式放到記憶體中才會執行，實際上一支程式在記憶體中會有五個主要的區塊，每個區塊會放置特定的資料，程式架構和配置會因作業系統不同而有差異。
+\paragraph{}前面提到程式需要放到記憶體中執行，實際上一支程式在記憶體中會有五個主要的區塊，每個區塊會放置特定的資料，程式架構和配置會因作業系統不同而有差異。
 
 \begin{figure}[h!]
 \centering
@@ -679,20 +683,22 @@ cout << x << endl;
 \end{figure}
 
 \begin{itemize}
-\item \lstinline!TEXT! 區塊：編譯過後的二進位程式碼
-\item \lstinline!DATA! 區塊：有初始化的全域變數、靜態變數等
-\item \lstinline!BSS! 區塊：未初始化的全域變數、靜態變數等
-\item \lstinline!HEAP! 區塊：動態配置的變數等，使用一種稱為\index{堆積}{\textbf{堆積 (Heap)}} 的資料結構
-\item \lstinline!STACK! 區塊：函數呼叫、區域變數等，使用稱為\index{堆疊}{\textbf{堆疊 (Stack)}} 的資料結構
+\item TEXT 區塊：編譯過後的二進位程式碼
+\item DATA 區塊：有初始化的全域變數、靜態變數等
+\item BSS 區塊：未初始化的全域變數、靜態變數等
+\item HEAP 區塊：動態配置的變數等，使用一種稱為\index{堆積}{\textbf{堆積 (Heap)}} 的資料結構
+\item STACK 區塊：函數呼叫、區域變數等，使用稱為\index{堆疊}{\textbf{堆疊 (Stack)}} 的資料結構
 \end{itemize}
 
-\paragraph{}這些區塊的概念在越後面就會越常使用，有興趣的讀者可以自行 google。
+\paragraph{}這些區塊的概念清楚有助於除錯，有興趣的讀者可以自行 google。
 
 \subsection{程式控制}
 
+\paragraph{}程式語言中，在語法上會設計一些用來方便表達我們思想的工具，這些工具經過幾十年的演變後，歸納出大部分程式語言會有的特性，以下介紹幾個 \lstinline!C++! 當中基本但重要的工具。
+
 \subsubsection{程式區塊}
 
-\paragraph{}試試看程式碼 \ref{program:struct:code:scope:example} 的兩個例子會發生什麼事？
+\paragraph{}\lstinline!C++! 中大括號被稱為\index{程式區塊}{程式區塊}，用以包住多個程式敘述。試試看程式碼 \ref{program:struct:code:scope:example} 的兩個例子會發生什麼事？
 
 \begin{code}[h!]
 \centering
@@ -759,7 +765,7 @@ int main() {
   \filldraw[black!40!white,draw=black]%
 	(0,0) rectangle (\mywd,\myht);
   \draw (.5,.5) rectangle (\mywd-.5,\myht-1.5)%
-	node[pos=.5] {\lstinline!cout<<x!};
+	node[pos=.5] {\lstinline!cout << x!};
   \node at (1,\myht+.4) {\lstinline!main()!};
   \node at (\mywd/2,\myht-.75) {\lstinline!x = 2!};
   \end{tikzpicture}
@@ -773,6 +779,8 @@ int main() {
 \paragraph{}變數的可視範圍就像洋蔥一樣，外面一層的變數可以被裡面一層的變數看見，因此程式碼 \ref{program:struct:code:scope:example:1} 的 \lstinline!cout! 沒辦法看見包在大括號的變數 \lstinline!x!。
 
 \paragraph{}程式碼 \ref{program:struct:code:scope:example:2} 展示另外一個例子，結果如圖 \ref{program:struct:fig:scope:example:2}，雖然變數 \lstinline!x! 在外層，但裡面的 \lstinline!cout! 會一層一層往外找變數 \lstinline!x!，結果就是輸出 \lstinline!2!。
+
+\paragraph{}詳細的可視範圍觀念留在之後說明。
 
 \subsubsection{選擇結構}
 
@@ -887,13 +895,9 @@ else cout << "XD" << endl;
 \label{program:struct:code:dangling:else}
 \end{code}
 
-\paragraph{}通常沒括大括號的情況下，最後一個 \lstinline!else! 會匹配到最近的 \lstinline!if!，讀者可以驗證這兩段程式碼的不同。
-
-\paragraph{應用：找極值}
+\paragraph{}不僅僅是程式敘述以分號結尾，實際上編譯器也無法得知 \lstinline!else! 是和哪一個 \lstinline!if! 匹配，因此在沒括大括號的情況下，最後一個 \lstinline!else! 通常會匹配到最近的 \lstinline!if!，讀者可以驗證這兩段程式碼的不同。
 
 \subsubsection{迴圈結構}
-
-\paragraph{比較迴圈結構}
 
 \begin{code}[h!]
 \centering
@@ -928,7 +932,77 @@ for (int i = 0; i < 10; i++) {
 \label{program:struct:code:loop:for:while}
 \end{code}
 
-\paragraph{常見的輸入形式}
+\paragraph{應用：找極值}
+
+\paragraph{}競賽中常見的輸入形式有三種：\textbf{EOF 版}、\textbf{0 尾版}、\textbf{n 行版}，有時候還會混合出現，因此要好好理解。
+
+\paragraph{0 尾版}典型的 0 尾版是題目要求：「輸入以 $n = 0$ 結束。」我們可以這樣做：
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+while (cin >> n, n) {
+  cout << n << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{0 尾版}
+\label{program:struct:code:loop:input:0:ending}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:loop:input:0:ending} 利用逗號運算子和比較運算子的簡化，當輸入為零時，逗號右側的 \lstinline!n! 會判定為 \lstinline!false! 而跳出迴圈。
+
+\paragraph{}類似 0 尾版的輸入可能是以特定的數字做為結束 (常見的是 \lstinline!-1!)，有時會以多個數字是否全零、是否為特定字串作為結尾，讀者可以自行練習。
+
+\paragraph{n 行版}典型 n 行版的輸入為：「第一行有一個整數 $n$，代表接下來的測試資料筆數。」因此在設計上，我們要優先讀入此整數，再處理各組測試資料。一種寫法如程式碼 \ref{program:struct:code:loop:input:n:lines}：
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+for (cin >> n; n; n--) {
+  cout << n << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{$n$ 行版}
+\label{program:struct:code:loop:input:n:lines}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:loop:input:n:lines} 也是利用邏輯運算子簡化，每次執行完迴圈 \lstinline!n! 就會遞減，直到第 $n$ 次做完後，回頭檢查 \lstinline!n! 值為零而退出迴圈。
+\paragraph{}另外一種常見形式是題目要求形如「\lstinline!"Case #:"!」的輸出，這時就要使用一個變數去計算目前執行到的資料筆數，如程式碼 \ref{program:struct:code:loop:input:n:lines:case}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+for (cin >> n, cnt = 1; cnt <= n; cnt++) {
+  cout << "Case " << cnt << ":" << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{$n$ 行版的另一種形式}
+\label{program:struct:code:loop:input:n:lines:case}
+\end{code}
+
+\paragraph{\texttt{EOF} 版}當題目敘述提到：「以 \texttt{EOF} 結束」，或是沒有特別提到結束的方式，且在輸入中不是前面兩種形式結尾通常都是 \texttt{EOF} 版。
+\paragraph{}\texttt{EOF} 是 end-of-file 的簡寫，意思是輸入到檔案結尾，沒有測試資料就可結束。當 \lstinline!cin! 讀取到檔案結尾時，會「知道」讀取到檔案結尾，因此設計上可寫為程式碼 \ref{program:struct:code:loop:input:eof}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+while (cin >> n) {
+  cout << n << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{\texttt{EOF} 版}
+\label{program:struct:code:loop:input:eof}
+\end{code}
+
+\paragraph{}在測試執行當中，如果要用鍵盤輸入檔案結尾，依據作業系統的不同而有差異，大致上是 \texttt{Ctrl+Z} 或是 \texttt{Ctrl+D}。
 
 \subsubsection{陣列}
 
@@ -941,9 +1015,7 @@ for (int i = 0; i < 10; i++) {
 \subsubsection{函數多載}
 \subsubsection{程式區塊}
 
-\subsection{程式技巧}
-\subsubsection{函式化}
-\subsubsection{\lstinline!\#define! 與 \lstinline!inline!}
+
 
 \subsection{\texttt{C++} 物件導向}
 \subsubsection{物件與類別}
@@ -951,6 +1023,63 @@ for (int i = 0; i < 10; i++) {
 \subsubsection{運算子多載}
 
 \subsubsection{命名空間}
+
+\subsection{程式技巧}
+
+\subsubsection{函式化與結構化}
+
+\paragraph{}當輸入、解題、輸出較為複雜時，筆者傾向於做以下的函式化：
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+while ( input() ) {
+  sol();
+  output();
+}
+\end{lstlisting}
+\end{tabular}
+\caption{函式化程式}
+\label{program:struct:code:input:function}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:input:function} 可以清楚看出此程式區塊大致上在處理多筆輸入，針對每筆輸入解出對應解答並輸出。
+
+\subsubsection{\lstinline!\#define! 與 \lstinline!inline!}
+
+\subsubsection{標準模板函式庫}
+
+\paragraph{模板}
+
+\paragraph{迭代器}
+
+\paragraph{計算頻率}
+
+\subsubsection{\lstinline!<algorithm>! 函式庫}
+
+\subsubsection{其他注意事項}
+
+\paragraph{有關測試資料}
+
+\paragraph{記憶體與程式風格}
+
+\paragraph{除錯相關}
+
+\paragraph{喇賽}
+
+\subsection{程式執行}
+
+\subsubsection{動態配置記憶體}
+
+\subsubsection{變數可視範圍}
+
+\subsubsection{程式語言}
+
+\paragraph{機器語言與組合語言}
+\paragraph{高階語言}
+
+\subsubsection{程式編譯}
 
 \ifx \allfiles \undefined
 

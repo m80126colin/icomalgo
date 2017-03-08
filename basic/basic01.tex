@@ -1096,7 +1096,7 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
 \end{itemize}
 
 \paragraph{}觀察之後，可以發現是 $2^{b+1}-2^a$。該怎麼實作就從之前取 k 個 1 的方法去擴展就可以得到。
-\paragraph{取負數}另外來講一個特別的例子，它可以幫助你判斷負數的儲存方法給。你一個正數 \lstinline!x!，問如何\textbf{不用負號}的情況下求出 \lstinline!-x! 呢？比較 \lstinline!-x! 和 \lstinline!~x! 的不同，就會發現，他們事實上只差 \lstinline!1!。例如：
+\paragraph{取負數}來講一個特別的例子，它可以幫助你判斷負數的儲存方法。給你一個正數 \lstinline!x!，問如何\textbf{不用負號}的情況下求出 \lstinline!-x! 呢？比較 \lstinline!-x! 和 \lstinline!~x! 的不同，就會發現，他們事實上只差 \lstinline!1!。例如：
 \begin{itemize}
 \item \lstinline!~0! $\Rightarrow$ \lstinline!-1!
 \item \lstinline!~123! $\Rightarrow$ \lstinline!-124!
