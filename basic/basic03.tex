@@ -1,5 +1,5 @@
 \ifx \allfiles \undefined
-\documentclass[12pt,a4paper,oneside]{article}
+\documentclass[12pt,a4paper,oneside]{report}
 
 \input{./config/preamble}
 
@@ -7,15 +7,15 @@
 \begin{CJK}{UTF8}{bkai}
 
 \subimport{./config/}{docsetting.tex}
-\setcounter{section}{2}
+\setcounter{chapter}{2}
 
 \fi
 
-\section{字串處理}
+\chapter{字串處理}
 
-\subsection{字元與字串}
+\section{字元與字串}
 
-\subsubsection{字元與 \texttt{ASCII}}
+\subsection{字元與 \texttt{ASCII}}
 
 \paragraph{}\texttt{C++} 中的\index{字元}{\textbf{{\color{red}字元} (Character)}} \lstinline!char! 其實是儲存一個 0 到 255 的整數，在電腦中有一個\textbf{符號表}，每個符號都有他各自的編號。輸出字元時，計算機就會自動將 \lstinline!char! 裡面的整數去查符號表，印出對應符號，這個表格我們稱為 \index{ASCII}{\color{red}\textbf{ASCII 碼}}。雖然 \lstinline!char! 印出來是符號，但實際上儲存的是整數。
 \paragraph{}ASCII 碼網路上都能查到，在這邊只提到幾個重要的觀念就好，各位讀者可以邊看網路上查到的 ASCII 碼邊看接下來的內容。
@@ -126,7 +126,7 @@ int charToNumber(char ch) {
 
 \paragraph{}同樣的方法也可以用在具有連續區間的大寫字母、小寫字母。
 
-\subsubsection{\texttt{C++} 字串與 \texttt{C} 字串}
+\subsection{\texttt{C++} 字串與 \texttt{C} 字串}
 
 \paragraph{}\texttt{C++} 的字串為 \lstinline!string! 物件，需要引入標頭檔 \index{標頭檔!string}{\lstinline!<string>!}。這裡要講 \texttt{C} 字串，\texttt{C} 字串事實上就是{\color{red}\textbf{字元陣列}}，宣告如程式碼 \ref{string:mani:code:c:string:declare}。
 
@@ -184,7 +184,7 @@ char str[10] = "bird";
 
 \paragraph{}因為 \lstinline!'\0'! 被當作「字串的結尾」 (很重要所以還要再說一次)，所有 \texttt{C} 字串函數的操作都會跟這個有關。
 
-\subsubsection{\texttt{C} 字串函數}
+\subsection{\texttt{C} 字串函數}
 
 \paragraph{}\texttt{C} 字串函數都在 \index{標頭檔!cstring}{\lstinline!<cstring>!} 底下，以下解說幾個常用的 \texttt{C} 字串函數，如程式碼 \ref{string:mani:code:string:function}。
 
@@ -286,7 +286,7 @@ for (i = 0; i < len; i++)
 
 \paragraph{}其它有關字串的函數還有：\lstinline!strstr!、\lstinline!strchr!、\lstinline!strrchr!、\lstinline!strtok!、\lstinline!strspn! 等，這些函數在此不贅述。
 
-\subsubsection{字串轉換}
+\subsection{字串轉換}
 
 \paragraph{}實作上，\texttt{C++} 字串操作上來得 \texttt{C} 字串\textbf{容易}，但因為 \texttt{C++} 字串是物件，因此操作 \texttt{C} 字串會比 \texttt{C++} 字串來得快。我們可以選擇混合使用這兩種字串，在不難處理又快速時我們選擇 \texttt{C} 字串；而在 \texttt{C} 字串比較難解決的事情時，我們可以利用方便的 \texttt{C++} 字串來處理。
 
@@ -321,7 +321,7 @@ cout << str2 << endl;
   \label{string:mani:code:string:c:to:cpp}
 \end{code}
 
-\subsubsection{字串練習}
+\subsection{字串練習}
 
 \paragraph{}可能有些人看完上面的敘述後，可能還不是很理解這些函數的用途。要理解 \texttt{C} 字串的用法不難，但如果要完全掌握住這些函數，還需要配合指標的觀念，以下問題，筆者就不寫上解答，留給讀者思考、討論。
 
@@ -411,9 +411,9 @@ char str8[110];
 \\試比較 \lstinline!strcpy(str8, str7);! 和 \lstinline!memcpy(str8, str7, sizeof(str7));! 的不同。
 \end{enumerate}
 
-\subsection{輸入與輸出}
+\section{輸入與輸出}
 
-\subsubsection{\lstinline!scanf! 和 \lstinline!printf!}
+\subsection{\lstinline!scanf! 和 \lstinline!printf!}
 
 \paragraph{}\texttt{C++} 中常使用的輸入輸出是 \lstinline!cin! 和 \lstinline!cout!，有時候 \lstinline!cin! 和 \lstinline!cout! 的速度並不能滿足我們的需求，這時候就需要使用 \texttt{C} 語言本身的輸入輸出。
 \paragraph{}\texttt{C} 語言的輸入輸出在 \index{標頭檔!cstdio}{\lstinline!<cstdio>!} 內，輸入的函數為 \lstinline!scanf!，而輸出的函數為 \lstinline!printf!。
@@ -565,7 +565,7 @@ scanf_s("%s", str, 4);
 \paragraph{}程式碼 \ref{string:mani:code:scanf:s:example} 中，因為 \lstinline!str! 字串最後要有 \lstinline!'\0'! 字元，因此最多只能讀 4 個字元。
 \paragraph{}到目前為止，可看出 \lstinline!scanf! 和 \lstinline!printf! 在用法上比 \lstinline!cin! 和 \lstinline!cout! 繁瑣，除了在效能上的優勢外，還有什麼其他優點呢？
 
-\subsubsection{格式字串}
+\subsection{格式字串}
 
 \paragraph{進制輸出}在 \texttt{C++} 中整數提供八進位、十進位、十六進位的輸出方法，分別是使用 \lstinline!std::oct!、\lstinline!std::dec!、\lstinline!std::hex! 這三種，如程式碼 \ref{string:mani:code:notation:cout}。
 
@@ -739,12 +739,12 @@ while (scanf("%d", &n) != EOF) {
   \label{string:mani:code:scanf:eof}
 \end{code}
 
-\subsubsection{標準 I/O}
+\subsection{標準 I/O}
 
-\subsubsection{檔案 I/O}
+\subsection{檔案 I/O}
 \paragraph{\lstinline!fscanf! 和 \lstinline!fprintf!}
 
-\subsubsection{字串 I/O}
+\subsection{字串 I/O}
 
 \paragraph{\lstinline!sscanf! 和 \lstinline!sprintf!}
 
@@ -798,21 +798,21 @@ while (ss >> a) {
   \label{string:mani:code:string:stream:eof}
 \end{code}
 
-\subsection{字串技巧}
+\section{字串技巧}
 
-\subsubsection{善用 index}
+\subsection{善用 index}
 
-\subsubsection{回文}
+\subsection{回文}
 
-\subsubsection{二維問題}
+\subsection{二維問題}
 
-\subsubsection{子字串}
+\subsection{子字串}
 
-\subsubsection{其他}
+\subsection{其他}
 
 
-\subsection{字串應用}
-\subsubsection{羅馬數字}
+\section{字串應用}
+\subsection{羅馬數字}
 
 \paragraph{}對大多數的人而言，這並不是一個陌生的主題。羅馬數字用一些特別的字母來當做某個數字，如表 \ref{string:mani:table:roman:number}。
 
@@ -924,7 +924,7 @@ for (int i = 0; i < L; i++) { // 百位、十位、個位數
 
 \paragraph{羅馬數字轉阿拉伯數字}至於如何把羅馬數字換回阿拉伯數字？由剛剛的表格知道，除了 4 和 9 的羅馬數字是兩個字元 (由於\textbf{減法規則})，其他都可以拆成一個字元來看待，因此我們可以藉由{\color{red}\textbf{記錄目前}}掃到的羅馬數字，來判斷下個羅馬數字該使用加法規則還是減法規則。
 
-\subsubsection{字串和數字轉換}
+\subsection{字串和數字轉換}
 
 \paragraph{字串轉數字}一開始有提到，把一個數字字元轉換成數字的方法，若現在有一個數字字串，例如 \lstinline!"123"!，要怎麼做呢？
 
@@ -967,9 +967,9 @@ int MyAtoI(string str)
 
 \paragraph{數字轉字串}
 
-\subsubsection{進位變換}
+\subsection{進位變換}
 
-\subsubsection{習題}
+\subsection{習題}
 
 \ifx \allfiles \undefined
 

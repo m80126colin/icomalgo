@@ -1,5 +1,5 @@
 \ifx \allfiles \undefined
-\documentclass[12pt,a4paper,oneside]{article}
+\documentclass[12pt,a4paper,oneside]{report}
 
 \input{./config/preamble}
 
@@ -7,13 +7,13 @@
 \begin{CJK}{UTF8}{bkai}
 
 \subimport{./config/}{docsetting.tex}
-\setcounter{section}{0}
+\setcounter{chapter}{0}
 
 \fi
 
 \providecommand*\probpath{../uva.data/problem/store/}
 
-\section{程式與計算}
+\chapter{程式與計算}
 
 \paragraph{本節目標}
 \begin{itemize}
@@ -22,8 +22,8 @@
 \item 注意\index{未定義行為}{\textbf{未定義行為}}。
 \end{itemize}
 
-\subsection{程式架構}
-\subsubsection{\texttt{C++} 基本架構}
+\section{程式架構}
+\subsection{\texttt{C++} 基本架構}
 
 \paragraph{}最基礎的 \texttt{C++} 架構如下：
 
@@ -44,7 +44,7 @@ int main() {
 \paragraph{}怎麼理解呢？先不要理解去\textbf{記}起來，之後會慢慢帶出這些字的意義。基本上，程式的內容都寫在\textbf{大括號}中。裡面每個符號都要\textbf{一樣} (分號也是)。
 \paragraph{}接下來要講一個程式最基本的兩個操作：\textbf{輸入}和\textbf{輸出}。
 
-\subsubsection{輸出}
+\subsection{輸出}
 
 \paragraph{}\texttt{C++} 的\textbf{輸出符號}寫為「\lstinline!cout!」，你要輸出的東西用「\lstinline!<<!」串連。試試看在剛剛的大括號中打上「\lstinline!cout << 1;!」，會發生什麼事呢？
 
@@ -78,7 +78,7 @@ int main() {
 \item 如果看不出來，試試看「\lstinline!cout << 1 << endl << 2;!」。
 \end{enumerate}
 
-\subsubsection{變數}
+\subsection{變數}
 
 \paragraph{}\index{變數}{\color{red}\textbf{變數}}和數學「變數」的概念不太一樣，程式的變數像是「\textbf{容器}」，可以裝資料。\texttt{C++} 裡，每個容器都要先講好兩件事：
 \begin{itemize}
@@ -217,7 +217,7 @@ int a, b, c;
 
 \paragraph{}要解決變數沒有初始化的問題，有兩個常用的方法，原則上都是\index{賦值}{\textbf{賦值}}，方法會在稍後提到。
 
-\subsubsection{輸入}
+\subsection{輸入}
 
 \paragraph{}執行以下程式會發生什麼事呢？
 
@@ -264,7 +264,7 @@ cin >> x >> y;
 
 \paragraph{}唯一要注意的一點是，有些題目會要我們輸入「換行」相隔的數，我們不需要在輸入中加入「\lstinline!endl!」，否則程式容易出錯。
 
-\subsubsection{資料型態}
+\subsection{資料型態}
 
 \paragraph{}既然有裝整數的容器，那麼當然也可以宣告裝「小數點」的容器啦！這些不同用途的容器我們稱為「\index{資料型態}{\textbf{資料型態}}」。表 \ref{basic:cpp:table:primitive:type} 代表 \texttt{C++} 常用的資料型態，詳細內容之後再介紹，先來用看看這些東西。
 
@@ -415,8 +415,8 @@ double d;
   \end{itemize}
 \end{itemize}
 
-\subsection{算術運算子}
-\subsubsection{運算性質}
+\section{算術運算子}
+\subsection{運算性質}
 
 \paragraph{}算術運算子有以下五個：
 \begin{table}[h!]
@@ -450,7 +450,7 @@ double d;
 \label{basic:cpp:def:binary:operator}
 \end{mydef}
 
-\subsubsection{結合性與運算順序}
+\subsection{結合性與運算順序}
 
 \paragraph{}我們可以知道「加減乘除餘」都是二元運算，因此，我們回到原來的問題：$1+2+3$ 到底是先算 $1+2$、還是先算 $2+3$ 呢？
 
@@ -489,7 +489,7 @@ double d;
 
 \paragraph{}\texttt{C++} 的四則運算用\textbf{優先順序}和\textbf{結合性}來處理，這件事情非常重要，稍後就會知道為什麼。
 
-\subsubsection{整數除法與除零問題}
+\subsection{整數除法與除零問題}
 
 \paragraph{整數除法}以下程式碼可能會讓你感到驚奇：
 \begin{itemize}
@@ -511,7 +511,7 @@ double d;
 \paragraph{}\textbf{註}：有些 IDE 如 Visual C++ 會直接擋住除以零，不讓你編譯，如果無法編譯成功，那麼就嘗試「繞過」他，例如：宣告一個變數，把分母裝 \lstinline!0! 進去再試試看。
 \paragraph{}\textbf{注意}：通常上面的程式碼在編譯時可以過，但是在執行時會出些狀況，各位知道出了哪些狀況就好，不用了解太詳細。
 
-\subsubsection{應用：取餘數}
+\subsection{應用：取餘數}
 
 \paragraph{}\texttt{C++} 的 \lstinline!%! 運算子會有跟我們想像中不太一樣的現象，首先我們可以觀察一下 \texttt{C++} 怎麼做的：
 \begin{itemize}
@@ -545,8 +545,8 @@ double d;
 \label{basic:cpp:problem:arithmetic}
 \subimport{\probpath}{basic-01-basic-cpp-arithmetic.tex}
 
-\subsection{比較和邏輯運算子}
-\subsubsection{比較運算子}
+\section{比較和邏輯運算子}
+\subsection{比較運算子}
 
 \paragraph{}比較運算子如表 \ref{basic:cpp:table:operator:comparison}：
 \begin{table}[h!]
@@ -600,7 +600,7 @@ double d;
 
 \paragraph{}簡化的寫法大多時候可以取代原來一般寫法，且通常比較運算子要和 \lstinline!if!、\lstinline!else! 配合，之後會介紹這兩個東西。
 
-\subsubsection{邏輯運算子}
+\subsection{邏輯運算子}
 
 \paragraph{}\index{邏輯運算子}{邏輯運算子}有以下三個：
 \begin{table}[h!]
@@ -638,7 +638,7 @@ double d;
 
 \paragraph{}我們先前是對「判斷不整除」進行簡化，那我們要怎麼簡化「判斷整除」呢？ \lstinline!n % m == 0! 可以用「\lstinline"!" 運算子」變成 \lstinline"!(n % m != 0)"，接著使用剛剛的簡化規則，最後變成 \lstinline"!(n % m)"。
 
-\subsubsection{短路運算}
+\subsection{短路運算}
 
 \paragraph{}\texttt{C++} 的邏輯運算屬於「\index{邏輯運算子!短路運算}{\textbf{短路運算}}」，當我們在計算一個判斷式時，如果我們已經可以確認其結果，之後的判斷就\textbf{不會再進行}。以下講述 \lstinline!&&! 運算子和 \lstinline!||! 運算子的行為：
 
@@ -682,8 +682,8 @@ cout << i << " " << j << endl; // i 為 1，j 為 0
 \label{basic:cpp:problem:comparison}
 \subimport{\probpath}{basic-01-basic-cpp-comparison-and-logical.tex}
 
-\subsection{位元運算子}
-\subsubsection{\lstinline!int! 和 \lstinline!long long! 的儲存形式}
+\section{位元運算子}
+\subsection{\lstinline!int! 和 \lstinline!long long! 的儲存形式}
 
 \paragraph{}在此節我們要講\index{位元運算子}{位元運算子}，但在一開始我們要先了解 \lstinline!int! 在電腦當中怎麼儲存的，因此要先介紹一些觀念。
 
@@ -825,7 +825,7 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
 \item \lstinline!int x = -256;!
 \end{itemize}
   
-\subsubsection{位元運算子}
+\subsection{位元運算子}
 
 \paragraph{}位元運算子是大家比較難理解的運算子，但是在效能優化上，或是在一些特殊的題目時是很有用的，以下分別講述這些運算子的功用與概念。
 \begin{table}[h!]
@@ -1025,7 +1025,7 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
 
 \paragraph{}簡單來說就是「\lstinline!1! 變 \lstinline!0!，\lstinline!0! 變 \lstinline!1!」 (相當於邏輯運算子的 \lstinline"!")，又稱為 \index{1's 補數}{\textbf{1's 補數}}。例如： \lstinline!~0! $\Rightarrow$ \lstinline!-1!。
 
-\subsubsection{一元運算子}
+\subsection{一元運算子}
 
 \paragraph{}和二元運算子類似，\index{一元運算子}{\textbf{一元運算子}}就是只有一個運算元的運算子。
 \begin{table}[h!]
@@ -1045,7 +1045,7 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
 
 \paragraph{}他們的運算順序都是\textbf{從右到左}，例如 \lstinline!~~3! 會先算右邊的 \lstinline!~3!，得到 \lstinline!-4!，接著 \lstinline!-4! 再和左邊的補數運算子「運算」，回傳結果為 \lstinline!3!。
 
-\subsubsection{常用技巧：連續的 1}
+\subsection{常用技巧：連續的 1}
 
 \paragraph{}位元運算最常見的問題之一，那就是：要怎樣產生 2 進位下連續 k 個 1？例如：
 \begin{itemize}
@@ -1104,7 +1104,7 @@ $x_{31}x_{30}\cdots{x_{24}}$ & $x_{23}x_{22}\cdots{x_{16}}$ & $x_{15}x_{14}\cdot
 
 \paragraph{}從上面的結論可以歸納出 \lstinline!-x! 恰好是 \lstinline!(~x)+1!。
 
-\subsubsection{常用技巧：遮罩與指定位元}
+\subsection{常用技巧：遮罩與指定位元}
 
 \paragraph{}這裡要講述我們先前學會產生連續 \lstinline!1! 的用途，有時候我們想要對位元做一些事情，例如：
 \begin{itemize}
@@ -1265,7 +1265,7 @@ x = x & (~1);
 \item 要注意\textbf{運算順序}！
 \end{itemize}
 
-\subsubsection{應用：Parity}
+\subsection{應用：Parity}
 
 \paragraph{}Parity 問題：給妳一個正整數 $x$，問在二進位下有幾個 1？以下有幾個範例：
 
@@ -1347,7 +1347,7 @@ v = (v & 0x11111111U) * 0x11111111U;
 
 \paragraph{}看看就好，不要刻意去記這些炫砲技能。
 
-\subsubsection{應用：\texttt{xor} 性質}
+\subsection{應用：\texttt{xor} 性質}
 
 \paragraph{}還記得 \texttt{xor} 嗎？這個運算是這幾個當中最讓人陌生的一個，回顧表 \ref{basic:cpp:table:operator:xor} 可以知道 \texttt{xor} 運算的性質是「同為 0 或同為 1 \texttt{xor} 起來就是 0」。
 
@@ -1433,8 +1433,8 @@ x ^= y;
 \label{basic:cpp:problem:bitwise}
 \subimport{\probpath}{basic-01-basic-cpp-bitwise.tex}
 
-\subsection{指定運算子}
-\subsubsection{運算性質}
+\section{指定運算子}
+\subsection{運算性質}
 
 \begin{table}[h!]
 \centering
@@ -1549,7 +1549,7 @@ x ^= y;
 
 \paragraph{}\textbf{字首系列}會先做運算，再回傳，回傳值是運算\textbf{後}的值；而\textbf{字尾系列}會先回傳，再做運算，回傳值是運算\textbf{前}的值。
 
-\subsubsection{未定義行為}
+\subsection{未定義行為}
 
 \paragraph{}在講述\index{未定義行為}{\textbf{未定義行為}}之前，我們先看例子 \ref{basic:cpp:code:undefined:behavior}，猜猜答案是什麼？
 
@@ -1633,7 +1633,7 @@ cout << i++ << i++ << i++ << endl;
 
 \paragraph{}寫程式的時候要避免未定義行為，因為這種寫法會導致千百種答案，歸咎於這種寫法本身就不是正確的寫法。
 
-\subsection{其他運算子}
+\section{其他運算子}
 
 \paragraph{}總結來說，萬物對計算機而言皆是「\index{運算}{\textbf{運算}}」，既然是運算，就有「結合性」和「運算順序」。接下來還有一些特別的運算子，將會介紹其功能和用途。
 
@@ -1707,7 +1707,7 @@ while (cin >> n, n) {
 
 \paragraph{}程式碼 \ref{basic:cpp:code:comma:loop} 中，因為迴圈內的判斷式是回傳 \lstinline!n! 的值，只要 \lstinline!n! 非零，就會被當成 \lstinline!true!。
 
-\subsection{結論}
+\section{結論}
 
 \begin{itemize}
 \item 句子結尾是分號「\lstinline!;!」。
