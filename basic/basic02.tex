@@ -27,10 +27,10 @@
 
 \paragraph{}這一節主要延續上一節的思維，但著重在了解程式如何執行，利用這些知識順利寫出\textbf{架構簡潔}、\textbf{容易除錯}程式。因此在這一節練習題較少，大多是\textbf{重要的觀念}。
 
-\section*{本節目標}
+\section*{本章目標}
 
 \begin{itemize}
-\item 了解記憶體與指標。
+\item 了解記憶體與指標的概念
 \item 利用選擇結構和迴圈結構
 \item 物件導向的觀念
 \end{itemize}
@@ -1270,11 +1270,11 @@ int main() {
 \label{program:struct:code:function:pointer}
 \end{code}
 
-\section{\texttt{C++} 物件導向}
+\subsection{\texttt{C++} 物件導向}
 
 \paragraph{}這一節主要提供一些 \texttt{C++} 物件導向的方法，來增加競賽寫程式的速度及方便性，並不會提到太多物件導向的觀念，想要知道更多有關這方面的讀者可以在網路上搜尋。
 
-\subsection{物件與類別}
+\subsubsection{物件與類別}
 
 \paragraph{}在物件導向的世界裡，我們把所有東西都視為一個又一個的\textbf{物件 (Object)}，這些物件都有各自的\textbf{內部狀態}－－也就是物件本身會儲存各式各樣的資料，而這些物件之間會相互影響，進而改變內部的狀態，這就是物件導向的核心概念。
 \paragraph{}物件有其\textbf{生命週期}，當物件被產生時，物件會呼叫\textbf{建構子 (Constructor)} 初始化，當物件的生命結束要被消滅時，物件會呼叫\textbf{解構子 (Destructor)}，在物件內的函式可以表達物件的行為模式，以及如何影響其他物件，此時這些函式稱為\textbf{方法 (Method)}。
@@ -1312,13 +1312,15 @@ public:
 \label{program:struct:code:class}
 \end{code}
 
-\subsection{建構子與解構子}
+\subsubsection{建構子與解構子}
 
+\paragraph{}我們上一節提到過，物件被創造時會呼叫建構子，結束時會呼叫解構子，在此節我們把注意力放在建構子上。
+\paragraph{}通常變數宣告時，計算機並不會幫我們初始化變數，而變數的內容是未知數，因此我們要避免使用未經初始化的變數，在物件導向的世界中，創造一個物件時會呼叫建構子－－它可以看做是類別的一種方法，一個很特殊的方法。
+\paragraph{}例如，我們希望每個複數一開始都能被歸零，在 C 語言的寫法中，我們變數宣告完就：
 
+\subsubsection{運算子多載}
 
-\subsection{運算子多載}
-
-\subsection{命名空間}
+\subsubsection{命名空間}
 
 \section{程式技巧}
 

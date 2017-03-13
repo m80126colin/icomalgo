@@ -36,7 +36,9 @@
   \label{string:mani:table:char:ascii}
 \end{table}
 
-\paragraph{特殊字元}有些字元因為沒辦法直接用單引號包住符號的方式表示，就會用「倒斜線+字元」來代表，表 \ref{string:mani:table:char:special} 是一些常見的特殊字元。
+\subsubsection{特殊字元}
+
+\paragraph{}有些字元因為沒辦法直接用單引號包住符號的方式表示，就會用「倒斜線+字元」來代表，表 \ref{string:mani:table:char:special} 是一些常見的特殊字元。
 
 \begin{table}[h!]
   \centering
@@ -63,7 +65,10 @@
   \label{string:mani:table:char:special}
 \end{table}
 
-\paragraph{常用技巧：字元判斷}在 ASCII 碼中，有三個區塊是連續的：
+\subsubsection{常用技巧：字元判斷}
+
+\paragraph{}在 ASCII 碼中，有三個區塊是連續的：
+
 \begin{itemize}
 \item 數字區塊：\lstinline!'0'! 到 \lstinline!'9'!
 \item 大寫字母區塊：\lstinline!'A'! 到 \lstinline!'Z'!
@@ -109,7 +114,9 @@ bool myIsDigit(char ch) {
 
 \paragraph{}不過臨時記不得這些函式，筆者建議自己寫一個，不難寫。
 
-\paragraph{常用技巧：計算數字}用同樣的概念，可以把一個數字字元「轉換」成 \lstinline!int! 的 0。字元 \lstinline!'0'! 的編號為 48，因此我們將 \lstinline!'0' - 48! 就可以取得實際的 \lstinline!int! 值，但這個方法稍嫌笨重，因為我們必須記得 \lstinline!'0'! 的編號，在 \texttt{C++} 中有提供字元相減的方法，於是我們可以寫為程式碼 \ref{string:mani:code:char:to:number}，將一個數字字元減去 \lstinline!'0'!。
+\subsubsection{常用技巧：計算數字}
+
+\paragraph{}用同樣的概念，可以把一個數字字元「轉換」成 \lstinline!int! 的 0。字元 \lstinline!'0'! 的編號為 48，因此我們將 \lstinline!'0' - 48! 就可以取得實際的 \lstinline!int! 值，但這個方法稍嫌笨重，因為我們必須記得 \lstinline!'0'! 的編號，在 \texttt{C++} 中有提供字元相減的方法，於是我們可以寫為程式碼 \ref{string:mani:code:char:to:number}，將一個數字字元減去 \lstinline!'0'!。
 
 \begin{code}[h!]
   \centering
@@ -204,7 +211,9 @@ char* strncat(char* dest, const char* src, size_t num);
   \label{string:mani:code:string:function}
 \end{code}
 
-\paragraph{\lstinline!strlen! 函數}\lstinline!strlen! 函數可以知道一個 \texttt{C} 字串的長度，參數就是傳一個字串指標，這個函數就是從一開始的位址往後掃，直到碰到 \lstinline!'\0'! 為止，並回傳長度值。
+\subsubsection{\lstinline!strlen! 函數}
+
+\paragraph{}\lstinline!strlen! 函數可以知道一個 \texttt{C} 字串的長度，參數就是傳一個字串指標，這個函數就是從一開始的位址往後掃，直到碰到 \lstinline!'\0'! 為止，並回傳長度值。
 
 \begin{code}[h!]
   \centering
@@ -270,7 +279,9 @@ for (i = 0; i < len; i++)
 \paragraph{}但很多時候字串的長度沒有改變，因此會浪費很多時間，比較好的做法是用一個變數儲存長度，再下去執行迴圈，如程式碼 \ref{string:mani:code:strlen:for:better}。
 \paragraph{}補充，雖然現代的編譯器大多會去辨別這一情況加以優化，但盡量不要依賴編譯器，最好從一開始養成好習慣，才不會被坑。
 
-\paragraph{\lstinline!strcmp! 函數}\lstinline!strcmp! 函數用來比較兩個 \texttt{C} 字串，參數為兩個字串指標。它會從兩個字串一開始的字元逐個比較，比較到\textbf{其中一個}為 \lstinline!'\0'! 為止，\lstinline!strcmp! 的功能和 \texttt{C++} 字串之間用 \lstinline!==!、\lstinline!>!、\lstinline!<! 來比較的功能類似。回傳值分成三類：
+\subsubsection{\lstinline!strcmp! 函數}
+
+\paragraph{}\lstinline!strcmp! 函數用來比較兩個 \texttt{C} 字串，參數為兩個字串指標。它會從兩個字串一開始的字元逐個比較，比較到\textbf{其中一個}為 \lstinline!'\0'! 為止，\lstinline!strcmp! 的功能和 \texttt{C++} 字串之間用 \lstinline!==!、\lstinline!>!、\lstinline!<! 來比較的功能類似。回傳值分成三類：
 
 \begin{itemize}
 \item 等於 \lstinline!0!：代表兩個字串相等。
@@ -278,19 +289,25 @@ for (i = 0; i < len; i++)
 \item 小於 \lstinline!0!：代表 \lstinline!str1! 的字典順序小於 \lstinline!str2!，通常是回傳 \lstinline!-1!。
 \end{itemize}
 
-\paragraph{\lstinline!strcpy! 函數}\lstinline!strcpy! 函數就是把 \lstinline!src! 字串複製到 \lstinline!dest! 字串，複製的原理和上述函式類似：就是從第一個字元開始複製，直到遇到 \lstinline!'\0'! 為止。接著對 \lstinline!dest! 最尾端補 \lstinline!'\0'!。\lstinline!strcpy! 相當於在 \texttt{C++} 中 \lstinline!dest = src!。
-\paragraph{}使用 \lstinline!strcpy! 時需要特別{\color{blue}\textbf{注意}}，\lstinline!strcpy! 函數{\color{red}\textbf{不會檢查}} \lstinline!dest! 的長度，換句話說，如果 \lstinline!src! 比 \lstinline!dest! 長，\lstinline!strcpy! 會持續複製直到複製完為止，這對程式而言是非常危險的，因為寫出字串的範圍很有可能會寫到很重要的記憶體，然後{\color{red}\textbf{電腦就炸了}}。
-\paragraph{}其他較為安全的替代方案，就是使用 \lstinline!strncpy! 函數，\lstinline!strncpy! 的第三個參數代表\textbf{最多}複製幾個字元，不過要注意 \lstinline!strncpy! 只負責複製字元，複製完後{\color{blue}\textbf{不會補 \lstinline!'\0'!}}。
+\subsubsection{\lstinline!strcpy! 函數}
 
-\paragraph{\lstinline!strcat! 函數}\lstinline!strcat! 函數主要是把 \lstinline!src! 字串接到 \lstinline!dest! 字串後面，它是從 \lstinline!dest! 字串的\textbf{第一個} \lstinline!'\0'! 開始串接，因此也和 \lstinline!strcpy! 一樣可能會造成寫出記憶體的問題，對應的函數是 \lstinline!strncat!。\lstinline!strcat! 函數相當於 \texttt{C++} 字串中，直接做 \lstinline!dest += src!。
+\paragraph{}\lstinline!strcpy! 函數就是把 \lstinline!src! 字串複製到 \lstinline!dest! 字串，複製的原理和上述函式類似：就是從第一個字元開始複製，直到遇到 \lstinline!'\0'! 為止。接著對 \lstinline!dest! 最尾端補 \lstinline!'\0'!。\lstinline!strcpy! 相當於在 \texttt{C++} 中 \lstinline!dest = src!。
+\paragraph{}使用 \lstinline!strcpy! 時需要特別{\color{blue}\textbf{注意}}，\lstinline!strcpy! 函數{\color{red}\textbf{不會檢查}} \lstinline!dest! 的長度，換句話說，如果 \lstinline!src! 比 \lstinline!dest! 長，\lstinline!strcpy! 會持續複製直到複製完為止，這對程式而言是非常危險的，因為寫出字串的範圍很有可能會寫到很重要的記憶體，然後{\color{red}\textbf{電腦就炸了}}。
+\paragraph{}其他較為安全的替代方案，就是使用 \lstinline!strncpy! 函數，\lstinline!strncpy! 的第三個參數代表\textbf{最多}複製幾個字元，不過要注意 \lstinline!strncpy! 只負責複製字元，複製完後{\color{blue}\textbf{不會補}} \lstinline!'\0'!。
+
+\subsubsection{\lstinline!strcat! 函數}
+
+\paragraph{}\lstinline!strcat! 函數主要是把 \lstinline!src! 字串接到 \lstinline!dest! 字串後面，它是從 \lstinline!dest! 字串的\textbf{第一個} \lstinline!'\0'! 開始串接，因此也和 \lstinline!strcpy! 一樣可能會造成寫出記憶體的問題，對應的函數是 \lstinline!strncat!。\lstinline!strcat! 函數相當於 \texttt{C++} 字串中，直接做 \lstinline!dest += src!。
 
 \paragraph{}其它有關字串的函數還有：\lstinline!strstr!、\lstinline!strchr!、\lstinline!strrchr!、\lstinline!strtok!、\lstinline!strspn! 等，這些函數在此不贅述。
 
 \subsection{字串轉換}
 
-\paragraph{}實作上，\texttt{C++} 字串操作上來得 \texttt{C} 字串\textbf{容易}，但因為 \texttt{C++} 字串是物件，因此操作 \texttt{C} 字串會比 \texttt{C++} 字串來得快。我們可以選擇混合使用這兩種字串，在不難處理又快速時我們選擇 \texttt{C} 字串；而在 \texttt{C} 字串比較難解決的事情時，我們可以利用方便的 \texttt{C++} 字串來處理。
+\paragraph{}實作上，\texttt{C++} 字串操作上來得 \texttt{C} 字串\textbf{容易} (有運算子多載)，但因為 \texttt{C++} 字串是物件，因此操作 \texttt{C} 字串會比 \texttt{C++} 字串來得快。我們可以選擇混合使用這兩種字串，在不難處理又快速時我們選擇 \texttt{C} 字串；而在 \texttt{C} 字串比較難解決的事情時，我們可以利用方便的 \texttt{C++} 字串來處理。
 
-\paragraph{\texttt{C++} 字串轉 \texttt{C} 字串}如果要將一個 \texttt{C++} 字串轉成 \texttt{C} 字串，我們利用 \index{標頭檔!string}{\lstinline!<string>!} 中的一個成員函式 \lstinline!c_str()!。
+\subsubsection{\texttt{C++} 字串轉 \texttt{C} 字串}
+
+\paragraph{}如果要將一個 \texttt{C++} 字串轉成 \texttt{C} 字串，我們利用 \index{標頭檔!string}{\lstinline!<string>!} 中的一個成員函式 \lstinline!c_str()!。
 
 \begin{code}[h!]
   \centering
@@ -305,7 +322,10 @@ cout << str.c_str() << endl;
 \end{code}
 
 \paragraph{}要注意的是，\lstinline!c_str()! 產生一個\textbf{唯讀}的 \texttt{C} 字串。
-\paragraph{\texttt{C} 字串轉 \texttt{C++} 字串}正確將 \texttt{C} 字串轉成 \texttt{C++} 字串的方法則是將 \texttt{C} 字串丟進 \texttt{C++} 字串中，如程式碼 \ref{string:mani:code:string:c:to:cpp}。
+
+\subsubsection{\texttt{C} 字串轉 \texttt{C++} 字串}
+
+\paragraph{}正確將 \texttt{C} 字串轉成 \texttt{C++} 字串的方法則是將 \texttt{C} 字串丟進 \texttt{C++} 字串中，如程式碼 \ref{string:mani:code:string:c:to:cpp}。
 
 \begin{code}[h!]
   \centering
@@ -412,12 +432,13 @@ char str8[110];
 \end{enumerate}
 
 \section{輸入與輸出}
+\subsection{格式字串}
 
-\subsection{\lstinline!scanf! 和 \lstinline!printf!}
+\subsubsection{\lstinline!scanf! 和 \lstinline!printf!}
 
 \paragraph{}\texttt{C++} 中常使用的輸入輸出是 \lstinline!cin! 和 \lstinline!cout!，有時候 \lstinline!cin! 和 \lstinline!cout! 的速度並不能滿足我們的需求，這時候就需要使用 \texttt{C} 語言本身的輸入輸出。
 \paragraph{}\texttt{C} 語言的輸入輸出在 \index{標頭檔!cstdio}{\lstinline!<cstdio>!} 內，輸入的函數為 \lstinline!scanf!，而輸出的函數為 \lstinline!printf!。
-\paragraph{}{\color{red}\textbf{注意}}！\texttt{C} 語言輸入輸出是\textbf{函式}，這兩個函式的用法和原本 \texttt{C++} 的相比較為繁瑣，但也有比較方便的地方。
+\paragraph{}{\color{red}\textbf{注意！}}\texttt{C} 語言輸入輸出是\textbf{函式}，這兩個函式的用法和原本 \texttt{C++} 的相比較為繁瑣，但也有比較方便的地方。
 
 \begin{code}[h!]
   \centering
@@ -517,7 +538,7 @@ scanf("%d", &x);
   \label{string:mani:table:printf:scanf:format}
 \end{table}
 
-\paragraph{}因為 \lstinline!%! 在 \lstinline!scanf! 和 \lstinline!printf! 當中作為跳脫字元，因此印出 \lstinline!%! 要使用 \lstinline!"%%"!。
+\paragraph{}因為 \lstinline!%! 在 \lstinline!scanf! 和 \lstinline!printf! 當中作為跳脫字元，印出 \lstinline!%! 要使用 \lstinline!"%%"!。
 \paragraph{}和 \lstinline!cin! 類似，\lstinline!scanf! 中也不會用空白和換行，如程式碼 \ref{string:mani:code:scanf:example}。
 
 \begin{code}[h!]
@@ -531,7 +552,9 @@ scanf("%d%d%d", &a, &b, &c);
   \label{string:mani:code:scanf:example}
 \end{code}
 
-\paragraph{字元讀取問題}讀取字元時，\lstinline!cin! 和 \lstinline!scanf! 的行為會不一致。
+\subsubsection{字元讀取問題}
+
+\paragraph{}讀取字元時，\lstinline!cin! 和 \lstinline!scanf! 的行為會不一致。
 
 \begin{code}[h!]
   \centering
@@ -548,7 +571,10 @@ printf("\'%c\' \'%c\'\n", a, b);
 \end{code}
 
 \paragraph{}程式碼 \ref{string:mani:code:cin:scanf:behavior} 第 2 行和第 3 行中可以嘗試輸入「\lstinline!1 2!」，可以發現 \lstinline!cin! 會跳過空白，可是 \lstinline!scanf! 並不會。
-\paragraph{\lstinline!scanf_s! 函數}\texttt{VC++} 在讀取字串時很多時候會被擋下，因為 \lstinline!scanf! 讀取字串不會檢查長度，會有安全問題。\lstinline!scanf_s! 函式在讀取字串時要多傳一個參數，作為最多讀取的長度，程式碼 \ref{string:mani:code:scanf:s:example} 為 \lstinline!scanf_s! 的一個範例。
+
+\subsubsection{\lstinline!scanf_s! 函數}
+
+\paragraph{}\texttt{VC++} 在讀取字串時很多時候會被擋下，因為 \lstinline!scanf! 讀取字串不會檢查長度，會有安全問題。\lstinline!scanf_s! 函式在讀取字串時要多傳一個參數，作為最多讀取的長度，程式碼 \ref{string:mani:code:scanf:s:example} 為 \lstinline!scanf_s! 的一個範例。
 
 \begin{code}[h!]
   \centering
@@ -565,9 +591,9 @@ scanf_s("%s", str, 4);
 \paragraph{}程式碼 \ref{string:mani:code:scanf:s:example} 中，因為 \lstinline!str! 字串最後要有 \lstinline!'\0'! 字元，因此最多只能讀 4 個字元。
 \paragraph{}到目前為止，可看出 \lstinline!scanf! 和 \lstinline!printf! 在用法上比 \lstinline!cin! 和 \lstinline!cout! 繁瑣，除了在效能上的優勢外，還有什麼其他優點呢？
 
-\subsection{格式字串}
+\subsubsection{進位輸出}
 
-\paragraph{進制輸出}在 \texttt{C++} 中整數提供八進位、十進位、十六進位的輸出方法，分別是使用 \lstinline!std::oct!、\lstinline!std::dec!、\lstinline!std::hex! 這三種，如程式碼 \ref{string:mani:code:notation:cout}。
+\paragraph{}\texttt{C++} 中整數提供八進位、十進位、十六進位的輸出方法，分別是使用 \lstinline!std::oct! 、 \lstinline!std::dec! 、 \lstinline!std::hex! 這三種，如程式碼 \ref{string:mani:code:notation:cout}。
 
 \begin{code}[h!]
   \centering
@@ -603,7 +629,10 @@ printf("%x\n", a); // b
 \end{code}
 
 \paragraph{}程式碼 \ref{string:mani:code:notation:printf} 是對應的版本，分別使用 \lstinline!"%o"!、\lstinline!"%d"!、\lstinline!"%x"!。如要將十六進位印為大寫，\lstinline!cout! 須加上 \lstinline!std::uppercase!，\lstinline!printf! 則使用 \lstinline!"%X"!。
-\paragraph{\texttt{iomanip} 格式}在 \texttt{C++} 中，標頭檔 \index{標頭檔!iomanip}{\lstinline!<iomanip>!}，專門做輸入輸出的處理。表 \ref{string:mani:table:iomanip} 列出 \lstinline!<iomanip>!
+
+\subsubsection{\texttt{iomanip} 格式}
+
+\paragraph{}在 \texttt{C++} 中，標頭檔 \index{標頭檔!iomanip}{\lstinline!<iomanip>!}，專門做輸入輸出的處理。表 \ref{string:mani:table:iomanip} 列出 \lstinline!<iomanip>!
 中常用的\index{串流操縱符}{\textbf{串流操縱符 (Stream manipulator)}}，也就是用來串在 \lstinline!cin!、\lstinline!cout! 的東西。
 
 \begin{table}[h!]
@@ -723,7 +752,9 @@ scanf("%d:%d", &hh, &mm);
 
 \paragraph{}\lstinline!scanf! 可以直接設定格式，省去多使用一個變數的麻煩，如程式碼 \ref{string:mani:code:time:format:scanf}。
 
-\paragraph{回傳值}\lstinline!scanf! 也可以使用在 0 尾版、n 行版等迴圈中，不難，在此集中講解 EOF 版。
+\subsubsection{回傳值}
+
+\paragraph{}\lstinline!scanf! 也可以使用在 0 尾版、n 行版等迴圈中，不難，在此集中講解 EOF 版。
 \paragraph{}當 \lstinline!scanf! 讀到檔尾時，會回傳一個常數 \lstinline!EOF! (數值通常是 -1)，因此 EOF 版就會寫為程式碼 \ref{string:mani:code:scanf:eof}。
 
 \begin{code}[h!]
@@ -741,14 +772,24 @@ while (scanf("%d", &n) != EOF) {
 
 \subsection{標準 I/O}
 
+\subsubsection{簡介}
+\subsubsection{行讀取}
+\subsubsection{字元讀取}
+\subsubsection{輸入輸出優化}
+
 \subsection{檔案 I/O}
-\paragraph{\lstinline!fscanf! 和 \lstinline!fprintf!}
+
+\subsubsection{開檔讀檔}
+\subsubsection{\lstinline!fscanf! 和 \lstinline!fprintf!}
+\subsubsection{\lstinline!freopen!}
 
 \subsection{字串 I/O}
 
-\paragraph{\lstinline!sscanf! 和 \lstinline!sprintf!}
+\subsubsection{\lstinline!sscanf! 和 \lstinline!sprintf!}
 
-\paragraph{\lstinline!stringstream!}\texttt{C++} 中也有提供字串 I/O，稱為 \lstinline!stringstream! 類別，在 \index{標頭檔!sstream}{\lstinline!<sstream>!} 標頭檔裡面，用法與 \lstinline!cin!、\lstinline!cout! 差不多，如程式碼 \ref{string:mani:code:string:stream:usage}。
+\subsubsection{\lstinline!stringstream!}
+
+\paragraph{}\texttt{C++} 中也有提供字串 I/O，稱為 \lstinline!stringstream! 類別，在 \index{標頭檔!sstream}{\lstinline!<sstream>!} 標頭檔裡面，用法與 \lstinline!cin!、\lstinline!cout! 差不多，如程式碼 \ref{string:mani:code:string:stream:usage}。
 
 \begin{code}[h!]
   \centering
@@ -844,7 +885,9 @@ while (ss >> a) {
 \item 符號不超過\textbf{三個}：4 會寫為 IV 而非 IIII，9 被寫為 IX 而非 XIIII。因此，不管怎麼湊，羅馬數字會在 3999 以內 (在此不討論更大數的表示法)。
 \end{itemize}
 
-\paragraph{阿拉伯數字轉羅馬數字}羅馬數字之中，個位數的符號表示個位數、十位數用來表示十位數，這之間不會混用，因此我們用「{\color{red}\textbf{位數}}」來觀察較合適。在此我們可以用表 \ref{string:mani:table:roman:number:regular} 去觀察出個位、十位、百位的規律：
+\subsubsection{阿拉伯數字轉羅馬數字}
+
+\paragraph{}羅馬數字之中，個位數的符號表示個位數、十位數用來表示十位數，這之間不會混用，因此我們用「{\color{red}\textbf{位數}}」來觀察較合適。在此我們可以用表 \ref{string:mani:table:roman:number:regular} 去觀察出個位、十位、百位的規律：
 
 \begin{table}[h!]
   \centering
@@ -922,11 +965,15 @@ for (int i = 0; i < L; i++) { // 百位、十位、個位數
 
 \paragraph{}程式碼 \ref{string:mani:code:number:to:roman} 是對應的處理方法，可以看到第 1 行針對千位數做判斷，在迴圈中第 5 行、第 7 行也是根據先前的討論，優先處理 4 和 9 的情形 (可以想一下這兩個判斷為什麼不能反過來)。
 
-\paragraph{羅馬數字轉阿拉伯數字}至於如何把羅馬數字換回阿拉伯數字？由剛剛的表格知道，除了 4 和 9 的羅馬數字是兩個字元 (由於\textbf{減法規則})，其他都可以拆成一個字元來看待，因此我們可以藉由{\color{red}\textbf{記錄目前}}掃到的羅馬數字，來判斷下個羅馬數字該使用加法規則還是減法規則。
+\subsubsection{羅馬數字轉阿拉伯數字}
+
+\paragraph{}至於如何把羅馬數字換回阿拉伯數字？由剛剛的表格知道，除了 4 和 9 的羅馬數字是兩個字元 (由於\textbf{減法規則})，其他都可以拆成一個字元來看待，因此我們可以藉由{\color{red}\textbf{記錄目前}}掃到的羅馬數字，來判斷下個羅馬數字該使用加法規則還是減法規則。
 
 \subsection{字串和數字轉換}
 
-\paragraph{字串轉數字}一開始有提到，把一個數字字元轉換成數字的方法，若現在有一個數字字串，例如 \lstinline!"123"!，要怎麼做呢？
+\subsubsection{字串轉數字}
+
+\paragraph{}一開始有提到，把一個數字字元轉換成數字的方法，若現在有一個數字字串，例如 \lstinline!"123"!，要怎麼做呢？
 
 \paragraph{}程式碼 \ref{string:mani:code:char:to:number} 的概念可以繼續延伸，我們可以對每個字元減掉 \lstinline!'0'! 之後再乘上對應的值，最後加總就會轉換成對應數字。
 
@@ -965,9 +1012,9 @@ int MyAtoI(string str)
 
 \paragraph{}除此之外，也有些人會從個位數開始做，只是這樣就要額外變數來紀錄 $10$ 的次方。
 
-\paragraph{數字轉字串}
+\subsubsection{數字轉字串}
 
-\subsection{進位變換}
+\subsubsection{進位變換}
 
 \subsection{習題}
 
