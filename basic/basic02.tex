@@ -1276,9 +1276,10 @@ int main() {
 
 \subsubsection{物件與類別}
 
-\paragraph{}在物件導向的世界裡，我們把所有東西都視為一個又一個的\textbf{物件 (Object)}，這些物件都有各自的\textbf{內部狀態}－－也就是物件本身會儲存各式各樣的資料，而這些物件之間會相互影響，進而改變內部的狀態，這就是物件導向的核心概念。
-\paragraph{}物件有其\textbf{生命週期}，當物件被產生時，物件會呼叫\textbf{建構子 (Constructor)} 初始化，當物件的生命結束要被消滅時，物件會呼叫\textbf{解構子 (Destructor)}，在物件內的函式可以表達物件的行為模式，以及如何影響其他物件，此時這些函式稱為\textbf{方法 (Method)}。
-\paragraph{}物件導向中的物件，是由\textbf{類別 (Class)} 所產生，若類別 A 產生了一個物件 B，我們稱 B 是 A 的一個\textbf{實體 (Instance)}。類別好比是一張製作物件的{\color{red}\textbf{藍圖}}，裡面記載創造的物件需要能夠儲存什麼資料，提供什麼方法等等，依據種類，我們可以把類別內的東西分為以下四類：
+\paragraph{}在物件導向的世界裡，我們把所有東西都視為一個又一個的\index{物件導向!物件}{\color{red}\textbf{物件 (Object)}}，這些物件都有各自的\textbf{內部狀態}－－也就是物件本身會儲存各式各樣的資料，而這些物件之間會相互影響，進而改變內部的狀態，這就是物件導向的核心概念。
+\paragraph{}物件有其\textbf{生命週期}，當物件被產生時，物件會呼叫\index{物件導向!建構子}{\textbf{建構子 (Constructor)}} 初始化，當物件的生命結束要被消滅時，物件會呼叫\index{物件導向!解構子}{\textbf{解構子 (Destructor)}}，在物件內的函式可以表達物件的行為模式，以及如何影響其他物件，此時這些函式稱為\index{物件導向!方法}{\color{blue}\textbf{方法 (Method)}}。
+\paragraph{}物件導向中的物件，是由\index{物件導向!類別}{\color{red}\textbf{類別 (Class)}} 所產生，若類別 A 產生了一個物件 B，我們稱 B 是 A 的一個\index{物件導向!實例}{\textbf{實例 (Instance)}}。類別好比是一張製作物件的{\color{blue}\textbf{藍圖}}，裡面記載創造的物件需要能夠儲存什麼資料，提供什麼方法等等。
+\paragraph{}當程式開始執行時，程式會先創造一塊記憶體來存放藍圖。創造實例時，創造出的物件會依據類別所包含的變數、方法來創造。在 \texttt{C++} 中，\lstinline!struct! 和 \lstinline!class! 都被當成類別的一種，當我們要寫一個複數的類別時，可以寫如程式碼 \ref{program:struct:code:object:class}。
 
 \begin{code}[h!]
 \centering
@@ -1292,7 +1293,7 @@ struct Complex {
   \end{lstlisting}
   \end{tabular}
   \caption{\texttt{Complex} 結構}
-  \label{program:struct:code:class:1}
+  \label{program:struct:code:object:class:1}
 \end{subcode}
 ~
 \begin{subcode}{.4\textwidth}
@@ -1306,19 +1307,269 @@ public:
   \end{lstlisting}
   \end{tabular}
   \caption{\texttt{Complex} 類別}
-  \label{program:struct:code:class:2}
+  \label{program:struct:code:object:class:2}
 \end{subcode}
 \caption{結構和類別的對應}
-\label{program:struct:code:class}
+\label{program:struct:code:object:class}
 \end{code}
+
+\paragraph{}要創造一個實例的話，其實就是\textbf{宣告變數} \lstinline!Complex c;!。
 
 \subsubsection{建構子與解構子}
 
-\paragraph{}我們上一節提到過，物件被創造時會呼叫建構子，結束時會呼叫解構子，在此節我們把注意力放在建構子上。
-\paragraph{}通常變數宣告時，計算機並不會幫我們初始化變數，而變數的內容是未知數，因此我們要避免使用未經初始化的變數，在物件導向的世界中，創造一個物件時會呼叫建構子－－它可以看做是類別的一種方法，一個很特殊的方法。
-\paragraph{}例如，我們希望每個複數一開始都能被歸零，在 C 語言的寫法中，我們變數宣告完就：
+\paragraph{}上一節提到，物件被創造時會呼叫\index{物件導向!建構子}{\textbf{建構子}}，結束時會呼叫解構子，在此節我們把注意力放在建構子上。
+\paragraph{}通常變數宣告時，計算機並不會幫我們初始化變數，而變數的內容是\textbf{未知數}，因此要避免使用未經初始化的變數。在物件導向的世界中，創造一個物件時會呼叫建構子－－它可以看做是類別的一種方法，一個很特殊的方法。
+\paragraph{}例如，我們想讓每個複數一開始都能被歸零，一種直觀的寫法如程式碼 \ref{program:struct:code:object:init}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+Complex c;
+c.real = c.imag = 0.0;
+\end{lstlisting}
+\end{tabular}
+\caption{初始化 \lstinline!Complex! 物件}
+\label{program:struct:code:object:init}
+\end{code}
+
+\paragraph{}同樣功能如果要用建構子實作的話，一來每次宣告變數時會自動呼叫建構子初始化，二來在程式風格上同樣都是寫於類別內，比較不容易出現漏網之魚。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+struct Complex {
+  double real, imag;
+  Complex() {
+    real = imag = 0.0;
+  }
+};
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!Complex! 建構子}
+\label{program:struct:code:object:constructor}
+\end{code}
+
+\paragraph{}建構子特別之處在於，
+\begin{itemize}
+\item 建構子不需要寫回傳值
+\item 建構子名稱必為類別名稱，因此 \lstinline!Complex()! 即為 \lstinline!Complex! 類別的建構子
+\end{itemize}
+
+\paragraph{}此外，建構子也可以多載，如果想要初始化成特定數字，我們可以多寫一個建構子，如程式碼 \ref{program:struct:code:object:constructor:overload}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+struct Complex {
+  double real, imag;
+  Complex() {
+    real = imag = 0.0;
+  }
+  Complex(double r, double i) {
+    real = r;
+    imag = i;
+  }
+};
+
+Complex c1, c2(4.0,5.0);
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!Complex! 建構子多載}
+\label{program:struct:code:object:constructor:overload}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:object:constructor:overload} 會將 \lstinline!c1! 的實部虛部初始化為 \lstinline!0!，而 \lstinline!c2! 會呼叫另外一個建構子，將實部初始化為 \lstinline!4.0!，而虛部為 \lstinline!5.0!。
 
 \subsubsection{運算子多載}
+
+\paragraph{}假設現在有兩個 \lstinline!Complex a,b!，我們要把這兩個複數相加，可以寫作程式碼 \ref{program:struct:code:object:operator:function}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+Complex compAdd(const Complex &left, const Complex &right) {
+  return Complex(left.real + right.real, left.imag + right.imag);
+}
+
+Complex result = compAdd(a, b);
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!Complex! 相加}
+\label{program:struct:code:object:operator:function}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:object:operator:function} 第 1 行中，\lstinline!const! 代表變數在此不會被改值，可以避免掉誤改的狀況。第 2 行呼叫建構子 \ref{program:struct:code:object:constructor:overload}，創造一個新的 \lstinline!Complex! 物件並賦值。這種方法跟以往我們習慣處理這類問題時大不相同，如果不用建構子的話我們通常要先宣告一個複數，再把值放進去，如程式碼 \ref{program:struct:code:object:operator:naive}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+Complex compAdd(const Complex &left, const Complex &right) {
+  Complex c;
+  c.real = left.real + right.real;
+  c.imag = left.imag + right.imag;
+  return c;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!Complex! 相加}
+\label{program:struct:code:object:operator:naive}
+\end{code}
+
+\paragraph{}此外，原先的函式也可以放入 \lstinline!struct! 中，成為 \lstinline!struct! 的\index{物件導向!成員函式}{\textbf{成員函式 (Member Function)}}－－也就是 \lstinline!Complex! 的一個方法。成員函式和 \lstinline!real!、\lstinline!imag! 等\index{物件導向!成員資料}{成員資料 (Member Data)} 的用法相同，使用\index{運算子!成員運算子}{「\lstinline!.!」運算子}來存取：
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+struct Complex {
+  double real, imag;
+  Complex() {
+    real = imag = 0.0;
+  }
+  Complex(double r, double i) {
+    real = r;
+    imag = i;
+  }
+  Complex compAdd(Complex right) {
+    return Complex(real + right.real, imag + right.imag);
+  }
+};
+
+Complex res = a.compAdd(b);
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!Complex! 相加}
+\label{program:struct:code:object:operator:member}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:object:operator:member} 可發現複數 \lstinline!a! 呼叫了 \lstinline!compAdd! 函數，並傳入複數 \lstinline!b!。在 \lstinline!compAdd! 中，因為此方法是 \lstinline!a! 的成員，因此可以直接使用 \lstinline!a! 的 \lstinline!real!、\lstinline!imag!。
+\paragraph{}若要寫得更自然，像是 \lstinline!int! 做四則運算 \lstinline!a + b! 的寫法時，我們就要用到\index{運算子多載}{\color{red}\textbf{運算子多載 (Operator Overloading)}}。在 \texttt{C++} 中，運算子被當作成員函式一般，因此 \lstinline!a + b! 可視為
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+a.operator+(b);
+\end{lstlisting}
+\end{tabular}
+\caption{運算子多載}
+\label{program:struct:code:object:operator:add}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:object:operator:add} 的 \lstinline!operator+! 是函式名稱，代表加法運算。既然「加法」可被當作一種成員函式，因此也可以對 \lstinline!Complex! 類別多載「加法」，如程式碼 \ref{program:struct:code:object:operator:overload}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+struct Complex {
+  double real, imag;
+  Complex() {
+    real = imag = 0.0;
+  }
+  Complex(double r, double i) {
+    real = r;
+    imag = i;
+  }
+  Complex operator+ (Complex right) {
+    return Complex(real + right.real, imag + right.imag);
+  }
+};
+
+Complex result = a + b;
+\end{lstlisting}
+\end{tabular}
+\caption{運算子多載}
+\label{program:struct:code:object:operator:overload}
+\end{code}
+
+\paragraph{}若要寫得更精準的話，我們知加法運算會把 \lstinline!a!、\lstinline!b! 兩者相加，但 \lstinline!a!、\lstinline!b! 本身值不變，這時就可以使用 \lstinline!const! 修飾，如程式碼 \ref{program:struct:code:object:operator:overload:const}，其中後面的 \lstinline!const! 代表呼叫 \lstinline!operator+! 本身物件不會被修改，回傳值亦為一個新的 \lstinline!Complex! 物件。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+Complex operator+ (const Complex &right) const {
+  return Complex(real + right.real, imag + right.imag);
+}
+\end{lstlisting}
+\end{tabular}
+\caption{運算子多載}
+\label{program:struct:code:object:operator:overload:const}
+\end{code}
+
+\paragraph{}其他運算子大多可以多載，在此不贅述。
+
+\subsubsection{類別與物件}
+
+\paragraph{}本節一開始有提到物件和類別之間的關係，依據種類，我們可以把類別內記載的資料分為以下四類：
+\begin{itemize}
+\item 實例屬性
+\item 實例方法
+\item 類別屬性
+\item 類別方法
+\end{itemize}
+
+\paragraph{}實例屬性和方法即是物件所擁有的屬性和方法，例如 \lstinline!Complex! 類別中，每個實例擁有不一樣的 \lstinline!real!、\lstinline!imag! 等。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+struct Circle {
+  double r;
+  Circle() {}
+  Circle(double c) { r = c; }
+  static double PI;
+};
+
+double Circle::PI = 3.14;
+
+int main() {
+  cout << Circle::PI << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{類別屬性}
+\label{program:struct:code:object:static:attr}
+\end{code}
+
+\paragraph{}類別屬性和方法可以看做是整個類別所\textbf{共有}的，也就是在同個類別下所有物件，看到的類別屬性值都會是相同的，以程式碼 \ref{program:struct:code:object:static:attr} 為例，我們要建立 \lstinline!Circle! 類別，其中 \lstinline!Circle! 擁有一個實例屬性 \lstinline!r!，代表圓形的半徑。
+\paragraph{}在 \lstinline!Circle! 類別中有一個類別屬性 \lstinline!PI!，以一個浮點數代表圓周率，一般來說圓周率是一個通用值，因此可以設為類別屬性，亦即往後創造的 \lstinline!Circle! 物件，所見的圓周率皆是相同的。
+\paragraph{}設定一個屬性為類別屬性是在類別中用 \lstinline!static! 修飾，要{\color{red}\textbf{注意}}的是，類別屬性在類別內只能宣告，賦值需要在類別外賦值，可以參考程式碼 \ref{program:struct:code:object:static:attr} 第 8 行。若要使用類別屬性，需要使用\index{運算子!範圍解析運算子}{範圍解析運算子「\lstinline!::!」}，使用方法如第 11 行。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+struct Circle {
+  double r;
+  Circle() {}
+  Circle(double c) { r = c; }
+  static double PI;
+  static double area(const Circle &c) {
+    return c.r * c.r * PI;
+  }
+};
+
+double Circle::PI = 3.14;
+
+int main() {
+  Circle c(1);
+  cout << Circle::area(c) << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{類別屬性}
+\label{program:struct:code:object:static:method}
+\end{code}
+
+\paragraph{}類別方法用法也和類別屬性類似，程式碼 \ref{program:struct:code:object:static:method} 展示類別方法 \lstinline!Circle::area!，不贅述。
 
 \subsubsection{命名空間}
 
@@ -1394,6 +1645,196 @@ int main() {
 
 \subsubsection{模板}
 
+\paragraph{}之前有學過函式多載，例如我們自己要寫一個取最小值的函數 \lstinline!myMin!，我們可以自己寫一個判斷 \lstinline!int! 最小值的函數：
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+int myMin(int x, int y) {
+  if (x < y)
+    return x;
+  return y;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!myMin! 函數}
+\label{program:struct:code:template:mymin:int}
+\end{code}
+
+\paragraph{}但是可以取最小值的資料型態不只有 \lstinline!int!，也可能是 \lstinline!double!、\lstinline!long long!、\lstinline!short!、...等等，於是我們就需要寫出很多版本的最小值函數：
+
+\begin{code}[h!]
+\centering
+\begin{subcode}{\textwidth}
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+double myMin(double x, double y) {
+  if (x < y)
+    return x;
+  return y;
+}
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!double! 版本}
+  \label{program:struct:code:template:mymin:double}
+\end{subcode}
+~
+\begin{subcode}{\textwidth}
+  \centering
+  \begin{tabular}{c}
+  \begin{lstlisting}
+long long myMin(long long x, long long y) {
+  if (x < y)
+    return x;
+  return y;
+}
+  \end{lstlisting}
+  \end{tabular}
+  \caption{\lstinline!long long! 版本}
+  \label{program:struct:code:template:mymin:long:long}
+\end{subcode}
+\caption{其他 \lstinline!myMin! 函數}
+\label{program:struct:code:template:mymin}
+\end{code}
+
+\paragraph{}可以看出程式碼 \ref{program:struct:code:template:mymin} 中，除了宣告之外其餘部分與 \ref{program:struct:code:template:mymin:int} 完全相同，雖然我們可以利用函式多載完成所有最小值，但我們寫出了重複的程式，為此，\texttt{C++} 提供的模板功能，模板相當於是一個「程式碼」的{\color{red}\textbf{範本}}，當需要什麼類型的程式碼時，再自動「抄寫出」對應的一份程式碼出來。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+template<class T>
+T myMin(T x, T y) {
+  if (x < y)
+    return x;
+  return y;
+}
+int main() {
+  cout << myMin(1, 2) << endl;
+  cout << myMin(2.5, 3.5) << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{使用 \lstinline!template! 的 \lstinline!myMin! 函數}
+\label{program:struct:code:template:mymin:template}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:template:mymin:template} 使用了模板功能，會在函數前宣告 \lstinline!template<class T>!，此時 \lstinline!T! 可以看做是資料型態的變數，程式會在{\color{red}\textbf{編譯時期}}檢查需要哪些種類的 \lstinline!myMin! 函數，例如程式碼第 8 行，在編譯時期會產生函數 \lstinline!int myMin(int, int)!，而在第 9 行，編譯器會知道需要 \lstinline!double! 版本的 \lstinline!myMin!，而產生 \lstinline!double myMin(double, double)!。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+template<int n>
+struct fib {
+  static const int val = fib<n - 1>::val + fib<n - 2>::val;
+};
+template<> // fib[1] = 1;
+struct fib<1> {
+  static const int val = 1;
+};
+template<> // fib[0] = 0;
+struct fib<0> {
+  static const int val = 0;
+};
+
+int main() {
+  cout << fib<10>::val << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\end{code}
+
+\begin{code}
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+int x = 10;
+cout << fib<x>::val << endl;
+\end{lstlisting}
+\end{tabular}
+\end{code}
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+template<int n>
+struct fib {
+  static const int val = fib<n - 1>::val + fib<n - 2>::val;
+};
+template<> // fib[1] = 1;
+struct fib<1> {
+  static const int val = 1;
+};
+template<> // fib[0] = 0;
+struct fib<0> {
+  static const int val = 0;
+};
+
+int main() {
+  cout << fib<10>::val << endl;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{最簡單使用模板的方法}
+\label{program:struct:code:template:fibo}
+\end{code}
+
+\paragraph{}最簡單使用模板的方法。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+template<int n>
+struct fib {
+  enum { val = fib<n - 1>::val + fib<n - 2>::val };
+  static void init(vector<int> &v) {
+    fib<n - 1>::init(v);
+    v.push_back( val );
+  }
+};
+
+template<>
+struct fib<0> {
+  enum { val = 0 };
+  static void init(vector<int> &v) {
+    v.push_back( val );
+  }
+};
+
+template<>
+struct fib<1> {
+  enum { val = 1 };
+  static void init(vector<int> &v) {
+    fib<0>::init(v);
+    v.push_back( val );
+  }
+};
+\end{lstlisting}
+\end{tabular}
+\caption{把費氏數列裝進 \lstinline!vector! 中}
+\label{program:struct:code:template:fibo:vector}
+\end{code}
+
+\paragraph{}要注意的是，程式碼 \ref{program:struct:code:template:fibo:vector} \lstinline!fib<1>! 中，靜態方法 \lstinline!init! 會呼叫 \lstinline!fib<0>::init!，若 \lstinline!fib<0>! 在此之前未定義會出現編譯錯誤。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+vector<int> f;
+fib<40>::init(f);
+int x = 40;
+for (int i = 0; i < x; i++)
+  cout << f[i] << endl;
+\end{lstlisting}
+\end{tabular}
+\end{code}
+
 \subsubsection{迭代器}
 
 \subsubsection{計算頻率}
@@ -1451,14 +1892,25 @@ int main() {
 
 \paragraph{}這些區塊的概念清楚有助於除錯，有興趣的讀者可以自行 google。
 
-\subsection{動態配置記憶體}
+\subsubsection{動態配置記憶體}
 
-\subsection{變數可視範圍}
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+int *a = new int[10];
+delete a;
+\end{lstlisting}
+\end{tabular}
+\end{code}
+
+\subsubsection{變數可視範圍}
 
 \subsection{程式語言}
 
-\paragraph{機器語言與組合語言}
-\paragraph{高階語言}
+\subsubsection{直敘式語言}
+\subsubsection{物件導向語言}
+\subsubsection{機器語言與組合語言}
 
 \subsection{程式編譯}
 
