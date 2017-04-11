@@ -1541,7 +1541,7 @@ int main() {
 
 \paragraph{}類別屬性和方法可以看做是整個類別所\textbf{共有}的，也就是在同個類別下所有物件，看到的類別屬性值都會是相同的，以程式碼 \ref{program:struct:code:object:static:attr} 為例，我們要建立 \lstinline!Circle! 類別，其中 \lstinline!Circle! 擁有一個實例屬性 \lstinline!r!，代表圓形的半徑。
 \paragraph{}在 \lstinline!Circle! 類別中有一個類別屬性 \lstinline!PI!，以一個浮點數代表圓周率，一般來說圓周率是一個通用值，因此可以設為類別屬性，亦即往後創造的 \lstinline!Circle! 物件，所見的圓周率皆是相同的。
-\paragraph{}設定一個屬性為類別屬性是在類別中用 \lstinline!static! 修飾，要{\color{red}\textbf{注意}}的是，類別屬性在類別內只能宣告，賦值需要在類別外賦值，可以參考程式碼 \ref{program:struct:code:object:static:attr} 第 8 行。若要使用類別屬性，需要使用\index{運算子!範圍解析運算子}{範圍解析運算子「\lstinline!::!」}，使用方法如第 11 行。
+\paragraph{}設定一個屬性為類別屬性是在類別中用 \lstinline!static! 修飾，要{\color{red}\textbf{注意}}的是，類別屬性在類別內只能宣告，賦值需要在類別外賦值，可以參考程式碼 \ref{program:struct:code:object:static:attr} 第 8 行。若要使用類別屬性，需要使用\index{運算子!範圍解析運算子}{範圍解析運算子「\lstinline!::!」}，使用方法如程式碼 \ref{program:struct:code:object:static:attr} 第 11 行。
 
 \begin{code}[h!]
 \centering
@@ -1565,19 +1565,34 @@ int main() {
 }
 \end{lstlisting}
 \end{tabular}
-\caption{類別屬性}
+\caption{類別方法}
 \label{program:struct:code:object:static:method}
 \end{code}
 
-\paragraph{}類別方法用法也和類別屬性類似，程式碼 \ref{program:struct:code:object:static:method} 展示類別方法 \lstinline!Circle::area!，不贅述。
+\paragraph{}類別方法用法也和類別屬性類似，程式碼 \ref{program:struct:code:object:static:method} 展示類別方法 \lstinline!Circle::area!。
 
 \subsubsection{命名空間}
 
-\section{程式技巧}
+\paragraph{}\index{物件導向!命名空間}{\color{blue}\textbf{命名空間 (Namespace)}} 可以看做是管理程式碼的一種方法，在競賽之外往往會使用外部的標頭檔、第三方程式碼等，這些程式碼在變數、類別命名上會有同名的可能，為了避免同名導致編譯錯誤，我們會將程式碼裝入一個命名空間內 (類似一個很大的類別)。
+\paragraph{}最直接的例子就是命名空間 \lstinline!std!，在第一章我們提到程式的基本架構中有一行：
 
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+using namespace std;
+\end{lstlisting}
+\end{tabular}
+\caption{預設 \lstinline!std! 命名空間}
+\label{program:struct:code:namespace:std}
+\end{code}
+
+\paragraph{}程式碼 \ref{program:struct:code:namespace:std} 代表我們在沒有指定使用何命名空間的東西時，預設就是使用 \lstinline!std! 內的物件、函數等，如 \lstinline!std::cin!、\lstinline!std::cout!、\lstinline!std::sort! 等等。
+
+\section{程式技巧}
 \subsection{函式化與結構化}
 
-\paragraph{}當輸入、解題、輸出較為複雜時，筆者傾向於做以下的函式化：
+\paragraph{}當輸入、解題、輸出較為複雜時，可以做以下的函式化：
 
 \begin{code}[h!]
 \centering
@@ -1593,56 +1608,73 @@ while ( input() ) {
 \label{program:struct:code:input:function}
 \end{code}
 
-\paragraph{}程式碼 \ref{program:struct:code:input:function} 可以清楚看出此程式區塊大致上在處理多筆輸入，針對每筆輸入解出對應解答並輸出。
-\paragraph{}以下是一個函式化的範例程式碼：
+\paragraph{}函式化雖然理論上會慢一些，但是可以換來以下好處，使得我們可以方便除錯：
+\begin{itemize}
+\item 易於閱讀。程式碼 \ref{program:struct:code:input:function} 可以清楚看出此程式區塊大致上在處理多筆輸入，針對每筆輸入解出對應解答並輸出。
+\item 易於撰寫。當你將解題所需大部分的工作都規劃成函式，那麼只要將每個函式個功能寫出來後，只要想法正確、沒有 bug，基本上都能一次 AC。
+\end{itemize}
+\paragraph{}程式碼 \ref{program:struct:code:input:function:example:main} 是一個函式化的範例程式碼片段，除去 \lstinline!#define! 等用法之外，雖然我們不知道題目是什麼，但可以清楚看出 \lstinline!input()! 可以是每次讀完測資之後，讓 \lstinline!sol()! 函數處理並回傳答案。
 
 \begin{code}[h!]
 \centering
 \begin{tabular}{c}
 \begin{lstlisting}
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-using namespace std;
-
 #define MAX 1010
 int n, a[MAX];
-
-inline int input() {
-  for (n = 0; scanf("%d", &a[n]), a[n]; n++)
-    if (n) a[n - 1] -= a[n];
-  return n;
-}
-
-int gcd(int a, int b) {
-  if (b) return gcd(b, a % b);
-    return a;
-}
-
-int sol() {
-  int i, g = abs(a[0]);
-  for (i = 1; i < n - 1; i++)
-    g = gcd(g, abs(a[i]));
-  return g;
-}
 
 int main() {
   while (input()) printf("%d\n", sol());
 }
 \end{lstlisting}
 \end{tabular}
-\caption{函式化範例}
-\label{program:struct:code:input:function:example}
+\caption{函式化範例 (\lstinline!main! 部分)}
+\label{program:struct:code:input:function:example:main}
 \end{code}
 
-\paragraph{}上述範例，除去 inline、define 等等看不懂的用法之外，雖然我們不知道題目是什麼，但是我們可以一眼看出這個題目使用了求最大公因數 gcd (除非寫程式的人亂取名字)、input 就是輸入測資然後做一些處理、sol 就是求出答案，而 main 裡面只要循環輸入和輸出答案就好了，這種寫法很容易辨識出哪個部分負責什麼樣的工作，因此就會比較好除錯。
+\paragraph{}接著看 \lstinline!input()! 部分，程式碼 \ref{program:struct:code:input:function:example:input} 可以看出是 0 尾版的輸入，只是 \lstinline!input()! 是放在 \lstinline!while! 的判斷條件內，因此無論是 0 尾、n 行、EOF 等，只要讀到一筆測資就回傳 \lstinline!true!，反之則回傳 \lstinline!false!。
 
-\paragraph{}寫成函式的缺點就是程式碼容易變長、程式可能會較慢等等，但事實上寫程式的速度主要是思考、除錯的時間，除非在寫秒殺題，否則都是思考的時間居多，因此程式碼變長沒什麼關係，重點在於讓你除錯的時間變快 (有時候除錯會遇到不知道怎麼錯的情況 ... 相信大家都有經驗)，容易理解的程式碼除錯也會加快一定的速度。
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+int input() {
+  for (n = 0; scanf("%d", &a[n]), a[n]; n++)
+    if (n) a[n - 1] -= a[n];
+  return n;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{函式化範例 (\lstinline!input! 部分)}
+\label{program:struct:code:input:function:example:input}
+\end{code}
 
-\subsection{\lstinline!\#define! 與 \lstinline!inline!}
+\paragraph{}最後，看看 \lstinline!sol()!，可以一眼看出這個題目使用了求最大公因數 \lstinline!gcd! (除非寫程式的人亂取名字)、\lstinline!sol! 用到 \lstinline!gcd! 求出答案。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+int gcd(int a, int b) {
+  if (b) return gcd(b, a % b);
+    return a;
+}
+int sol() {
+  int i, g = abs(a[0]);
+  for (i = 1; i < n - 1; i++)
+    g = gcd(g, abs(a[i]));
+  return g;
+}
+\end{lstlisting}
+\end{tabular}
+\caption{函式化範例 (\lstinline!sol! 部分)}
+\label{program:struct:code:input:function:example:sol}
+\end{code}
+
+\paragraph{}函式化容易辨識出哪個部分負責什麼樣的工作，因此就會比較好除錯。函式化的缺點就是程式碼容易變長、程式可能會較慢等等，但事實上寫程式的速度主要是思考、除錯的時間，除非在寫秒殺題，否則都是思考的時間居多，因此程式碼變長沒什麼關係，重點在於讓你除錯的時間變快，容易理解的程式碼也會加快除錯的速度。
+
+\subsection{\lstinline!\#define!}
 
 \subsection{標準模板函式庫}
-
 \subsubsection{模板}
 
 \paragraph{}之前有學過函式多載，例如我們自己要寫一個取最小值的函數 \lstinline!myMin!，我們可以自己寫一個判斷 \lstinline!int! 最小值的函數：
@@ -1722,6 +1754,54 @@ int main() {
 \end{code}
 
 \paragraph{}程式碼 \ref{program:struct:code:template:mymin:template} 使用了模板功能，會在函數前宣告 \lstinline!template<class T>!，此時 \lstinline!T! 可以看做是資料型態的變數，程式會在{\color{red}\textbf{編譯時期}}檢查需要哪些種類的 \lstinline!myMin! 函數，例如程式碼第 8 行，在編譯時期會產生函數 \lstinline!int myMin(int, int)!，而在第 9 行，編譯器會知道需要 \lstinline!double! 版本的 \lstinline!myMin!，而產生 \lstinline!double myMin(double, double)!。
+\paragraph{}此外，模板的參數也可以有很多個，程式碼 \ref{program:struct:code:template:class:multi} 會用到兩種資料型態，一個命名為 \lstinline!__Tx!、另一命名為 \lstinline!__Ty!。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+template<class __Tx, class __Ty>
+\end{lstlisting}
+\end{tabular}
+\caption{使用兩種 \lstinline!class! 的模板}
+\label{program:struct:code:template:class:multi}
+\end{code}
+
+\paragraph{}模板也可套用在類別上，假設我們要儲存二維平面上的座標，類別 \lstinline!Point! 可以寫作程式碼 \ref{program:struct:code:template:point:class}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+struct Point {
+  int x, y;
+};
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!Point! 類別}
+\label{program:struct:code:template:point:class}
+\end{code}
+
+\paragraph{}若要儲存浮點數的二維座標的話，可以考慮利用 \lstinline!template!，如程式碼 \ref{program:struct:code:template:point:template} 第 5、6 行，分別是儲存 \lstinline!int! 和 \lstinline!double! 座標的 \lstinline!Point! 類別。\texttt{C++} 的 STL 中很多是以 \lstinline!template! 實作。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+template<class T>
+struct Point {
+  T x, y;
+};
+Point<int> p1;
+Point<double> p2;
+\end{lstlisting}
+\end{tabular}
+\caption{\lstinline!Point! 類別}
+\label{program:struct:code:template:point:template}
+\end{code}
+
+\paragraph{}競賽中，可以對模板進行遞迴，因為模板會在編譯時期生成程式，而編譯時間不會計算在執行時間，因此有一些建表策略可以考慮在模板當中實行。這個方法被稱為\textbf{模板後設編程 (Template metaprogramming)}。
+\paragraph{}程式碼 \ref{program:struct:code:template:fibo} 用\index{費氏數列}{費氏數列}作為例子，前四行定義了費式數列的遞迴式，。
 
 \begin{code}[h!]
 \centering
@@ -1742,44 +1822,12 @@ struct fib<0> {
 
 int main() {
   cout << fib<10>::val << endl;
+  int x = 10;
+  cout << fib<x>::val << endl; // error
 }
 \end{lstlisting}
 \end{tabular}
-\end{code}
-
-\begin{code}
-\centering
-\begin{tabular}{c}
-\begin{lstlisting}
-int x = 10;
-cout << fib<x>::val << endl;
-\end{lstlisting}
-\end{tabular}
-\end{code}
-
-\begin{code}[h!]
-\centering
-\begin{tabular}{c}
-\begin{lstlisting}
-template<int n>
-struct fib {
-  static const int val = fib<n - 1>::val + fib<n - 2>::val;
-};
-template<> // fib[1] = 1;
-struct fib<1> {
-  static const int val = 1;
-};
-template<> // fib[0] = 0;
-struct fib<0> {
-  static const int val = 0;
-};
-
-int main() {
-  cout << fib<10>::val << endl;
-}
-\end{lstlisting}
-\end{tabular}
-\caption{最簡單使用模板的方法}
+\caption{費氏數列遞迴}
 \label{program:struct:code:template:fibo}
 \end{code}
 
@@ -1845,14 +1893,71 @@ for (int i = 0; i < x; i++)
 
 \subsubsection{有關測試資料}
 
+\paragraph{範例測資無法代表一切}有些人會有疑問：「阿我範例測資過了，為啥還是不會 AC？」所謂的範例測資，就是「\textbf{範例}」測資，只是提供幾個當作參考，可能故意漏掉一些重要的資訊讓你 WA 掉，或是誤導你的想法可是範例測資會讓你正確等等陰險手段。
+
+\paragraph{AC 未必是正解}有種東西叫做「假解」，就是存在非正解但卻可以 AC 的程式碼，例如說某個問題的正解要 DP，但有人爆搜卻過了；明明有個測資會讓你 WA 掉可是卻 AC 了 ... 以此類推。
+\paragraph{}有時是測資量不夠，沒有能夠讓假解不能過的特殊測資，或者是寫了正解，少部分的程式碼寫錯但卻 AC (這個最嚴重 ... 寫到類似題往往會認為自己是正確的)，因此有時候 AC 了，只是僥倖，不能代表你程式碼完全正確。
+
+\paragraph{邊界測資}很多人會忽略所謂「\textbf{邊界測資}」，就是題目輸入範圍內最極限的測資，忽略邊界測資往往會造成 WA 或 RE。
+\paragraph{}例如，計算費氏數列第 $n$ 項 ($0\leq{n}\leq{100}$)，那麼第 $0$ 項、第 $100$ 項便是值得注意的範圍；問你 $a^b$ 的值，那麼你要注意 $0^b$、$a^0$、$0^0$ 等等這些異常莫名其妙的測資 (除非題目保證說沒有，不然都得考慮)。
+
+\paragraph{小結}綜觀以上情形，平常最好是多思考更多測資去檢查自己的想法，很多時候不管是 AC 還是 WA 都僅僅是參考。
+\paragraph{}想測資往往是一件滿困難的事，但多想可以加強思考力，除錯時最關鍵常常是邊界測資。有時候邊界測資會是一個奇形怪狀的東西，只要符合題目敘述，就有可能是讀者思考中遺漏掉的邊界測資。
+
 \subsubsection{記憶體與程式風格}
+
+\paragraph{使用記憶體不見得要精準}在解題比賽時，記憶體是不是用得恰當，只要題目能 AC、寫起來寫得順就行！實作上只要開「{\color{blue}\textbf{夠大}}」的陣列就好了，例如：需要長度為 100 的陣列，可以開長度為 110 的陣列，原因是我們不必花太多心思去決定邊界到底是 100 還是 101 這回事上 (別忘了在比賽，有些細節可以不必太要求)。
+\paragraph{}有些題目設計上會\textbf{要求}記憶體的使用，這類題目主要是在於使用不同的資料結構而有差異，通常 110 和 100 的陣列這點浪費記憶體不足以影響結果 (機率低)。例如，某個資料結構需要 $100010\times{100010}$，在大多數的機器上是無法宣告這麼大的二微陣列，但替換成另一個資料結構與演算法，可能讓使用的記憶體減少至 $3\times{100010}$。
+
+\paragraph{小心遞迴}遞迴時會使用到系統堆疊，這時就要注意演算法是會因為遞迴過深造成 RE。
 
 \subsubsection{除錯相關}
 
+\paragraph{}常常上傳後，得到的結果是 WA，此時最著名的第一個反應是：「不可能會寫錯呀？一定是 judge 有問題 ... bla bla。」等到抓到錯誤才恍然大悟：「哦～原來只是這樣 ... bla bla。」
+\paragraph{}\textbf{除錯 (debug)} 也是寫程式重要的一個環節，一個程式如果不想除錯，就不要寫出有 bug 的程式，但常常事與願違。由於程式是自己寫出來的，面對自己的程式碼，最大的困難點在於會認為「自己沒有寫錯」。最好的解法就是要記得每次找到錯誤時，要稍微記得自己在哪裡出錯，或是要注意大家常常出錯的地方。
+\paragraph{}例如在學 \texttt{C++} 初期，常常會把邏輯運算式的「相等」少寫一個 \lstinline!=!，如程式碼 \ref{program:struct:code:debug:if}。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+if (a = 5) ...
+\end{lstlisting}
+\end{tabular}
+\caption{比較運算子誤寫}
+\label{program:struct:code:debug:if}
+\end{code}
+
+\paragraph{}或是陣列的使用上超出範圍 (程式碼 \ref{program:struct:code:debug:array})。
+
+\begin{code}[h!]
+\centering
+\begin{tabular}{c}
+\begin{lstlisting}
+int a[100];
+for (i = 1; i <= 100; i++)
+cin >> a[i];
+\end{lstlisting}
+\end{tabular}
+\caption{比較運算子誤寫}
+\label{program:struct:code:debug:array}
+\end{code}
+
+\paragraph{}其他常見的 bug 如下：
+
+\begin{itemize}
+\item 打{\color{red}\textbf{錯字}}，包括 \lstinline!==! 打成 \lstinline!=!，打錯數字、符號等等
+\item 應注意的事項{\color{blue}\textbf{未注意}}，例如：輸出格式不對，陣列大小不對，忘記初始化，忘記 \lstinline!return! 等等
+\item 操作上的錯誤，例如：傳錯程式碼，傳錯題目，{\color{blue}\textbf{忘記存檔}}，{\color{red}\textbf{除錯訊息忘記拿掉}}等
+\end{itemize}
+
 \subsubsection{喇賽}
 
-\section{程式執行}
+\paragraph{}當你沒辦法想出正解時，{\color{red}\textbf{喇賽}}是必要的途徑。不要以為隨便亂寫不重要，其實到最後不管是初學者還是高手，總會遇到不知道怎麼解的題目 (或是刻意出正解很難、但是喇賽就會過的題目)，這時候就是比較誰喇賽功力的強弱了！
+\paragraph{}通常喇賽可以是很\textbf{多個演算法}混在一起；\textbf{爆搜、剪枝}再加一些東西；或者根本\textbf{亂寫}。很多技巧都可以應用在喇賽領域，有些人光靠喇賽 AC 但別人寫正解卻會 TLE (這有發生過)，因此喇賽是比賽的「終極」－－很多時候在分測資點的比賽中也還是會撈到一些分數，但只要我們能夠將喇賽的技巧練得純熟，或許可能很快就不知道 WA 為何物了。
+\paragraph{}快速上手喇賽技巧，就是遇到每一題都可以嘗試亂寫看看，那麼當你每一題都 AC 的時候就是你出師的時候了。
 
+\section{程式執行}
 \subsection{執行時期配置}
 
 \paragraph{}前面提到程式需要放到記憶體中執行，實際上一支程式在記憶體中會有五個主要的區塊，每個區塊會放置特定的資料，程式架構和配置會因作業系統不同而有差異。
